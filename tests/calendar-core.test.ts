@@ -69,7 +69,7 @@ test('independent published anchor: Tết 2026 is 1/1/2026 lunar', () => {
 test('published Vietnamese-calendar reference anchors across 2000–2099', async (t) => {
   const references = [
     { solar: [2000, 1, 1], lunar: [1999, 11, 25], source: 'https://baonghean.vn/en/am-duong-lich-ngay-1-thang-1-nam-2000.html' },
-    { solar: [2000, 2, 5], lunar: [2000, 1, 1], source: 'https://baodaknong.vn/am-duong-lich-ngay-7-thang-2-nam-2000.html' },
+    { solar: [2000, 2, 5], lunar: [2000, 1, 1], source: 'https://baonghean.vn/en/am-duong-lich-ngay-5-thang-2-nam-2000.html' },
     { solar: [2007, 2, 17], lunar: [2007, 1, 1], source: 'https://amlich.org/xem-lich-nam/2007' },
     { solar: [2010, 2, 14], lunar: [2010, 1, 1], source: 'https://xskt.com.vn/lich-am-van-nien/ngay/14-2-2010' },
     { solar: [2014, 1, 31], lunar: [2014, 1, 1], source: 'https://xskt.com.vn/lich-am-van-nien/ngay/31-1-2014' },
