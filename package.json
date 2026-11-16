@@ -10,7 +10,8 @@
     "test:calendar": "node --experimental-strip-types --test tests/calendar-core.test.ts",
     "test:events": "node --experimental-strip-types --test tests/event-engine.test.ts",
     "test:month-grid": "node --experimental-strip-types --test tests/month-grid.test.ts",
-    "test": "npm run test:calendar && npm run test:events && npm run test:month-grid"
+    "test:weekday": "node --experimental-strip-types --test tests/weekday.test.ts",
+    "test": "npm run test:calendar && npm run test:events && npm run test:month-grid && npm run test:weekday"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",

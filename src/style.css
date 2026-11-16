@@ -307,8 +307,8 @@ select:focus-visible,
 }
 
 .day-cell__lunar {
-  color: var(--muted);
-  font-size: 9px;
+  color: #58665c;
+  font-size: 10px;
   line-height: 1.1;
   white-space: nowrap;
 }
@@ -318,11 +318,11 @@ select:focus-visible,
 }
 
 .day-cell--outside {
-  color: #9ca79e;
+  color: #748076;
 }
 
 .day-cell--outside .day-cell__lunar {
-  color: #aeb7af;
+  color: #657267;
 }
 
 .day-cell--today {
@@ -350,8 +350,14 @@ select:focus-visible,
 }
 
 .day-cell--unsupported {
+  color: #657267;
+  background: #f4f6f2;
+  border: 1px dashed #b6c2b6;
   cursor: not-allowed;
-  opacity: 0.52;
+}
+
+.day-cell--unsupported .day-cell__lunar {
+  color: #657267;
 }
 
 .day-details {
@@ -701,7 +707,7 @@ select:focus-visible,
   }
 
   .day-cell__lunar {
-    font-size: 8px;
+    font-size: 9px;
   }
 
   .section-heading__meta {

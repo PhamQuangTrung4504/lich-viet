@@ -11,6 +11,7 @@ import type { CivilDate } from './calendar/core.ts'
 import { findEventsForDate, getTodayAndTomorrow } from './events/engine.ts'
 import type { EventDay } from './events/engine.ts'
 import type { CalendarEvent, EventCategory } from './events/model.ts'
+import { formatVietnameseWeekday } from './calendar/weekday.ts'
 
 type AppTab = 'calendar' | 'events'
 
@@ -28,7 +29,6 @@ interface EventSnapshot {
   readonly unavailable: boolean
 }
 
-const WEEKDAYS = ['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ nhật']
 const WEEKDAY_SHORT = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
 const MONTHS = ['Tháng Một', 'Tháng Hai', 'Tháng Ba', 'Tháng Tư', 'Tháng Năm', 'Tháng Sáu', 'Tháng Bảy', 'Tháng Tám', 'Tháng Chín', 'Tháng Mười', 'Tháng Mười Một', 'Tháng Mười Hai']
 const CATEGORY_LABELS: Record<EventCategory, string> = {
@@ -121,7 +121,7 @@ function formatDate(date: CivilDate, includeWeekday = false): string {
 }
 
 function weekdayName(date: CivilDate): string {
-  return WEEKDAYS[(civilDateToJulianDayNumber(date) + 1) % 7]
+  return formatVietnameseWeekday(date)
 }
 
 function appendIcon(element: HTMLElement, kind: 'calendar' | 'events'): void {
@@ -139,12 +139,27 @@ function setActiveTab(tab: AppTab): void {
 
 function render(rememberScroll = true): void {
   if (rememberScroll) state.scrollPositions[state.activeTab] = content.scrollTop
+  const activeElement = document.activeElement
+  const focusKey = activeElement instanceof HTMLElement && content.contains(activeElement)
+    ? activeElement.dataset.focusKey
+    : undefined
   title.textContent = state.activeTab === 'calendar' ? 'Lịch' : 'Sự kiện'
   appendIcon(headerIcon, state.activeTab)
   calendarNav.setAttribute('aria-current', state.activeTab === 'calendar' ? 'page' : 'false')
   eventsNav.setAttribute('aria-current', state.activeTab === 'events' ? 'page' : 'false')
   content.replaceChildren(state.activeTab === 'calendar' ? renderCalendar() : renderEvents())
   content.scrollTop = state.scrollPositions[state.activeTab]
+  if (focusKey !== undefined) {
+    const replacement = Array.from(content.querySelectorAll<HTMLElement>('[data-focus-key]'))
+      .find((element) => element.dataset.focusKey === focusKey)
+    if (replacement !== undefined && !replacement.matches(':disabled')) {
+      replacement.focus({ preventScroll: true })
+    } else {
+      const fallback = content.querySelector<HTMLElement>('.month-title')
+      if (fallback !== null) fallback.focus({ preventScroll: true })
+      else content.focus({ preventScroll: true })
+    }
+  }
 }
 
 function renderCalendar(): HTMLElement {
@@ -164,6 +179,7 @@ function renderCalendar(): HTMLElement {
   currentDate.textContent = formatDate(current, true)
   introText.append(eyebrow, currentDate)
   const todayButton = button('Hôm nay', 'text-button')
+  todayButton.dataset.focusKey = 'today'
   todayButton.addEventListener('click', () => {
     state.selectedDate = current
     if (isSupportedDate(current)) state.visibleMonth = { year: current.year, month: current.month }
@@ -184,9 +200,11 @@ function renderCalendar(): HTMLElement {
   const controls = document.createElement('div')
   controls.className = 'month-controls'
   const previousButton = iconButton('Tháng trước', '‹')
+  previousButton.dataset.focusKey = 'previous-month'
   previousButton.disabled = state.visibleMonth.year === YEAR_RANGE.min && state.visibleMonth.month === 1
   previousButton.addEventListener('click', () => moveMonth(-1))
   const headingButton = button('', 'month-title')
+  headingButton.dataset.focusKey = 'month-title'
   headingButton.setAttribute('aria-label', `Chọn tháng, ${MONTHS[state.visibleMonth.month - 1]} năm ${state.visibleMonth.year}`)
   const monthName = document.createElement('span')
   monthName.textContent = MONTHS[state.visibleMonth.month - 1]
@@ -199,6 +217,7 @@ function renderCalendar(): HTMLElement {
   headingButton.append(monthName, yearName, chevron)
   headingButton.addEventListener('click', openMonthDialog)
   const nextButton = iconButton('Tháng sau', '›')
+  nextButton.dataset.focusKey = 'next-month'
   nextButton.disabled = state.visibleMonth.year === YEAR_RANGE.max && state.visibleMonth.month === 12
   nextButton.addEventListener('click', () => moveMonth(1))
   controls.append(previousButton, headingButton, nextButton)
@@ -231,6 +250,7 @@ function renderCalendar(): HTMLElement {
 
 function renderDayCell(date: CivilDate, isInMonth: boolean, isSupported: boolean, current: CivilDate): HTMLButtonElement {
   const cell = button('', 'day-cell')
+  cell.dataset.focusKey = `day-${dateKey(date)}`
   const isToday = dateKey(date) === dateKey(current)
   const isSelected = dateKey(date) === dateKey(state.selectedDate)
   if (!isInMonth) cell.classList.add('day-cell--outside')
@@ -410,11 +430,12 @@ function createEventCard(event: CalendarEvent, date: CivilDate, compact: boolean
   card.append(top, titleElement, description)
   const sourceList = document.createElement('div')
   sourceList.className = 'event-card__sources'
-  event.sources.forEach((source) => {
+  event.sources.forEach((source, index) => {
     const link = document.createElement('a')
     link.href = source.url
     link.target = '_blank'
     link.rel = 'noopener noreferrer'
+    link.dataset.focusKey = `source-${event.id}-${index}`
     link.textContent = `Nguồn: ${source.publisher} · ${source.title}`
     sourceList.append(link)
   })
@@ -531,14 +552,29 @@ function scheduleMidnightRefresh(): void {
   const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 1)
   const delay = Math.max(1000, nextMidnight.getTime() - now.getTime())
   midnightTimer = window.setTimeout(() => {
+    midnightTimer = undefined
     refreshForCurrentDate()
   }, delay)
 }
 
 function refreshForCurrentDate(): void {
-  eventSnapshot = getEventSnapshot(new Date())
+  const nextSnapshot = getEventSnapshot(new Date())
+  const changed = eventSnapshotKey(eventSnapshot) !== eventSnapshotKey(nextSnapshot)
+  eventSnapshot = nextSnapshot
   scheduleMidnightRefresh()
-  if (state.activeTab === 'events' || state.activeTab === 'calendar') render()
+  if (changed) render()
+}
+
+function eventSnapshotKey(snapshot: EventSnapshot): string {
+  const groupKey = (day: EventDay | undefined): string => day === undefined
+    ? 'unavailable'
+    : `${dateKey(day.date)}:${day.events.map((event) => event.id).join(',')}`
+  return [
+    snapshot.unavailable,
+    groupKey(snapshot.today),
+    groupKey(snapshot.tomorrow),
+    snapshot.tomorrowDate === undefined ? '' : dateKey(snapshot.tomorrowDate),
+  ].join('|')
 }
 
 calendarNav.addEventListener('click', () => setActiveTab('calendar'))
@@ -559,8 +595,10 @@ document.addEventListener('visibilitychange', () => {
   if (document.visibilityState === 'visible') refreshForCurrentDate()
 })
 window.addEventListener('focus', refreshForCurrentDate)
+window.addEventListener('pageshow', refreshForCurrentDate)
 window.addEventListener('pagehide', () => {
   if (midnightTimer !== undefined) window.clearTimeout(midnightTimer)
+  midnightTimer = undefined
 })
 
 render()
