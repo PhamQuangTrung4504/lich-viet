@@ -63,7 +63,7 @@
 - Thuật toán lịch âm Việt Nam dùng quy ước UTC+7. Ngày “hôm nay” theo đồng hồ thiết bị là khái niệm riêng; không trộn hai quy tắc.
 - Kiểm thử ngày chuyển tháng âm, tháng nhuận, giao thừa, năm nhuận dương, các ngày sát nửa đêm và lịch sử nằm trong phạm vi hỗ trợ đã xác minh.
 - Phạm vi năm hiển thị phải tương ứng với phạm vi thuật toán đã test; không hứa vô hạn.
-- Sự kiện có các loại quy luật: `solar_fixed`, `lunar_fixed`, `weekday_rule`, `year_specific`; các loại quy tắc được engine hỗ trợ và kiểm thử, còn dữ liệu production chỉ thêm khi có căn cứ.
+- Sự kiện có các loại quy luật: `solar_fixed` (có thể khai báo `startYear`), `lunar_fixed`, `weekday_rule`, `year_specific`; các loại quy tắc được engine hỗ trợ và kiểm thử, còn dữ liệu production chỉ thêm khi có căn cứ.
 - Một ngày có thể nhiều sự kiện; phải xử lý trùng lặp theo ID và thứ tự hiển thị ổn định.
 - Sự kiện âm lịch cần xử lý năm/tháng nhuận có chủ ý; không mặc định tháng nhuận giống tháng thường.
 - Phân biệt ngày kỷ niệm và ngày nghỉ lễ theo pháp luật; ngày nghỉ cụ thể theo năm có thể thay đổi và cần dữ liệu được cập nhật.
@@ -73,7 +73,7 @@
 - Engine TypeScript thuần nhận `CivilDate`, trả mảng sự kiện theo `sortOrder` rồi ID; loại ID trùng sau sắp xếp. Hỗ trợ ngày dương cố định, ngày âm cố định với chính sách `regular_only`/`leap_only`/`both`, thứ-ngày trong tháng và ngày riêng theo năm.
 - `getTodayAndTomorrow` lấy ngày dân sự từ trường local của thời điểm trên thiết bị, tính ngày kế tiếp qua JDN (không cộng mili giây cố định), rồi match độc lập; không có API, timer hay phụ thuộc DOM.
 - Bộ dữ liệu TypeScript ban đầu có 29 mục: 7 ngày nghỉ lễ theo luật, 7 ngày kỷ niệm, 3 ngày truyền thống và 12 ngày quốc tế; mỗi mục có nguồn, mô tả, quy tắc và thứ tự. Bao gồm Tết Dương lịch, mùng 1 Tết, Rằm tháng Giêng, Valentine, Quốc tế Phụ nữ, Giỗ Tổ Hùng Vương, Ngày Nước Thế giới, 30/4, 1/5, Quốc tế Thiếu nhi, Tết Đoan Ngọ, Ngày Môi trường Thế giới, Ngày Báo chí Cách mạng Việt Nam, Ngày Gia đình Việt Nam, 27/7, Cách mạng Tháng Tám, Quốc khánh, Xóa mù chữ, Hòa bình, Trung thu, Nhà giáo Thế giới, Phụ nữ Việt Nam, Trẻ em Thế giới, Nhà giáo Việt Nam, Văn hóa Việt Nam (bản ghi riêng 2026), Phòng chống AIDS, Nhân quyền, thành lập Quân đội nhân dân và Giáng sinh.
-- Các quy tắc âm lịch trong dữ liệu hiện dùng `regular_only`; không tự nhân đôi sự kiện ở tháng nhuận. `leap_only`, `both`, `weekday_rule` và `year_specific` được kiểm tra bằng fixture test. Ngày Văn hóa Việt Nam được lưu cho 24/11/2026 theo nghị quyết có hiệu lực năm 2026; danh mục hiện chưa khai báo những năm sau. Không suy ra lịch nghỉ bù, kỳ nghỉ nhiều ngày hoặc cách sắp xếp lịch nghỉ của từng năm.
+- Các quy tắc âm lịch trong dữ liệu hiện dùng `regular_only`; không tự nhân đôi sự kiện ở tháng nhuận. `leap_only`, `both`, `weekday_rule` và `year_specific` được kiểm tra bằng fixture test. Ngày Văn hóa Việt Nam dùng quy tắc `solar_fixed` với `startYear: 2026`, lặp vào 24/11 từ năm 2026 trong phạm vi hỗ trợ theo Nghị quyết 28/2026/QH16. Không suy ra lịch nghỉ bù, kỳ nghỉ nhiều ngày hoặc cách sắp xếp lịch nghỉ của từng năm.
 - Event Engine giới hạn ngày dân sự ở 2000–2099 để tương ứng phạm vi đầu vào của Calendar Core. Danh mục là tập dữ liệu đã biên soạn, không phải danh sách đầy đủ mọi ngày kỷ niệm; nguồn có thể thay đổi và cần được rà soát khi cập nhật dữ liệu. Kiểm thử: `npm run test:calendar`, `npm run test:events` hoặc `npm test`; `npm run build` type-check cả `src/` và `tests/`.
 
 ### Trạng thái Calendar Core sau Phase 2.1

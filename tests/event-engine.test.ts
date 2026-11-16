@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import test from 'node:test'
-import { createCivilDate } from '../src/calendar/core.ts'
+import { createCivilDate, daysInMonth } from '../src/calendar/core.ts'
 import { VERIFIED_EVENTS } from '../src/events/data.ts'
 import { findEventsForDate, getTodayAndTomorrow } from '../src/events/engine.ts'
-import type { CalendarEvent } from '../src/events/model.ts'
+import type { CalendarEvent, EventRule } from '../src/events/model.ts'
 
 const fixtureSource = [{
   publisher: 'Cổng Thông tin điện tử Chính phủ',
@@ -24,6 +24,35 @@ function fixture(id: string, sortOrder: number, rule: CalendarEvent['rule']): Ca
   }
 }
 
+function assertValidRule(rule: EventRule): void {
+  switch (rule.type) {
+    case 'solar_fixed':
+      assert.ok(Number.isInteger(rule.month) && rule.month >= 1 && rule.month <= 12)
+      assert.ok(Number.isInteger(rule.day) && rule.day >= 1 && rule.day <= daysInMonth(2000, rule.month))
+      if (rule.startYear !== undefined) {
+        assert.ok(Number.isInteger(rule.startYear) && rule.startYear >= 2000 && rule.startYear <= 2099)
+      }
+      break
+    case 'lunar_fixed':
+      assert.ok(Number.isInteger(rule.month) && rule.month >= 1 && rule.month <= 12)
+      assert.ok(Number.isInteger(rule.day) && rule.day >= 1 && rule.day <= 30)
+      assert.ok(['regular_only', 'leap_only', 'both'].includes(rule.leapMonthPolicy))
+      break
+    case 'weekday_rule':
+      assert.ok(Number.isInteger(rule.month) && rule.month >= 1 && rule.month <= 12)
+      assert.ok(Number.isInteger(rule.weekday) && rule.weekday >= 0 && rule.weekday <= 6)
+      assert.ok(rule.occurrence === 'last'
+        || (Number.isInteger(rule.occurrence) && rule.occurrence >= 1 && rule.occurrence <= 5))
+      break
+    case 'year_specific': {
+      const date = rule.date
+      assert.doesNotThrow(() => createCivilDate(date.year, date.month, date.day))
+      assert.ok(date.year >= 2000 && date.year <= 2099)
+      break
+    }
+  }
+}
+
 test('solar fixed rules repeat annually and match leap day only when valid', () => {
   const leapDayEvent = fixture('leap-day', 1, { type: 'solar_fixed', month: 2, day: 29 })
   assert.deepEqual(findEventsForDate(createCivilDate(2024, 2, 29), [leapDayEvent]), [leapDayEvent])
@@ -32,10 +61,22 @@ test('solar fixed rules repeat annually and match leap day only when valid', () 
   assert.equal(findEventsForDate(createCivilDate(2025, 1, 1)).some((event) => event.id === 'new-year-day'), true)
 })
 
+test('solar fixed rules with a start year are excluded before it and recur through the supported range', () => {
+  const cultureDay = VERIFIED_EVENTS.find(({ id }) => id === 'vietnam-culture-day')
+  assert.ok(cultureDay)
+  assert.deepEqual(findEventsForDate(createCivilDate(2025, 11, 24)).some(({ id }) => id === cultureDay.id), false)
+  for (const year of [2026, 2027, 2030, 2099]) {
+    assert.equal(findEventsForDate(createCivilDate(year, 11, 24)).some(({ id }) => id === cultureDay.id), true)
+  }
+  assert.equal(findEventsForDate(createCivilDate(2026, 1, 1)).some(({ id }) => id === 'new-year-day'), true)
+  assert.equal(findEventsForDate(createCivilDate(2027, 1, 1)).some(({ id }) => id === 'new-year-day'), true)
+})
+
 test('lunar rules use Vietnamese lunar conversion and explicit leap-month policies', () => {
   const regular = fixture('regular', 1, { type: 'lunar_fixed', month: 2, day: 1, leapMonthPolicy: 'regular_only' })
   const leap = fixture('leap', 2, { type: 'lunar_fixed', month: 2, day: 1, leapMonthPolicy: 'leap_only' })
   const both = fixture('both', 3, { type: 'lunar_fixed', month: 2, day: 1, leapMonthPolicy: 'both' })
+  for (const event of [regular, leap, both]) assertValidRule(event.rule)
 
   assert.deepEqual(findEventsForDate(createCivilDate(2023, 2, 20), [regular, leap, both]).map(({ id }) => id), ['regular', 'both'])
   assert.deepEqual(findEventsForDate(createCivilDate(2023, 3, 22), [regular, leap, both]).map(({ id }) => id), ['leap', 'both'])
@@ -46,10 +87,13 @@ test('lunar rules use Vietnamese lunar conversion and explicit leap-month polici
 test('weekday rules support nth and last Sunday, and year-specific rules match one civil date', () => {
   const firstSunday = fixture('first-sunday', 1, { type: 'weekday_rule', month: 11, weekday: 0, occurrence: 1 })
   const lastSunday = fixture('last-sunday', 2, { type: 'weekday_rule', month: 11, weekday: 0, occurrence: 'last' })
+  assertValidRule(firstSunday.rule)
+  assertValidRule(lastSunday.rule)
   assert.deepEqual(findEventsForDate(createCivilDate(2024, 11, 3), [firstSunday, lastSunday]), [firstSunday])
   assert.deepEqual(findEventsForDate(createCivilDate(2024, 11, 24), [firstSunday, lastSunday]), [lastSunday])
 
   const oneYear = fixture('one-year', 3, { type: 'year_specific', date: createCivilDate(2024, 2, 29) })
+  assertValidRule(oneYear.rule)
   assert.deepEqual(findEventsForDate(createCivilDate(2024, 2, 29), [oneYear]), [oneYear])
   assert.deepEqual(findEventsForDate(createCivilDate(2025, 2, 28), [oneYear]), [])
 })
@@ -94,7 +138,14 @@ test('invalid dates, invalid instants, and dates outside Calendar Core range are
   assert.throws(() => getTodayAndTomorrow(new Date(2099, 11, 31, 23, 59), []), RangeError)
 })
 
-test('verified event data has unique IDs, required metadata, and resolvable HTTP source URLs', () => {
+test('year-specific rules still match only their exact year', () => {
+  const oneYear = fixture('one-year', 1, { type: 'year_specific', date: createCivilDate(2026, 11, 24) })
+  assert.deepEqual(findEventsForDate(createCivilDate(2025, 11, 24), [oneYear]), [])
+  assert.deepEqual(findEventsForDate(createCivilDate(2026, 11, 24), [oneYear]), [oneYear])
+  assert.deepEqual(findEventsForDate(createCivilDate(2027, 11, 24), [oneYear]), [])
+})
+
+test('verified event data includes unique IDs, required metadata, and HTTPS URL syntax', () => {
   const ids = VERIFIED_EVENTS.map(({ id }) => id)
   assert.equal(new Set(ids).size, ids.length)
   assert.equal(VERIFIED_EVENTS.length, 29)
@@ -109,7 +160,9 @@ test('verified event data has unique IDs, required metadata, and resolvable HTTP
     assert.ok(event.title.trim().length > 0)
     assert.ok(event.description.trim().length > 0)
     assert.ok(event.sources.length > 0)
-    assert.ok(Number.isFinite(event.sortOrder))
+    assert.ok(Number.isInteger(event.sortOrder))
+    assert.ok(['official_holiday', 'commemoration', 'traditional', 'international'].includes(event.category))
+    assertValidRule(event.rule)
     for (const source of event.sources) {
       assert.ok(source.publisher.trim().length > 0)
       assert.ok(source.title.trim().length > 0)
