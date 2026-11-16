@@ -448,23 +448,25 @@ function createEventCard(event: CalendarEvent, compact: boolean): HTMLElement {
   description.className = 'event-card__description'
   description.textContent = event.description
   card.append(top, titleElement, description)
-  const sourceDetails = document.createElement('details')
-  sourceDetails.className = 'event-card__sources'
-  const sourceSummary = document.createElement('summary')
-  sourceSummary.textContent = event.sources.length === 1
-    ? `Xem nguồn: ${event.sources[0].publisher}`
-    : `Nguồn tham khảo (${event.sources.length})`
-  sourceDetails.append(sourceSummary)
-  event.sources.forEach((source, index) => {
-    const link = document.createElement('a')
-    link.href = source.url
-    link.target = '_blank'
-    link.rel = 'noopener noreferrer'
-    link.dataset.focusKey = `source-${event.id}-${index}`
-    link.textContent = `${source.publisher}: ${source.title}`
-    sourceDetails.append(link)
-  })
-  if (event.sources.length > 0) card.append(sourceDetails)
+  if (!compact && event.sources.length > 0) {
+    const sourceDetails = document.createElement('details')
+    sourceDetails.className = 'event-card__sources'
+    const sourceSummary = document.createElement('summary')
+    sourceSummary.textContent = event.sources.length === 1
+      ? `Xem nguồn: ${event.sources[0].publisher}`
+      : `Nguồn tham khảo (${event.sources.length})`
+    sourceDetails.append(sourceSummary)
+    event.sources.forEach((source, index) => {
+      const link = document.createElement('a')
+      link.href = source.url
+      link.target = '_blank'
+      link.rel = 'noopener noreferrer'
+      link.dataset.focusKey = `source-${event.id}-${index}`
+      link.textContent = `${source.publisher}: ${source.title}`
+      sourceDetails.append(link)
+    })
+    card.append(sourceDetails)
+  }
   return card
 }
 

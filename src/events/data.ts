@@ -15,10 +15,37 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     sources: [{ publisher: 'Chính phủ Việt Nam', title: 'Bộ luật Lao động 45/2019/QH14, Điều 112', url: 'https://vanban.chinhphu.vn/?docid=198540&pageid=27160' }],
   },
   {
+    id: 'lunar-new-year-eve', title: 'Giao thừa Tết Nguyên đán', category: 'traditional',
+    rule: { type: 'lunar_month_end', month: 12 },
+    description: 'Đêm chuyển giao từ ngày cuối tháng Chạp sang mùng 1 Tết. Ngày âm cuối năm có thể là 29 hoặc 30 tùy độ dài tháng.', sortOrder: 25,
+    sources: [
+      { publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Các phong tục Tết cổ truyền tại các quốc gia châu Á', url: 'https://baochinhphu.vn/cac-phong-tuc-tet-co-truyen-tai-cac-quoc-gia-chau-a-102179307.htm' },
+      { publisher: 'Đài Tiếng nói Việt Nam', title: 'Vì sao 8 năm liền kể từ 2025, Tết Nguyên đán không có ngày 30 Tết?', url: 'https://vov.gov.vn/vi-sao-8-nam-lien-ke-tu-2025-tet-nguyen-dan-khong-co-ngay-30-tet-dtnew-1045532' },
+    ],
+  },
+  {
     id: 'nguyen-tieu', title: 'Tết Nguyên tiêu (Rằm tháng Giêng)', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 1, day: 15, leapMonthPolicy: 'regular_only' },
     description: 'Còn gọi là Tết Thượng nguyên, ngày này diễn ra vào Rằm tháng Giêng; nhiều người đến chùa cầu bình an và may mắn.', sortOrder: 30,
     sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Mùa xuân và Tết Nguyên tiêu', url: 'https://baochinhphu.vn/mua-xuan-va-tet-nguyen-tieu-102138919.htm' }],
+  },
+  {
+    id: 'tao-quan', title: 'Lễ tiễn Táo quân', category: 'traditional',
+    rule: { type: 'lunar_fixed', month: 12, day: 23, leapMonthPolicy: 'regular_only' },
+    description: 'Nhiều gia đình làm lễ tiễn Táo quân vào ngày 23 tháng Chạp; cách thực hành và lễ vật khác nhau theo vùng.', sortOrder: 26,
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Tết ông Công, ông Táo: Sự tích và nét văn hóa', url: 'https://baochinhphu.vn/tet-ong-cong-ong-tao-su-tich-va-net-van-hoa-102215743.htm' }],
+  },
+  {
+    id: 'han-thuc', title: 'Tết Hàn thực', category: 'traditional',
+    rule: { type: 'lunar_fixed', month: 3, day: 3, leapMonthPolicy: 'regular_only' },
+    description: 'Theo phong tục ở một số vùng, dịp này gắn với bánh trôi, bánh chay và tưởng nhớ tổ tiên; tập tục không đồng nhất trên cả nước.', sortOrder: 27,
+    sources: [{ publisher: 'Cục Du lịch Quốc gia Việt Nam', title: 'Lễ tết - Việt Nam - Đất nước Con người', url: 'https://vietnamtourism.vn/index.php/about/items/2453' }],
+  },
+  {
+    id: 'vesak', title: 'Lễ Phật đản', category: 'traditional',
+    rule: { type: 'lunar_fixed', month: 4, day: 15, leapMonthPolicy: 'regular_only' },
+    description: 'Ngày kỷ niệm Đức Phật Thích Ca đản sinh theo lịch Phật giáo Bắc tông; thời gian và nghi thức tổ chức cụ thể có thể khác giữa các hệ phái, địa phương.', sortOrder: 28,
+    sources: [{ publisher: 'Ban Tôn giáo Chính phủ', title: 'Đôi nét về đạo Phật và Giáo hội Phật giáo Việt Nam', url: 'https://btgcp.gov.vn/pages/detail/1/Doi-net-ve-dao-Phat-va-Giao-hoi-Phat-giao-Viet-Nam.html' }],
   },
   {
     id: 'valentines-day', title: 'Ngày Lễ tình nhân', category: 'international',
@@ -78,6 +105,27 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     sources: [{ publisher: 'Bộ Văn hóa, Thể thao và Du lịch', title: 'Khám phá nét đẹp Tết Đoan Ngọ', url: 'https://bvhttdl.gov.vn/Pages/chi-tiet.aspx?url=%2Fkham-pha-net-dep-tet-doan-ngo-qua-trung-bay-chuyen-de-tai-hoang-thanh-thang-long.htm' }],
   },
   {
+    id: 'vu-lan', title: 'Lễ Vu Lan', category: 'traditional',
+    rule: { type: 'lunar_fixed', month: 7, day: 15, leapMonthPolicy: 'regular_only' },
+    description: 'Lễ báo hiếu trong Phật giáo, diễn ra vào Rằm tháng Bảy; tập tục và cách tổ chức có khác biệt giữa các truyền thống, địa phương.', sortOrder: 29,
+    sources: [{ publisher: 'Ủy ban Nhà nước về người Việt Nam ở nước ngoài', title: 'Ý nghĩa của ngày lễ Vu Lan và pháp bố thí của Phật giáo', url: 'https://scov.gov.vn/ban-sac-van-hoa/gioi-thieu-ban-sac-van-hoa/y-nghia-cua-ngay-le-vu-lan-va-phap-bo-thi-cua-phat-giao.html' }],
+  },
+  {
+    id: 'trung-thap', title: 'Tết Trùng Thập (Rằm tháng Mười)', category: 'traditional',
+    rule: { type: 'lunar_fixed', month: 10, day: 10, leapMonthPolicy: 'regular_only' },
+    description: 'Một số tập tục dân gian gắn ngày này với lễ cơm mới và tạ ơn mùa màng; ngày này khác Tết Hạ Nguyên vào Rằm tháng Mười.', sortOrder: 30,
+    sources: [{ publisher: 'Tạp chí Khoa học Xã hội', title: 'Tín ngưỡng Thần Nông qua các tiết lễ thờ cúng trong năm', url: 'https://vjol.info.vn/index.php/khxh/article/download/57555/54282/' }],
+  },
+  {
+    id: 'ha-nguyen', title: 'Tết Hạ Nguyên (Rằm tháng Mười)', category: 'traditional',
+    rule: { type: 'lunar_fixed', month: 10, day: 15, leapMonthPolicy: 'regular_only' },
+    description: 'Lễ tiết dân gian vào Rằm tháng Mười; một số nơi gắn dịp này với cơm mới, tạ ơn mùa màng và cúng tổ tiên.', sortOrder: 31,
+    sources: [
+      { publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Mùa xuân và Tết Nguyên tiêu', url: 'https://baochinhphu.vn/mua-xuan-va-tet-nguyen-tieu-102138919.htm' },
+      { publisher: 'Tạp chí Khoa học Xã hội', title: 'Tín ngưỡng Thần Nông qua các tiết lễ thờ cúng trong năm', url: 'https://vjol.info.vn/index.php/khxh/article/download/57555/54282/' },
+    ],
+  },
+  {
     id: 'world-environment-day', title: 'Ngày Môi trường Thế giới', category: 'international',
     rule: { type: 'solar_fixed', month: 6, day: 5 },
     description: 'Ngày 5/6 đưa các vấn đề môi trường cấp bách thành trọng tâm của hoạt động nâng cao nhận thức và bảo vệ hành tinh.', sortOrder: 120,
@@ -85,13 +133,49 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
   },
   {
     id: 'vietnam-press-day', title: 'Ngày Báo chí Cách mạng Việt Nam', category: 'commemoration',
-    rule: { type: 'solar_fixed', month: 6, day: 21 },
+    rule: { type: 'solar_fixed', month: 6, day: 21, startYear: 1925 },
     description: 'Ngày 21/6/1925, báo Thanh Niên do Nguyễn Ái Quốc sáng lập ra số đầu tiên; mốc này được chọn làm Ngày Báo chí Cách mạng Việt Nam.', sortOrder: 130,
     sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Báo chí cách mạng Việt Nam giai đoạn 1925-1945', url: 'https://baochinhphu.vn/bao-chi-cach-mang-viet-nam-giai-doan-1925-1945-luc-luong-chu-luc-tien-phong-vu-khi-sac-ben-trong-cong-tac-tu-tuong-van-hoa-cua-dang-102250617164503349.htm' }],
   },
   {
+    id: 'vietnam-red-cross-founding-day', title: 'Ngày thành lập Hội Chữ thập đỏ Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 11, day: 23, startYear: 1946 },
+    description: 'Hội Chữ thập đỏ Việt Nam được thành lập ngày 23/11/1946; ngày này hằng năm gắn với hoạt động nhân đạo của Hội.', sortOrder: 32,
+    sources: [{ publisher: 'Hội Chữ thập đỏ Việt Nam', title: 'Lịch sử Hội Chữ thập đỏ Việt Nam', url: 'https://www.redcross.org.vn/gioi-thieu/lich-su' }],
+  },
+  {
+    id: 'vietnam-law-day', title: 'Ngày Pháp luật Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 11, day: 9, startYear: 2013 },
+    description: 'Điều 8 Luật Phổ biến, giáo dục pháp luật chọn ngày 9/11 hằng năm để tôn vinh Hiến pháp, pháp luật và nâng cao ý thức thượng tôn pháp luật.', sortOrder: 33,
+    sources: [{ publisher: 'Bộ Tư pháp', title: 'Luật Phổ biến, giáo dục pháp luật, Điều 8', url: 'https://vbpl.moj.gov.vn/botuphap/Pages/vbpq-toanvan.aspx?ItemID=27698' }],
+  },
+  {
+    id: 'vietnam-communist-party-founding-day', title: 'Ngày thành lập Đảng Cộng sản Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 2, day: 3, startYear: 1930 },
+    description: 'Hội nghị hợp nhất các tổ chức cộng sản đầu năm 1930 dẫn tới sự thành lập Đảng; ngày 3/2 được chọn làm ngày kỷ niệm hằng năm.', sortOrder: 34,
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Đảng Cộng sản Việt Nam qua các kỳ Đại hội', url: 'https://baochinhphu.vn/dang-cong-san-viet-nam-qua-cac-ky-dai-hoi-102286517.htm' }],
+  },
+  {
+    id: 'vietnam-youth-union-founding-day', title: 'Ngày thành lập Đoàn TNCS Hồ Chí Minh', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 3, day: 26, startYear: 1931 },
+    description: 'Ngày kỷ niệm ngày thành lập Đoàn Thanh niên Cộng sản Hồ Chí Minh năm 1931, tổ chức chính trị - xã hội của thanh niên Việt Nam.', sortOrder: 35,
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Phát hành bộ tem 80 năm thành lập Đoàn', url: 'https://baochinhphu.vn/phat-hanh-bo-tem-80-nam-thanh-lap-doan-10269146.htm' }],
+  },
+  {
+    id: 'ho-chi-minh-birthday', title: 'Ngày sinh Chủ tịch Hồ Chí Minh', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 5, day: 19, startYear: 1890 },
+    description: 'Ngày sinh Chủ tịch Hồ Chí Minh (19/5/1890), được ghi nhớ hằng năm qua các hoạt động tưởng niệm và tìm hiểu di sản của Người.', sortOrder: 36,
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Chủ tịch nước dâng hương tưởng nhớ Chủ tịch Hồ Chí Minh', url: 'https://baochinhphu.vn/chu-tich-nuoc-nguyen-xuan-phuc-dang-huong-tuong-nho-chu-tich-ho-chi-minh-102292572.htm' }],
+  },
+  {
+    id: 'dien-bien-phu-victory-day', title: 'Ngày Chiến thắng Điện Biên Phủ', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 5, day: 7, startYear: 1954 },
+    description: 'Chiến dịch Điện Biên Phủ kết thúc thắng lợi ngày 7/5/1954, tạo bước ngoặt quyết định trong cuộc kháng chiến chống thực dân Pháp.', sortOrder: 37,
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Kỷ niệm Chiến thắng Điện Biên Phủ', url: 'https://baochinhphu.vn/ky-niem-57-nam-chien-thang-dien-bien-phu-7-5-1954-7-5-2011-chien-thang-lich-su-dien-bien-phu-vang-mai-khuc-anh-hung-ca-10274697.htm' }],
+  },
+  {
     id: 'vietnam-family-day', title: 'Ngày Gia đình Việt Nam', category: 'commemoration',
-    rule: { type: 'solar_fixed', month: 6, day: 28 },
+    rule: { type: 'solar_fixed', month: 6, day: 28, startYear: 2001 },
     description: 'Được Thủ tướng chọn ngày 28/6 hằng năm để đề cao trách nhiệm xây dựng gia đình no ấm, bình đẳng, tiến bộ và hạnh phúc.', sortOrder: 140,
     sources: [
       { publisher: 'Chính phủ Việt Nam', title: 'Quyết định 72/2001/QĐ-TTg', url: 'https://vanban.chinhphu.vn/default.aspx?docid=8912&pageid=27160' },
@@ -100,13 +184,13 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
   },
   {
     id: 'war-invalids-martyrs-day', title: 'Ngày Thương binh - Liệt sĩ', category: 'commemoration',
-    rule: { type: 'solar_fixed', month: 7, day: 27 },
+    rule: { type: 'solar_fixed', month: 7, day: 27, startYear: 1947 },
     description: 'Dịp tưởng niệm liệt sĩ và tri ân thương binh, người có công đã hy sinh hoặc mang thương tật trong chiến tranh.', sortOrder: 150,
     sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Ngày 27/7: Một ngày để biết ơn, một đời để tiếp bước', url: 'https://xaydungchinhsach.chinhphu.vn/ngay-27-7-mot-ngay-de-biet-on-mot-doi-de-tiep-buoc-119250727102534219.htm' }],
   },
   {
     id: 'august-revolution-day', title: 'Ngày Cách mạng Tháng Tám', category: 'commemoration',
-    rule: { type: 'solar_fixed', month: 8, day: 19 },
+    rule: { type: 'solar_fixed', month: 8, day: 19, startYear: 1945 },
     description: 'Ngày 19/8/1945, khởi nghĩa giành chính quyền ở Hà Nội thắng lợi, một mốc quan trọng trong Cách mạng Tháng Tám.', sortOrder: 160,
     sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Khởi nghĩa giành chính quyền ở Hà Nội - Sự kiện đặc biệt trong Cách mạng tháng Tám 1945', url: 'https://baochinhphu.vn/khoi-nghia-gianh-chinh-quyen-o-ha-noi-su-kien-dac-biet-trong-cach-mang-thang-tam-1945-102277816.htm' }],
   },
@@ -138,6 +222,24 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     sources: [{ publisher: 'Ủy ban Nhà nước về người Việt Nam ở nước ngoài', title: 'Nguồn gốc và ý nghĩa của Rằm Trung thu trong văn hóa Việt', url: 'https://scov.gov.vn/cong-tac-doi-ngoai/ngoai-giao-van-hoa/nguon-goc-va-y-nghia-cua-ram-trung-thu-trong-van-hoa-viet.html' }],
   },
   {
+    id: 'trung-cuu', title: 'Tết Trùng Cửu (Trùng Dương)', category: 'traditional',
+    rule: { type: 'lunar_fixed', month: 9, day: 9, leapMonthPolicy: 'regular_only' },
+    description: 'Lễ tiết vào mùng 9 tháng Chín âm lịch, có nguồn gốc từ Trung Hoa và dấu vết trong văn hóa Việt; hiện không được thực hành đồng đều ở mọi nơi.', sortOrder: 32,
+    sources: [{ publisher: 'Đài Tiếng nói Việt Nam', title: 'Ý nghĩa những ngày Tết tính theo âm lịch', url: 'https://vov.vn/van-hoa-giai-tri/y-nghia-nhung-ngay-tet-tinh-theo-am-lich-198117.vov' }],
+  },
+  {
+    id: 'hanoi-liberation-day', title: 'Ngày Giải phóng Thủ đô', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 10, day: 10, startYear: 1954 },
+    description: 'Ngày 10/10/1954, quân đội Việt Nam tiếp quản Thủ đô Hà Nội sau Hiệp định Genève.', sortOrder: 38,
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Nhớ Ngày về lịch sử năm 1954', url: 'https://baochinhphu.vn/nho-ngay-ve-lich-su-nam-1954-102150746.htm' }],
+  },
+  {
+    id: 'halloween', title: 'Halloween', category: 'international',
+    rule: { type: 'solar_fixed', month: 10, day: 31 },
+    description: 'Lễ hội diễn ra vào đêm 31/10, phổ biến ở một số quốc gia và được tổ chức theo hình thức vui chơi, hóa trang tại nhiều cộng đồng; không phải ngày nghỉ lễ ở Việt Nam.', sortOrder: 39,
+    sources: [{ publisher: 'NASA Earth Observatory', title: 'Halloween History', url: 'https://science.nasa.gov/earth/earth-observatory/halloween-history-84643/' }],
+  },
+  {
     id: 'world-teachers-day', title: 'Ngày Nhà giáo Thế giới', category: 'international',
     rule: { type: 'solar_fixed', month: 10, day: 5 },
     description: 'Ngày 5/10 tôn vinh giáo viên và kỷ niệm khuyến nghị ILO/UNESCO năm 1966 về vị thế, quyền và trách nhiệm của nhà giáo.', sortOrder: 210,
@@ -145,19 +247,19 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
   },
   {
     id: 'vietnamese-womens-day', title: 'Ngày Phụ nữ Việt Nam', category: 'commemoration',
-    rule: { type: 'solar_fixed', month: 10, day: 20 },
+    rule: { type: 'solar_fixed', month: 10, day: 20, startYear: 1930 },
     description: 'Ngày 20/10 được chọn làm Ngày Phụ nữ Việt Nam; mốc này gắn với ngày thành lập Hội Liên hiệp Phụ nữ Việt Nam năm 1930.', sortOrder: 220,
     sources: [{ publisher: 'Hội Liên hiệp Phụ nữ Việt Nam', title: 'Hồ sơ về Hội Liên hiệp Phụ nữ Việt Nam', url: 'https://www.hoilhpn.org.vn/documents/253622/10806301/ST%2Bvan%2Bhoa%2Bto%2Bchuc%2BHoi%2BLHPNVN%2B-%2BB5.pdf/8d1f9aed-a9d1-4ce8-a5fc-643770a98307' }],
   },
   {
     id: 'world-childrens-day', title: 'Ngày Trẻ em Thế giới', category: 'international',
-    rule: { type: 'solar_fixed', month: 11, day: 20 },
+    rule: { type: 'solar_fixed', month: 11, day: 20, startYear: 1954 },
     description: 'Ngày 20/11 gắn với việc Đại hội đồng Liên Hợp Quốc thông qua Tuyên ngôn Quyền Trẻ em năm 1959 và Công ước Quyền Trẻ em năm 1989.', sortOrder: 230,
     sources: [{ publisher: 'Liên Hợp Quốc', title: 'World Children’s Day: Background', url: 'https://www.un.org/en/observances/world-childrens-day/background' }],
   },
   {
     id: 'vietnamese-teachers-day', title: 'Ngày Nhà giáo Việt Nam', category: 'commemoration',
-    rule: { type: 'solar_fixed', month: 11, day: 20 },
+    rule: { type: 'solar_fixed', month: 11, day: 20, startYear: 1982 },
     description: 'Quyết định 167-HĐBT chọn ngày 20/11 hằng năm để thể hiện sự quan tâm của Nhà nước và tôn vinh vai trò nhà giáo.', sortOrder: 240,
     sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Toàn văn Quyết định số 167-HĐBT về Ngày Nhà giáo Việt Nam', url: 'https://xaydungchinhsach.chinhphu.vn/toan-van-quyet-dinh-so-167-hdbt-ve-ngay-nha-giao-viet-nam-119231120070916265.htm' }],
   },
@@ -181,9 +283,15 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
   },
   {
     id: 'vietnam-peoples-army-day', title: 'Ngày thành lập Quân đội nhân dân Việt Nam', category: 'commemoration',
-    rule: { type: 'solar_fixed', month: 12, day: 22 },
+    rule: { type: 'solar_fixed', month: 12, day: 22, startYear: 1944 },
     description: 'Ngày 22/12/1944, Đội Việt Nam Tuyên truyền Giải phóng quân — tiền thân của Quân đội nhân dân Việt Nam — được thành lập tại Cao Bằng.', sortOrder: 280,
     sources: [{ publisher: 'Bộ Quốc phòng Việt Nam', title: 'Lịch sử hình thành và phát triển Quân đội nhân dân Việt Nam', url: 'https://www.mod.gov.vn/home/detail?current=true&urile=wcm%3Apath%3A%2Fmod%2Fsa-mod-site%2Fsa-qdndvn%2Fsa-qdndvn-child%2Fsa-qdndvn-gt%2Flich-su-hinh-thanh-va-phat-trien' }],
+  },
+  {
+    id: 'national-resistance-day', title: 'Ngày Toàn quốc kháng chiến', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 12, day: 19, startYear: 1946 },
+    description: 'Ngày 19/12/1946, Chủ tịch Hồ Chí Minh ra Lời kêu gọi Toàn quốc kháng chiến, mở đầu cuộc kháng chiến toàn quốc chống thực dân Pháp.', sortOrder: 40,
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Chủ tịch Hồ Chí Minh với ngày Toàn quốc kháng chiến', url: 'https://baochinhphu.vn/chu-tich-ho-chi-minh-voi-ngay-toan-quoc-khang-chien-102213564.htm' }],
   },
   {
     id: 'christmas-day', title: 'Lễ Giáng sinh', category: 'international',

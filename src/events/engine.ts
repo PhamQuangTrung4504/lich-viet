@@ -30,11 +30,12 @@ export function findEventsForDate(
     throw new RangeError('Event Engine hiện hỗ trợ ngày dân sự từ năm 2000 đến 2099.')
   }
 
-  const lunarDate = events.some((event) => event.rule.type === 'lunar_fixed')
+  const lunarDate = events.some((event) => event.rule.type === 'lunar_fixed' || event.rule.type === 'lunar_month_end')
     ? solarToVietnameseLunar(date)
     : undefined
   const matches = events.filter((event) => matchesRule(date, event.rule, lunarDate))
-    .sort((left, right) => left.sortOrder - right.sortOrder || compareText(left.id, right.id))
+    .sort((left, right) => categoryPriority(left.category) - categoryPriority(right.category)
+      || left.sortOrder - right.sortOrder || compareText(left.id, right.id))
   const seen = new Set<string>()
   return matches.filter((event) => {
     if (seen.has(event.id)) return false
@@ -66,10 +67,24 @@ function matchesRule(date: CivilDate, rule: EventRule, lunarDate: VietnameseLuna
       if (rule.leapMonthPolicy === 'leap_only') return lunarDate.isLeapMonth
       return true
     }
+    case 'lunar_month_end': {
+      if (lunarDate === undefined || lunarDate.month !== rule.month) return false
+      const tomorrow = solarToVietnameseLunar(julianDayNumberToCivilDate(civilDateToJulianDayNumber(date) + 1))
+      return tomorrow.month !== rule.month || tomorrow.year !== lunarDate.year
+    }
     case 'weekday_rule':
       return date.month === rule.month && matchesWeekdayOccurrence(date, rule.weekday, rule.occurrence)
     case 'year_specific':
       return date.year === rule.date.year && date.month === rule.date.month && date.day === rule.date.day
+  }
+}
+
+function categoryPriority(category: CalendarEvent['category']): number {
+  switch (category) {
+    case 'official_holiday': return 0
+    case 'traditional': return 1
+    case 'commemoration': return 2
+    case 'international': return 3
   }
 }
 

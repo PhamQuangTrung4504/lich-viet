@@ -17,6 +17,7 @@ export type EventRule =
       readonly day: number
       readonly leapMonthPolicy: LeapMonthPolicy
     }
+  | { readonly type: 'lunar_month_end'; readonly month: number }
   | {
       readonly type: 'weekday_rule'
       readonly month: number
