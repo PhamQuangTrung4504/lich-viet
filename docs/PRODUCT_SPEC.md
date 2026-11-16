@@ -40,6 +40,7 @@
 - Ngày ngoài tháng có thể hiển thị mờ để đủ hàng; chọn ngày ngoài tháng sẽ chuyển tới tháng tương ứng và chọn ngày ấy.
 - Đổi tháng bằng nút trước/sau; hỗ trợ vuốt ngang **chỉ trong vùng lịch** nếu không xung đột thao tác dọc.
 - Chạm tiêu đề tháng/năm mở bộ chọn có nút X ở góc trên phải. Dữ liệu hợp lệ, không để chọn ngày 31 của tháng chỉ 30 ngày.
+- Bộ chọn tháng/năm dùng lưới 12 tháng và nhập năm trong phạm vi 2000–2099; lựa chọn chỉ áp dụng sau khi xác nhận. Chọn một ngày trong lưới sẽ đưa chi tiết ngày tới vùng nhìn thấy bằng cách cuộn content chính.
 - Có thao tác trở về hôm nay ở **vùng nội dung lịch**, không thêm nút Back hoặc tab mới.
 
 ### Chi tiết ngày chọn
@@ -55,6 +56,7 @@
 - Mỗi nhóm có ngày tháng rõ ràng; có nhiều sự kiện thì hiển thị nhiều thẻ có thể cuộn.
 - Mỗi thẻ: tên, loại sự kiện (ngày lễ chính thức/ngày kỷ niệm/truyền thống/quốc tế...), ngày, mô tả ngắn chính xác. Nguồn nội dung được lưu trong dữ liệu (liên kết nếu phù hợp).
 - Mô tả khoảng 1–3 câu, súc tích, dễ đọc; tránh lặp câu, không sáng tác nguồn gốc.
+- Nguồn tham khảo được trình bày gọn; người dùng có thể mở phần nguồn để xem tên tài liệu và liên kết đầy đủ.
 - Nếu không có sự kiện trong danh mục đã biên soạn, hiển thị “Chưa ghi nhận sự kiện đặc biệt trong dữ liệu hiện có”, không khẳng định ngày đó hoàn toàn không có sự kiện.
 - Không dùng dữ liệu sự kiện giả hoặc placeholder Valentine/ngày khác trong production.
 

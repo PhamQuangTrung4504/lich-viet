@@ -43,6 +43,7 @@ body {
 }
 
 button,
+input,
 select {
   color: inherit;
   font: inherit;
@@ -54,8 +55,10 @@ button {
 
 button:focus-visible,
 a:focus-visible,
+input:focus-visible,
 select:focus-visible,
-.app-content:focus-visible {
+.app-content:focus-visible,
+.day-details__title:focus-visible {
   outline: 3px solid rgb(79 138 98 / 58%);
   outline-offset: 3px;
 }
@@ -271,7 +274,7 @@ select:focus-visible,
 .calendar-legend {
   margin: 8px 0 0;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 11px;
   text-align: center;
 }
 
@@ -376,13 +379,13 @@ select:focus-visible,
 .section-heading h2,
 .events-intro h2 {
   margin: 0;
-  font-size: 17px;
+  font-size: 18px;
   line-height: 1.3;
 }
 
 .section-heading__meta {
-  color: var(--muted);
-  font-size: 11px;
+  color: #58665c;
+  font-size: 12px;
   text-align: right;
 }
 
@@ -406,21 +409,21 @@ select:focus-visible,
 }
 
 .date-summary__item span {
-  color: var(--muted);
-  font-size: 9px;
+  color: #58665c;
+  font-size: 12px;
   font-weight: 750;
   letter-spacing: 0.06em;
 }
 
 .date-summary__item strong {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.3;
   overflow-wrap: anywhere;
 }
 
 .subheading {
   margin: 1px 0 -6px;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .calendar-event-list,
@@ -472,7 +475,7 @@ select:focus-visible,
   justify-content: space-between;
   gap: 6px 10px;
   color: var(--muted);
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .event-card__category {
@@ -480,33 +483,49 @@ select:focus-visible,
   color: var(--sage-dark);
   background: var(--sage-soft);
   border-radius: 999px;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .event-card h3 {
-  margin: 9px 0 5px;
-  font-size: 15px;
-  line-height: 1.35;
+  margin: 8px 0 6px;
+  font-size: 17px;
+  line-height: 1.4;
 }
 
 .event-card__description {
   margin: 0;
   color: #4e5d52;
-  font-size: 13px;
-  line-height: 1.55;
+  font-size: 15px;
+  line-height: 1.6;
   overflow-wrap: anywhere;
 }
 
 .event-card__sources {
   display: grid;
-  gap: 5px;
-  margin-top: 10px;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.event-card__sources summary {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--sage-dark);
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  cursor: pointer;
 }
 
 .event-card__sources a {
+  display: block;
+  min-height: 44px;
+  padding: 10px 4px;
   color: var(--sage-dark);
-  font-size: 11px;
-  line-height: 1.4;
+  font-size: 14px;
+  line-height: 1.5;
   overflow-wrap: anywhere;
 }
 
@@ -561,6 +580,7 @@ select:focus-visible,
 
 .month-dialog {
   position: fixed;
+  inset: 0;
   width: min(calc(100% - 28px), 390px);
   width: min(calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right) - 28px), 390px);
   max-width: 390px;
@@ -568,7 +588,7 @@ select:focus-visible,
   max-height: min(calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 24px), 620px);
   margin: auto;
   padding: 0;
-  overflow: auto;
+  overflow: hidden;
   color: var(--ink);
   background: var(--surface);
   border: 1px solid var(--line);
@@ -576,22 +596,25 @@ select:focus-visible,
   box-shadow: 0 24px 80px rgb(23 37 27 / 24%);
 }
 
+.month-dialog[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
 .month-dialog::backdrop {
   background: rgb(24 36 27 / 44%);
   backdrop-filter: blur(2px);
 }
 
-.month-dialog__form {
+.month-dialog__header {
   position: relative;
-  display: grid;
-  gap: 10px;
-  padding: 28px 22px 22px;
+  padding: 22px 20px 0;
 }
 
 .month-dialog__close {
   position: absolute;
-  top: max(12px, env(safe-area-inset-top));
-  right: 12px;
+  top: 10px;
+  right: 20px;
   width: 42px;
   min-width: 42px;
   height: 42px;
@@ -599,30 +622,110 @@ select:focus-visible,
 }
 
 .month-dialog h2 {
-  margin: 0 44px 8px 0;
+  margin: 5px 44px 0 0;
   font-size: 20px;
 }
 
+.month-dialog__form {
+  display: grid;
+  min-height: 0;
+  align-content: start;
+  gap: 12px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px 20px 20px;
+}
+
+.month-picker__fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
 .field-label {
-  margin-top: 5px;
+  display: block;
+  margin: 0 0 9px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 650;
 }
 
-.month-dialog select {
-  width: 100%;
+.month-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.month-choice {
+  min-width: 0;
   min-height: 48px;
-  padding: 0 12px;
+  padding: 6px 4px;
+  color: var(--ink);
   background: #fbfcfa;
   border: 1px solid var(--line);
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.month-choice[aria-pressed="true"] {
+  color: #fff;
+  background: var(--sage);
+  border-color: var(--sage);
+}
+
+.year-stepper {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 48px;
+  align-items: center;
+  gap: 10px;
+}
+
+.year-stepper input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 8px;
+  color: var(--ink);
+  background: #fbfcfa;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.year-stepper input[aria-invalid="true"] {
+  border-color: #b53e32;
+}
+
+.year-stepper .icon-button:disabled {
+  opacity: 0.45;
+}
+
+.month-picker__error {
+  margin: 8px 0 0;
+  color: #a33128;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .primary-button {
   min-height: 48px;
-  margin-top: 12px;
+  margin-top: 2px;
   color: #fff;
   background: var(--sage);
   border: 0;
@@ -707,7 +810,7 @@ select:focus-visible,
   }
 
   .day-cell__lunar {
-    font-size: 9px;
+    font-size: 10px;
   }
 
   .section-heading__meta {

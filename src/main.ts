@@ -7,6 +7,7 @@ import {
   solarToVietnameseLunar,
 } from './calendar/core.ts'
 import { getCalendarMonthGrid } from './calendar/month-grid.ts'
+import { createVisibleMonth, parseSupportedYear } from './calendar/month-selection.ts'
 import type { CivilDate } from './calendar/core.ts'
 import { findEventsForDate, getTodayAndTomorrow } from './events/engine.ts'
 import type { EventDay } from './events/engine.ts'
@@ -60,14 +61,27 @@ root.innerHTML = `
     </nav>
   </div>
   <dialog class="month-dialog" id="month-dialog" aria-labelledby="month-dialog-title">
-    <form class="month-dialog__form" id="month-form">
+    <div class="month-dialog__header">
       <button class="icon-button month-dialog__close" id="close-month-dialog" type="button" aria-label="Đóng chọn tháng năm">×</button>
       <p class="eyebrow">ĐI ĐẾN THỜI GIAN</p>
       <h2 id="month-dialog-title">Chọn tháng và năm</h2>
-      <label class="field-label" for="month-select">Tháng</label>
-      <select id="month-select" name="month"></select>
-      <label class="field-label" for="year-select">Năm</label>
-      <select id="year-select" name="year"></select>
+    </div>
+    <form class="month-dialog__form" id="month-form">
+      <fieldset class="month-picker__fieldset">
+        <legend class="field-label">Chọn tháng</legend>
+        <div class="month-picker__grid" id="month-picker-grid" role="group" aria-label="12 tháng trong năm"></div>
+      </fieldset>
+      <fieldset class="month-picker__fieldset">
+        <legend class="field-label">Chọn năm</legend>
+        <div class="year-stepper">
+          <button class="icon-button" id="year-decrease" type="button" aria-label="Giảm năm">−</button>
+          <label class="visually-hidden" for="year-input">Năm từ 2000 đến 2099</label>
+          <input id="year-input" type="text" inputmode="numeric" autocomplete="off" maxlength="4" aria-describedby="year-error" />
+          <button class="icon-button" id="year-increase" type="button" aria-label="Tăng năm">+</button>
+          <span class="visually-hidden" id="year-announcement" aria-live="polite"></span>
+        </div>
+        <p class="month-picker__error" id="year-error" role="alert" hidden>Nhập năm gồm 4 chữ số, từ 2000 đến 2099.</p>
+      </fieldset>
       <button class="primary-button" type="submit">Xem lịch</button>
     </form>
   </dialog>
@@ -81,10 +95,14 @@ const eventsNav = getElement<HTMLButtonElement>('#nav-events')
 appendIcon(getElement<HTMLElement>('#nav-calendar .nav-icon'), 'calendar')
 appendIcon(getElement<HTMLElement>('#nav-events .nav-icon'), 'events')
 const dialog = getElement<HTMLDialogElement>('#month-dialog')
-const monthSelect = getElement<HTMLSelectElement>('#month-select')
-const yearSelect = getElement<HTMLSelectElement>('#year-select')
 const monthForm = getElement<HTMLFormElement>('#month-form')
 const closeDialogButton = getElement<HTMLButtonElement>('#close-month-dialog')
+const monthPickerGrid = getElement<HTMLElement>('#month-picker-grid')
+const yearInput = getElement<HTMLInputElement>('#year-input')
+const yearError = getElement<HTMLElement>('#year-error')
+const yearAnnouncement = getElement<HTMLElement>('#year-announcement')
+const decreaseYearButton = getElement<HTMLButtonElement>('#year-decrease')
+const increaseYearButton = getElement<HTMLButtonElement>('#year-increase')
 const now = new Date()
 const today = civilDateAtDeviceTime(now)
 const supportedToday = isSupportedDate(today)
@@ -99,6 +117,7 @@ const state: AppState = {
 }
 let eventSnapshot = getEventSnapshot(now)
 let midnightTimer: number | undefined
+let draftMonth = { ...initialMonth }
 
 function getElement<T extends Element>(selector: string): T {
   const element = document.querySelector<T>(selector)
@@ -132,17 +151,21 @@ function appendIcon(element: HTMLElement, kind: 'calendar' | 'events'): void {
 
 function setActiveTab(tab: AppTab): void {
   if (state.activeTab === tab) return
+  content.scrollTo({ top: content.scrollTop, behavior: 'auto' })
   state.scrollPositions[state.activeTab] = content.scrollTop
   state.activeTab = tab
   render(false)
 }
 
-function render(rememberScroll = true): void {
+function render(rememberScroll = true, focusKeyOverride?: string): void {
   if (rememberScroll) state.scrollPositions[state.activeTab] = content.scrollTop
+  content.scrollTo({ top: content.scrollTop, behavior: 'auto' })
   const activeElement = document.activeElement
-  const focusKey = activeElement instanceof HTMLElement && content.contains(activeElement)
-    ? activeElement.dataset.focusKey
-    : undefined
+  const focusKey = focusKeyOverride ?? (
+    activeElement instanceof HTMLElement && content.contains(activeElement)
+      ? activeElement.dataset.focusKey
+      : undefined
+  )
   title.textContent = state.activeTab === 'calendar' ? 'Lịch' : 'Sự kiện'
   appendIcon(headerIcon, state.activeTab)
   calendarNav.setAttribute('aria-current', state.activeTab === 'calendar' ? 'page' : 'false')
@@ -288,9 +311,7 @@ function renderDayCell(date: CivilDate, isInMonth: boolean, isSupported: boolean
   cell.prepend(solarText)
   if (isSupported) {
     cell.addEventListener('click', () => {
-      state.selectedDate = date
-      state.visibleMonth = { year: date.year, month: date.month }
-      render()
+      selectCalendarDate(date)
     })
   }
   return cell
@@ -304,6 +325,9 @@ function renderDayDetails(): HTMLElement {
   heading.className = 'section-heading'
   const titleElement = document.createElement('h2')
   titleElement.id = 'day-details-title'
+  titleElement.className = 'day-details__title'
+  titleElement.tabIndex = -1
+  titleElement.dataset.focusKey = 'selected-day-details'
   titleElement.textContent = 'Chi tiết ngày'
   const dateLabel = document.createElement('span')
   dateLabel.className = 'section-heading__meta'
@@ -342,7 +366,7 @@ function renderDayDetails(): HTMLElement {
   else {
     const list = document.createElement('div')
     list.className = 'calendar-event-list'
-    events.forEach((event) => list.append(createEventCard(event, state.selectedDate, true)))
+    events.forEach((event) => list.append(createEventCard(event, true)))
     section.append(list)
   }
   return section
@@ -392,7 +416,7 @@ function renderEventGroup(label: string, day: EventDay): HTMLElement {
   else {
     const cards = document.createElement('div')
     cards.className = 'event-card-list'
-    day.events.forEach((event) => cards.append(createEventCard(event, day.date, false)))
+    day.events.forEach((event) => cards.append(createEventCard(event, false)))
     group.append(cards)
   }
   return group
@@ -410,7 +434,7 @@ function makeGroupHeading(label: string, date: CivilDate): HTMLElement {
   return heading
 }
 
-function createEventCard(event: CalendarEvent, date: CivilDate, compact: boolean): HTMLElement {
+function createEventCard(event: CalendarEvent, compact: boolean): HTMLElement {
   const card = document.createElement('article')
   card.className = compact ? 'event-card event-card--compact' : 'event-card'
   const top = document.createElement('div')
@@ -418,28 +442,30 @@ function createEventCard(event: CalendarEvent, date: CivilDate, compact: boolean
   const category = document.createElement('span')
   category.className = 'event-card__category'
   category.textContent = CATEGORY_LABELS[event.category]
-  const dateLabel = document.createElement('time')
-  dateLabel.dateTime = `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`
-  dateLabel.textContent = formatDate(date)
-  top.append(category, dateLabel)
+  top.append(category)
   const titleElement = document.createElement('h3')
   titleElement.textContent = event.title
   const description = document.createElement('p')
   description.className = 'event-card__description'
   description.textContent = event.description
   card.append(top, titleElement, description)
-  const sourceList = document.createElement('div')
-  sourceList.className = 'event-card__sources'
+  const sourceDetails = document.createElement('details')
+  sourceDetails.className = 'event-card__sources'
+  const sourceSummary = document.createElement('summary')
+  sourceSummary.textContent = event.sources.length === 1
+    ? `Xem nguồn: ${event.sources[0].publisher}`
+    : `Nguồn tham khảo (${event.sources.length})`
+  sourceDetails.append(sourceSummary)
   event.sources.forEach((source, index) => {
     const link = document.createElement('a')
     link.href = source.url
     link.target = '_blank'
     link.rel = 'noopener noreferrer'
     link.dataset.focusKey = `source-${event.id}-${index}`
-    link.textContent = `Nguồn: ${source.publisher} · ${source.title}`
-    sourceList.append(link)
+    link.textContent = `${source.publisher}: ${source.title}`
+    sourceDetails.append(link)
   })
-  if (event.sources.length > 0) card.append(sourceList)
+  if (event.sources.length > 0) card.append(sourceDetails)
   return card
 }
 
@@ -479,24 +505,72 @@ function moveMonth(offset: number): void {
   render()
 }
 
-function openMonthDialog(): void {
-  monthSelect.replaceChildren(...MONTHS.map((name, index) => {
-    const option = document.createElement('option')
-    option.value = String(index + 1)
-    option.textContent = name
-    return option
-  }))
-  yearSelect.replaceChildren()
-  for (let year = YEAR_RANGE.min; year <= YEAR_RANGE.max; year += 1) {
-    const option = document.createElement('option')
-    option.value = String(year)
-    option.textContent = String(year)
-    yearSelect.append(option)
+function selectCalendarDate(date: CivilDate): void {
+  const visibleMonth = createVisibleMonth(date.year, date.month)
+  if (visibleMonth === null) return
+  state.selectedDate = date
+  state.visibleMonth = visibleMonth
+  render(true, 'selected-day-details')
+  const detailsHeading = content.querySelector<HTMLElement>('.day-details__title')
+  if (detailsHeading === null) return
+
+  const viewport = content.getBoundingClientRect()
+  const heading = detailsHeading.getBoundingClientRect()
+  const inset = 12
+  if (heading.top < viewport.top + inset || heading.bottom > viewport.bottom - inset) {
+    const top = content.scrollTop + heading.top - viewport.top - inset
+    const behavior: ScrollBehavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 'auto'
+      : 'smooth'
+    content.scrollTo({ top: Math.max(0, top), behavior })
   }
-  monthSelect.value = String(state.visibleMonth.month)
-  yearSelect.value = String(state.visibleMonth.year)
+}
+
+function openMonthDialog(): void {
+  draftMonth = { ...state.visibleMonth }
+  yearInput.value = String(draftMonth.year)
+  clearYearError()
+  renderMonthChoices()
+  updateYearStepper()
   if (!dialog.open) dialog.showModal()
-  monthSelect.focus()
+  monthPickerGrid.querySelector<HTMLButtonElement>('[aria-pressed="true"]')?.focus()
+}
+
+function renderMonthChoices(): void {
+  monthPickerGrid.replaceChildren(...MONTHS.map((name, index) => {
+    const month = index + 1
+    const choice = button(`Tháng ${month}`, 'month-choice')
+    choice.dataset.month = String(month)
+    choice.setAttribute('aria-label', name)
+    choice.setAttribute('aria-pressed', String(draftMonth.month === month))
+    return choice
+  }))
+}
+
+function updateYearStepper(): void {
+  decreaseYearButton.disabled = draftMonth.year <= YEAR_RANGE.min
+  increaseYearButton.disabled = draftMonth.year >= YEAR_RANGE.max
+  yearAnnouncement.textContent = `Năm ${draftMonth.year}`
+}
+
+function clearYearError(): void {
+  yearError.hidden = true
+  yearInput.setAttribute('aria-invalid', 'false')
+}
+
+function showYearError(): void {
+  yearError.hidden = false
+  yearInput.setAttribute('aria-invalid', 'true')
+  yearInput.focus()
+}
+
+function stepDraftYear(delta: -1 | 1): void {
+  const nextYear = draftMonth.year + delta
+  if (createVisibleMonth(nextYear, draftMonth.month) === null) return
+  draftMonth = { ...draftMonth, year: nextYear }
+  yearInput.value = String(nextYear)
+  clearYearError()
+  updateYearStepper()
 }
 
 function getEventSnapshot(dateTime: Date): EventSnapshot {
@@ -579,15 +653,43 @@ function eventSnapshotKey(snapshot: EventSnapshot): string {
 
 calendarNav.addEventListener('click', () => setActiveTab('calendar'))
 eventsNav.addEventListener('click', () => setActiveTab('events'))
+content.addEventListener('scroll', () => {
+  state.scrollPositions[state.activeTab] = content.scrollTop
+}, { passive: true })
 closeDialogButton.addEventListener('click', () => dialog.close())
-dialog.addEventListener('close', () => content.querySelector<HTMLButtonElement>('.month-title')?.focus())
+dialog.addEventListener('close', () => {
+  queueMicrotask(() => content.querySelector<HTMLButtonElement>('.month-title')?.focus({ preventScroll: true }))
+})
+monthPickerGrid.addEventListener('click', (event) => {
+  if (!(event.target instanceof Element)) return
+  const choice = event.target.closest<HTMLButtonElement>('[data-month]')
+  if (choice === null || !monthPickerGrid.contains(choice)) return
+  const month = Number(choice.dataset.month)
+  if (createVisibleMonth(draftMonth.year, month) === null) return
+  draftMonth = { ...draftMonth, month }
+  for (const monthButton of monthPickerGrid.querySelectorAll<HTMLButtonElement>('[data-month]')) {
+    monthButton.setAttribute('aria-pressed', String(monthButton === choice))
+  }
+})
+yearInput.addEventListener('input', () => {
+  const year = parseSupportedYear(yearInput.value)
+  if (year !== null) {
+    draftMonth = { ...draftMonth, year }
+    clearYearError()
+  }
+  updateYearStepper()
+})
+decreaseYearButton.addEventListener('click', () => stepDraftYear(-1))
+increaseYearButton.addEventListener('click', () => stepDraftYear(1))
 monthForm.addEventListener('submit', (event) => {
   event.preventDefault()
-  const year = Number(yearSelect.value)
-  const month = Number(monthSelect.value)
-  if (!Number.isInteger(year) || year < YEAR_RANGE.min || year > YEAR_RANGE.max
-    || !Number.isInteger(month) || month < 1 || month > 12) return
-  state.visibleMonth = { year, month }
+  const year = parseSupportedYear(yearInput.value)
+  const selection = year === null ? null : createVisibleMonth(year, draftMonth.month)
+  if (selection === null) {
+    showYearError()
+    return
+  }
+  state.visibleMonth = selection
   dialog.close()
   render()
 })

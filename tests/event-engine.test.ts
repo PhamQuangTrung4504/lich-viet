@@ -101,6 +101,8 @@ test('weekday rules support nth and last Sunday, and year-specific rules match o
 test('multiple real events remain distinct, results are ordered, and duplicate IDs keep the first sorted entry', () => {
   const nov20 = findEventsForDate(createCivilDate(2026, 11, 20))
   assert.deepEqual(nov20.map(({ id }) => id), ['world-childrens-day', 'vietnamese-teachers-day'])
+  assert.deepEqual(nov20.map(({ title }) => title), ['Ngày Trẻ em Thế giới', 'Ngày Nhà giáo Việt Nam'])
+  assert.ok(nov20.every((event) => event.sources.length > 0))
   assert.deepEqual(findEventsForDate(createCivilDate(2026, 2, 15)), [])
 
   const later = fixture('duplicate', 20, { type: 'solar_fixed', month: 4, day: 30 })
