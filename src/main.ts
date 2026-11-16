@@ -1,60 +1,567 @@
 import './style.css'
-import heroImg from './assets/hero.png'
-import typescriptLogo from './assets/typescript.svg'
-import viteLogo from './assets/vite.svg'
-import { setupCounter } from './counter.ts'
+import {
+  CALENDAR_CORE_SOLAR_YEAR_RANGE,
+  civilDateAtDeviceTime,
+  civilDateToJulianDayNumber,
+  julianDayNumberToCivilDate,
+  solarToVietnameseLunar,
+} from './calendar/core.ts'
+import { getCalendarMonthGrid } from './calendar/month-grid.ts'
+import type { CivilDate } from './calendar/core.ts'
+import { findEventsForDate, getTodayAndTomorrow } from './events/engine.ts'
+import type { EventDay } from './events/engine.ts'
+import type { CalendarEvent, EventCategory } from './events/model.ts'
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${typescriptLogo}" class="framework" alt="TypeScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Get started</h1>
-    <p>Edit <code>src/main.ts</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+type AppTab = 'calendar' | 'events'
 
-<div class="ticks"></div>
+interface AppState {
+  activeTab: AppTab
+  visibleMonth: { year: number; month: number }
+  selectedDate: CivilDate
+  scrollPositions: Record<AppTab, number>
+}
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://www.typescriptlang.org" target="_blank">
-          <img class="button-icon" src="${typescriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+interface EventSnapshot {
+  readonly today?: EventDay
+  readonly tomorrow?: EventDay
+  readonly tomorrowDate?: CivilDate
+  readonly unavailable: boolean
+}
 
-<div class="ticks"></div>
-<section id="spacer"></section>
+const WEEKDAYS = ['Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ nhật']
+const WEEKDAY_SHORT = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
+const MONTHS = ['Tháng Một', 'Tháng Hai', 'Tháng Ba', 'Tháng Tư', 'Tháng Năm', 'Tháng Sáu', 'Tháng Bảy', 'Tháng Tám', 'Tháng Chín', 'Tháng Mười', 'Tháng Mười Một', 'Tháng Mười Hai']
+const CATEGORY_LABELS: Record<EventCategory, string> = {
+  official_holiday: 'Ngày nghỉ lễ theo luật',
+  commemoration: 'Ngày kỷ niệm',
+  traditional: 'Ngày truyền thống',
+  international: 'Ngày quốc tế',
+}
+const YEAR_RANGE = CALENDAR_CORE_SOLAR_YEAR_RANGE
+
+const root = getElement<HTMLDivElement>('#app')
+root.innerHTML = `
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="app-header__icon" id="header-icon" aria-hidden="true"></div>
+      <div class="app-header__text">
+        <p class="app-header__eyebrow">LỊCH VIỆT</p>
+        <h1 id="header-title">Lịch</h1>
+      </div>
+    </header>
+    <main class="app-content" id="app-content" tabindex="0" aria-label="Nội dung ứng dụng"></main>
+    <nav class="bottom-nav" aria-label="Điều hướng chính">
+      <button class="bottom-nav__item" id="nav-calendar" type="button" aria-current="page">
+        <span class="nav-icon" aria-hidden="true"></span><span>Lịch</span>
+      </button>
+      <button class="bottom-nav__item" id="nav-events" type="button">
+        <span class="nav-icon" aria-hidden="true"></span><span>Sự kiện</span>
+      </button>
+    </nav>
+  </div>
+  <dialog class="month-dialog" id="month-dialog" aria-labelledby="month-dialog-title">
+    <form class="month-dialog__form" id="month-form">
+      <button class="icon-button month-dialog__close" id="close-month-dialog" type="button" aria-label="Đóng chọn tháng năm">×</button>
+      <p class="eyebrow">ĐI ĐẾN THỜI GIAN</p>
+      <h2 id="month-dialog-title">Chọn tháng và năm</h2>
+      <label class="field-label" for="month-select">Tháng</label>
+      <select id="month-select" name="month"></select>
+      <label class="field-label" for="year-select">Năm</label>
+      <select id="year-select" name="year"></select>
+      <button class="primary-button" type="submit">Xem lịch</button>
+    </form>
+  </dialog>
 `
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+const content = getElement<HTMLElement>('#app-content')
+const title = getElement<HTMLElement>('#header-title')
+const headerIcon = getElement<HTMLElement>('#header-icon')
+const calendarNav = getElement<HTMLButtonElement>('#nav-calendar')
+const eventsNav = getElement<HTMLButtonElement>('#nav-events')
+appendIcon(getElement<HTMLElement>('#nav-calendar .nav-icon'), 'calendar')
+appendIcon(getElement<HTMLElement>('#nav-events .nav-icon'), 'events')
+const dialog = getElement<HTMLDialogElement>('#month-dialog')
+const monthSelect = getElement<HTMLSelectElement>('#month-select')
+const yearSelect = getElement<HTMLSelectElement>('#year-select')
+const monthForm = getElement<HTMLFormElement>('#month-form')
+const closeDialogButton = getElement<HTMLButtonElement>('#close-month-dialog')
+const now = new Date()
+const today = civilDateAtDeviceTime(now)
+const supportedToday = isSupportedDate(today)
+const initialMonth = supportedToday
+  ? { year: today.year, month: today.month }
+  : today.year < YEAR_RANGE.min ? { year: YEAR_RANGE.min, month: 1 } : { year: YEAR_RANGE.max, month: 12 }
+const state: AppState = {
+  activeTab: 'calendar',
+  visibleMonth: initialMonth,
+  selectedDate: today,
+  scrollPositions: { calendar: 0, events: 0 },
+}
+let eventSnapshot = getEventSnapshot(now)
+let midnightTimer: number | undefined
+
+function getElement<T extends Element>(selector: string): T {
+  const element = document.querySelector<T>(selector)
+  if (element === null) throw new Error(`Thiếu phần tử giao diện: ${selector}`)
+  return element
+}
+
+function isSupportedDate(date: CivilDate): boolean {
+  return date.year >= YEAR_RANGE.min && date.year <= YEAR_RANGE.max
+}
+
+function dateKey(date: CivilDate): string {
+  return `${date.year}-${date.month}-${date.day}`
+}
+
+function formatDate(date: CivilDate, includeWeekday = false): string {
+  const parts = [String(date.day).padStart(2, '0'), String(date.month).padStart(2, '0'), String(date.year)]
+  const dateText = parts.join('/')
+  return includeWeekday ? `${weekdayName(date)}, ${dateText}` : dateText
+}
+
+function weekdayName(date: CivilDate): string {
+  return WEEKDAYS[(civilDateToJulianDayNumber(date) + 1) % 7]
+}
+
+function appendIcon(element: HTMLElement, kind: 'calendar' | 'events'): void {
+  element.innerHTML = kind === 'calendar'
+    ? '<svg viewBox="0 0 24 24" focusable="false"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M8 3.5v3M16 3.5v3M4 9.5h16M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01"/></svg>'
+    : '<svg viewBox="0 0 24 24" focusable="false"><path d="M5 4.5h14a2 2 0 0 1 2 2v12a1 1 0 0 1-1.6.8L12 14l-7.4 5.3A1 1 0 0 1 3 18.5v-12a2 2 0 0 1 2-2Z"/><path d="M8 8h8M8 11h5"/></svg>'
+}
+
+function setActiveTab(tab: AppTab): void {
+  if (state.activeTab === tab) return
+  state.scrollPositions[state.activeTab] = content.scrollTop
+  state.activeTab = tab
+  render(false)
+}
+
+function render(rememberScroll = true): void {
+  if (rememberScroll) state.scrollPositions[state.activeTab] = content.scrollTop
+  title.textContent = state.activeTab === 'calendar' ? 'Lịch' : 'Sự kiện'
+  appendIcon(headerIcon, state.activeTab)
+  calendarNav.setAttribute('aria-current', state.activeTab === 'calendar' ? 'page' : 'false')
+  eventsNav.setAttribute('aria-current', state.activeTab === 'events' ? 'page' : 'false')
+  content.replaceChildren(state.activeTab === 'calendar' ? renderCalendar() : renderEvents())
+  content.scrollTop = state.scrollPositions[state.activeTab]
+}
+
+function renderCalendar(): HTMLElement {
+  const panel = document.createElement('section')
+  panel.className = 'calendar-panel'
+  panel.setAttribute('aria-label', 'Lịch tháng')
+  const current = civilDateAtDeviceTime(new Date())
+
+  const intro = document.createElement('section')
+  intro.className = 'today-banner'
+  const introText = document.createElement('div')
+  const eyebrow = document.createElement('p')
+  eyebrow.className = 'eyebrow'
+  eyebrow.textContent = 'NGÀY HÔM NAY'
+  const currentDate = document.createElement('p')
+  currentDate.className = 'today-banner__date'
+  currentDate.textContent = formatDate(current, true)
+  introText.append(eyebrow, currentDate)
+  const todayButton = button('Hôm nay', 'text-button')
+  todayButton.addEventListener('click', () => {
+    state.selectedDate = current
+    if (isSupportedDate(current)) state.visibleMonth = { year: current.year, month: current.month }
+    else state.visibleMonth = current.year < YEAR_RANGE.min
+      ? { year: YEAR_RANGE.min, month: 1 }
+      : { year: YEAR_RANGE.max, month: 12 }
+    render()
+  })
+  intro.append(introText, todayButton)
+  panel.append(intro)
+
+  if (!isSupportedDate(current)) {
+    panel.append(makeNotice(`Lịch âm và sự kiện hiện hỗ trợ ngày dương từ ${YEAR_RANGE.min} đến ${YEAR_RANGE.max}.`))
+  }
+
+  const monthSection = document.createElement('section')
+  monthSection.className = 'month-card'
+  const controls = document.createElement('div')
+  controls.className = 'month-controls'
+  const previousButton = iconButton('Tháng trước', '‹')
+  previousButton.disabled = state.visibleMonth.year === YEAR_RANGE.min && state.visibleMonth.month === 1
+  previousButton.addEventListener('click', () => moveMonth(-1))
+  const headingButton = button('', 'month-title')
+  headingButton.setAttribute('aria-label', `Chọn tháng, ${MONTHS[state.visibleMonth.month - 1]} năm ${state.visibleMonth.year}`)
+  const monthName = document.createElement('span')
+  monthName.textContent = MONTHS[state.visibleMonth.month - 1]
+  const yearName = document.createElement('strong')
+  yearName.textContent = String(state.visibleMonth.year)
+  const chevron = document.createElement('span')
+  chevron.className = 'month-title__chevron'
+  chevron.setAttribute('aria-hidden', 'true')
+  chevron.textContent = '⌄'
+  headingButton.append(monthName, yearName, chevron)
+  headingButton.addEventListener('click', openMonthDialog)
+  const nextButton = iconButton('Tháng sau', '›')
+  nextButton.disabled = state.visibleMonth.year === YEAR_RANGE.max && state.visibleMonth.month === 12
+  nextButton.addEventListener('click', () => moveMonth(1))
+  controls.append(previousButton, headingButton, nextButton)
+
+  const weekdays = document.createElement('div')
+  weekdays.className = 'weekday-row'
+  weekdays.setAttribute('aria-hidden', 'true')
+  for (const day of WEEKDAY_SHORT) {
+    const label = document.createElement('span')
+    label.textContent = day
+    weekdays.append(label)
+  }
+  const lunarLegend = document.createElement('p')
+  lunarLegend.className = 'calendar-legend'
+  lunarLegend.textContent = 'Số nhỏ là ngày âm · T là tháng âm · N là tháng nhuận'
+  const grid = document.createElement('div')
+  grid.className = 'calendar-grid'
+  grid.setAttribute('role', 'group')
+  grid.setAttribute('aria-label', `${MONTHS[state.visibleMonth.month - 1]} ${state.visibleMonth.year}`)
+  for (const cell of getCalendarMonthGrid(state.visibleMonth.year, state.visibleMonth.month)) {
+    grid.append(renderDayCell(cell.date, cell.isInVisibleMonth, cell.isWithinSupportedRange, current))
+  }
+  controls.setAttribute('aria-label', 'Điều khiển tháng')
+  monthSection.append(controls, weekdays, grid, lunarLegend)
+  attachCalendarSwipe(grid)
+  panel.append(monthSection)
+  panel.append(renderDayDetails())
+  return panel
+}
+
+function renderDayCell(date: CivilDate, isInMonth: boolean, isSupported: boolean, current: CivilDate): HTMLButtonElement {
+  const cell = button('', 'day-cell')
+  const isToday = dateKey(date) === dateKey(current)
+  const isSelected = dateKey(date) === dateKey(state.selectedDate)
+  if (!isInMonth) cell.classList.add('day-cell--outside')
+  if (isToday) cell.classList.add('day-cell--today')
+  if (isSelected) cell.classList.add('day-cell--selected')
+  if (!isSupported) {
+    cell.disabled = true
+    cell.classList.add('day-cell--unsupported')
+  }
+  cell.setAttribute('aria-pressed', String(isSelected))
+  let ariaLabel = formatDate(date, true)
+  if (isSupported) {
+    const lunar = solarToVietnameseLunar(date)
+    const lunarLabel = `Âm lịch ngày ${lunar.day} tháng ${lunar.month}${lunar.isLeapMonth ? ' nhuận' : ''} năm ${lunar.year}`
+    ariaLabel += `, ${lunarLabel}`
+    const lunarText = document.createElement('span')
+    lunarText.className = 'day-cell__lunar'
+    lunarText.textContent = lunar.day === 1
+      ? `1/T${lunar.month}${lunar.isLeapMonth ? 'N' : ''}`
+      : String(lunar.day)
+    cell.append(lunarText)
+  } else {
+    const lunarText = document.createElement('span')
+    lunarText.className = 'day-cell__lunar day-cell__lunar--empty'
+    lunarText.textContent = '—'
+    cell.append(lunarText)
+  }
+  if (isToday && isSelected) ariaLabel += ', hôm nay và đang chọn'
+  else if (isToday) ariaLabel += ', hôm nay'
+  else if (isSelected) ariaLabel += ', đang chọn'
+  cell.setAttribute('aria-label', ariaLabel)
+  const solarText = document.createElement('span')
+  solarText.className = 'day-cell__solar'
+  solarText.textContent = String(date.day)
+  cell.prepend(solarText)
+  if (isSupported) {
+    cell.addEventListener('click', () => {
+      state.selectedDate = date
+      state.visibleMonth = { year: date.year, month: date.month }
+      render()
+    })
+  }
+  return cell
+}
+
+function renderDayDetails(): HTMLElement {
+  const section = document.createElement('section')
+  section.className = 'day-details'
+  section.setAttribute('aria-labelledby', 'day-details-title')
+  const heading = document.createElement('div')
+  heading.className = 'section-heading'
+  const titleElement = document.createElement('h2')
+  titleElement.id = 'day-details-title'
+  titleElement.textContent = 'Chi tiết ngày'
+  const dateLabel = document.createElement('span')
+  dateLabel.className = 'section-heading__meta'
+  dateLabel.textContent = formatDate(state.selectedDate, true)
+  heading.append(titleElement, dateLabel)
+  section.append(heading)
+  if (!isSupportedDate(state.selectedDate)) {
+    section.append(makeNotice(`Ngày đã chọn nằm ngoài phạm vi lịch âm hỗ trợ (${YEAR_RANGE.min}–${YEAR_RANGE.max}).`))
+    return section
+  }
+
+  const lunar = solarToVietnameseLunar(state.selectedDate)
+  const details = document.createElement('div')
+  details.className = 'date-summary'
+  const solar = document.createElement('div')
+  solar.className = 'date-summary__item'
+  solar.append(makeDateSummaryLabel('DƯƠNG LỊCH'))
+  const solarValue = document.createElement('strong')
+  solarValue.textContent = formatDate(state.selectedDate)
+  solar.append(solarValue)
+  const lunarItem = document.createElement('div')
+  lunarItem.className = 'date-summary__item date-summary__item--lunar'
+  lunarItem.append(makeDateSummaryLabel('ÂM LỊCH VIỆT NAM · UTC+7'))
+  const lunarValue = document.createElement('strong')
+  lunarValue.textContent = `${lunar.day}/${lunar.month}/${lunar.year}${lunar.isLeapMonth ? ' · Tháng nhuận' : ''}`
+  lunarItem.append(lunarValue)
+  details.append(solar, lunarItem)
+  section.append(details)
+
+  const events = findEventsForDate(state.selectedDate)
+  const eventHeading = document.createElement('h3')
+  eventHeading.className = 'subheading'
+  eventHeading.textContent = events.length ? `Sự kiện trong ngày · ${events.length}` : 'Sự kiện trong ngày'
+  section.append(eventHeading)
+  if (events.length === 0) section.append(makeNotice('Chưa ghi nhận sự kiện đặc biệt trong dữ liệu hiện có.'))
+  else {
+    const list = document.createElement('div')
+    list.className = 'calendar-event-list'
+    events.forEach((event) => list.append(createEventCard(event, state.selectedDate, true)))
+    section.append(list)
+  }
+  return section
+}
+
+function renderEvents(): HTMLElement {
+  const panel = document.createElement('section')
+  panel.className = 'events-panel'
+  panel.setAttribute('aria-label', 'Sự kiện hôm nay và ngày mai')
+  const intro = document.createElement('div')
+  intro.className = 'events-intro'
+  const kicker = document.createElement('p')
+  kicker.className = 'eyebrow'
+  kicker.textContent = 'DẤU MỐC TRONG NGÀY'
+  const heading = document.createElement('h2')
+  heading.textContent = 'Hôm nay và ngày mai'
+  intro.append(kicker, heading)
+  panel.append(intro)
+  if (eventSnapshot.unavailable) {
+    panel.append(makeNotice(`Danh mục sự kiện hiện hỗ trợ ngày dân sự từ ${YEAR_RANGE.min} đến ${YEAR_RANGE.max}.`))
+  }
+  if (eventSnapshot.today !== undefined) panel.append(renderEventGroup('Hôm nay', eventSnapshot.today))
+  else if (eventSnapshot.unavailable) {
+    const todayDate = civilDateAtDeviceTime(new Date())
+    const todayGroup = document.createElement('section')
+    todayGroup.className = 'event-group'
+    todayGroup.append(makeGroupHeading('Hôm nay', todayDate))
+    todayGroup.append(makeNotice('Ngày này nằm ngoài phạm vi dữ liệu sự kiện.'))
+    panel.append(todayGroup)
+  }
+  if (eventSnapshot.tomorrow !== undefined) panel.append(renderEventGroup('Ngày mai', eventSnapshot.tomorrow))
+  else if (eventSnapshot.tomorrowDate !== undefined) {
+    const group = document.createElement('section')
+    group.className = 'event-group'
+    group.append(makeGroupHeading('Ngày mai', eventSnapshot.tomorrowDate))
+    group.append(makeNotice(`Ngày này nằm ngoài phạm vi dữ liệu sự kiện (${YEAR_RANGE.min}–${YEAR_RANGE.max}).`))
+    panel.append(group)
+  }
+  return panel
+}
+
+function renderEventGroup(label: string, day: EventDay): HTMLElement {
+  const group = document.createElement('section')
+  group.className = 'event-group'
+  group.append(makeGroupHeading(label, day.date))
+  if (day.events.length === 0) group.append(makeNotice('Chưa ghi nhận sự kiện đặc biệt trong dữ liệu hiện có.'))
+  else {
+    const cards = document.createElement('div')
+    cards.className = 'event-card-list'
+    day.events.forEach((event) => cards.append(createEventCard(event, day.date, false)))
+    group.append(cards)
+  }
+  return group
+}
+
+function makeGroupHeading(label: string, date: CivilDate): HTMLElement {
+  const heading = document.createElement('div')
+  heading.className = 'section-heading event-group__heading'
+  const titleElement = document.createElement('h2')
+  titleElement.textContent = label
+  const dateElement = document.createElement('span')
+  dateElement.className = 'section-heading__meta'
+  dateElement.textContent = formatDate(date, true)
+  heading.append(titleElement, dateElement)
+  return heading
+}
+
+function createEventCard(event: CalendarEvent, date: CivilDate, compact: boolean): HTMLElement {
+  const card = document.createElement('article')
+  card.className = compact ? 'event-card event-card--compact' : 'event-card'
+  const top = document.createElement('div')
+  top.className = 'event-card__top'
+  const category = document.createElement('span')
+  category.className = 'event-card__category'
+  category.textContent = CATEGORY_LABELS[event.category]
+  const dateLabel = document.createElement('time')
+  dateLabel.dateTime = `${date.year}-${String(date.month).padStart(2, '0')}-${String(date.day).padStart(2, '0')}`
+  dateLabel.textContent = formatDate(date)
+  top.append(category, dateLabel)
+  const titleElement = document.createElement('h3')
+  titleElement.textContent = event.title
+  const description = document.createElement('p')
+  description.className = 'event-card__description'
+  description.textContent = event.description
+  card.append(top, titleElement, description)
+  const sourceList = document.createElement('div')
+  sourceList.className = 'event-card__sources'
+  event.sources.forEach((source) => {
+    const link = document.createElement('a')
+    link.href = source.url
+    link.target = '_blank'
+    link.rel = 'noopener noreferrer'
+    link.textContent = `Nguồn: ${source.publisher} · ${source.title}`
+    sourceList.append(link)
+  })
+  if (event.sources.length > 0) card.append(sourceList)
+  return card
+}
+
+function makeNotice(text: string): HTMLElement {
+  const notice = document.createElement('p')
+  notice.className = 'empty-notice'
+  notice.textContent = text
+  return notice
+}
+
+function makeDateSummaryLabel(text: string): HTMLElement {
+  const label = document.createElement('span')
+  label.textContent = text
+  return label
+}
+
+function button(label: string, className: string): HTMLButtonElement {
+  const element = document.createElement('button')
+  element.type = 'button'
+  element.className = className
+  if (label) element.textContent = label
+  return element
+}
+
+function iconButton(label: string, glyph: string): HTMLButtonElement {
+  const element = button(glyph, 'icon-button')
+  element.setAttribute('aria-label', label)
+  return element
+}
+
+function moveMonth(offset: number): void {
+  const absoluteMonth = state.visibleMonth.year * 12 + state.visibleMonth.month - 1 + offset
+  const year = Math.floor(absoluteMonth / 12)
+  const month = absoluteMonth % 12 + 1
+  if (year < YEAR_RANGE.min || year > YEAR_RANGE.max) return
+  state.visibleMonth = { year, month }
+  render()
+}
+
+function openMonthDialog(): void {
+  monthSelect.replaceChildren(...MONTHS.map((name, index) => {
+    const option = document.createElement('option')
+    option.value = String(index + 1)
+    option.textContent = name
+    return option
+  }))
+  yearSelect.replaceChildren()
+  for (let year = YEAR_RANGE.min; year <= YEAR_RANGE.max; year += 1) {
+    const option = document.createElement('option')
+    option.value = String(year)
+    option.textContent = String(year)
+    yearSelect.append(option)
+  }
+  monthSelect.value = String(state.visibleMonth.month)
+  yearSelect.value = String(state.visibleMonth.year)
+  if (!dialog.open) dialog.showModal()
+  monthSelect.focus()
+}
+
+function getEventSnapshot(dateTime: Date): EventSnapshot {
+  try {
+    const result = getTodayAndTomorrow(dateTime)
+    return { ...result, unavailable: false }
+  } catch (error) {
+    if (!(error instanceof RangeError)) throw error
+    const todayDate = civilDateAtDeviceTime(dateTime)
+    const tomorrowDate = julianDayNumberToCivilDate(civilDateToJulianDayNumber(todayDate) + 1)
+    if (!isSupportedDate(todayDate) || !isSupportedDate(tomorrowDate)) {
+      if (isSupportedDate(todayDate)) {
+        return {
+          today: { date: todayDate, events: findEventsForDate(todayDate) },
+          tomorrowDate,
+          unavailable: false,
+        }
+      }
+      return { tomorrowDate, unavailable: true }
+    }
+    throw error
+  }
+}
+
+function attachCalendarSwipe(target: HTMLElement): void {
+  let startX: number | undefined
+  let startY: number | undefined
+  target.addEventListener('touchstart', (event: TouchEvent) => {
+    const touch = event.changedTouches[0]
+    if (touch === undefined) return
+    startX = touch.clientX
+    startY = touch.clientY
+  }, { passive: true })
+  target.addEventListener('touchend', (event: TouchEvent) => {
+    const touch = event.changedTouches[0]
+    if (touch === undefined || startX === undefined || startY === undefined) return
+    const deltaX = touch.clientX - startX
+    const deltaY = touch.clientY - startY
+    startX = undefined
+    startY = undefined
+    if (Math.abs(deltaX) < 56 || Math.abs(deltaX) < Math.abs(deltaY) * 1.25) return
+    moveMonth(deltaX < 0 ? 1 : -1)
+  }, { passive: true })
+  target.addEventListener('touchcancel', () => {
+    startX = undefined
+    startY = undefined
+  }, { passive: true })
+}
+
+function scheduleMidnightRefresh(): void {
+  if (midnightTimer !== undefined) window.clearTimeout(midnightTimer)
+  const now = new Date()
+  const nextMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 1)
+  const delay = Math.max(1000, nextMidnight.getTime() - now.getTime())
+  midnightTimer = window.setTimeout(() => {
+    refreshForCurrentDate()
+  }, delay)
+}
+
+function refreshForCurrentDate(): void {
+  eventSnapshot = getEventSnapshot(new Date())
+  scheduleMidnightRefresh()
+  if (state.activeTab === 'events' || state.activeTab === 'calendar') render()
+}
+
+calendarNav.addEventListener('click', () => setActiveTab('calendar'))
+eventsNav.addEventListener('click', () => setActiveTab('events'))
+closeDialogButton.addEventListener('click', () => dialog.close())
+dialog.addEventListener('close', () => content.querySelector<HTMLButtonElement>('.month-title')?.focus())
+monthForm.addEventListener('submit', (event) => {
+  event.preventDefault()
+  const year = Number(yearSelect.value)
+  const month = Number(monthSelect.value)
+  if (!Number.isInteger(year) || year < YEAR_RANGE.min || year > YEAR_RANGE.max
+    || !Number.isInteger(month) || month < 1 || month > 12) return
+  state.visibleMonth = { year, month }
+  dialog.close()
+  render()
+})
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible') refreshForCurrentDate()
+})
+window.addEventListener('focus', refreshForCurrentDate)
+window.addEventListener('pagehide', () => {
+  if (midnightTimer !== undefined) window.clearTimeout(midnightTimer)
+})
+
+render()
+scheduleMidnightRefresh()
