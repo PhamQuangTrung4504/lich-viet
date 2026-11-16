@@ -118,6 +118,6 @@
 - Bộ thuật toán âm lịch chính thức, giấy phép sử dụng và tập dữ liệu đối chiếu.
 - Mở rộng/cập nhật danh mục sự kiện và danh sách nguồn thông tin ngoài bộ đã biên soạn ở Phase 3.
 - Việc hiển thị can chi/giờ hoàng đạo nếu chưa xác minh, phạm vi năm đã kiểm thử.
-- Logo/icon nhận diện, quyền sử dụng font và hình ảnh bên ngoài.
+- Quyền sử dụng font và hình ảnh bên ngoài. Ảnh nguồn icon chính thức của sản phẩm được cung cấp trong `src/assets/app-icon-source.png`.
 
 Khi triển khai đến các điểm trên: đề xuất phương án cụ thể, tác động và cách kiểm thử; không tự gắn dữ liệu giả để coi như hoàn thành.

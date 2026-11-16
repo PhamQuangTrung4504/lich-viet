@@ -101,7 +101,7 @@ Giữ cấu trúc nông, module rõ trách nhiệm; có thể điều chỉnh v�
 - Không dùng SPA router phụ thuộc server rewrite; chỉ một trang với hai tab local.
 - Workflow `.github/workflows/deploy.yml` chạy khi push `main` hoặc dispatch thủ công trên `main`: `npm ci`, `npm test`, `npm run build`, upload riêng `dist/`, sau đó deploy bằng GitHub Pages Actions vào environment `github-pages`. Quyền Pages/OIDC chỉ cấp cho job deploy; **không commit** `dist/`.
 - Workflow chạy tối thiểu và permissions least-privilege. Không có API token trong client bundle; biến bắt đầu bằng `VITE_` là public, không đặt secret vào đó.
-- PWA/add-to-home-screen: manifest/icon thực, metadata Safari, kiểm tra hiển thị standalone trên iOS; không cấu hình offline service worker trừ khi có yêu cầu mới.
+- PWA/add-to-home-screen: `public/manifest.webmanifest` khai báo ứng dụng và icon PNG 192/512 (có bản maskable); `public/apple-touch-icon.png` là PNG vuông, opaque 180×180, `public/favicon.png` là PNG 48×48. Các icon được tạo từ `src/assets/app-icon-source.png`; Apple icon được làm đầy nền vuông, còn bản maskable đặt ảnh trong vùng an toàn. `index.html` liên kết manifest/icon và khai báo metadata Safari. Đây là web app có thể thêm vào màn hình chính, không cam kết offline; không cấu hình service worker.
 - Assets dùng đường dẫn tương thích base (import assets / `import.meta.env.BASE_URL` nếu cần), không tự hardcode đường dẫn root `/assets/...`.
 
 ## 9. Kiểm thử và phase gates
