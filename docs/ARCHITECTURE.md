@@ -97,9 +97,9 @@ Giữ cấu trúc nông, module rõ trách nhiệm; có thể điều chỉnh v�
 ## 8. GitHub Pages & web-app packaging
 
 - Website dự kiến: `https://phamquangtrung4504.github.io/lich-viet/`.
-- Vite production base `'/lich-viet/'` (đặt trong `vite.config.ts` ở phase deploy). Dev vẫn chạy localhost bình thường.
+- Vite dùng base `'/lich-viet/'` cho build/preview production và `'/'` cho dev server trong `vite.config.ts`; URL asset production được phát hành dưới prefix project Pages.
 - Không dùng SPA router phụ thuộc server rewrite; chỉ một trang với hai tab local.
-- `npm ci` trong GitHub Actions, `npm run build`, publish `dist/` làm Pages artifact; **không commit** `dist/`.
+- Workflow `.github/workflows/deploy.yml` chạy khi push `main` hoặc dispatch thủ công trên `main`: `npm ci`, `npm test`, `npm run build`, upload riêng `dist/`, sau đó deploy bằng GitHub Pages Actions vào environment `github-pages`. Quyền Pages/OIDC chỉ cấp cho job deploy; **không commit** `dist/`.
 - Workflow chạy tối thiểu và permissions least-privilege. Không có API token trong client bundle; biến bắt đầu bằng `VITE_` là public, không đặt secret vào đó.
 - PWA/add-to-home-screen: manifest/icon thực, metadata Safari, kiểm tra hiển thị standalone trên iOS; không cấu hình offline service worker trừ khi có yêu cầu mới.
 - Assets dùng đường dẫn tương thích base (import assets / `import.meta.env.BASE_URL` nếu cần), không tự hardcode đường dẫn root `/assets/...`.
