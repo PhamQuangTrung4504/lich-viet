@@ -111,7 +111,17 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     sources: [{ publisher: 'Ủy ban Nhà nước về người Việt Nam ở nước ngoài', title: 'Ý nghĩa của ngày lễ Vu Lan và pháp bố thí của Phật giáo', url: 'https://scov.gov.vn/ban-sac-van-hoa/gioi-thieu-ban-sac-van-hoa/y-nghia-cua-ngay-le-vu-lan-va-phap-bo-thi-cua-phat-giao.html' }],
   },
   {
-    id: 'trung-thap', title: 'Tết Trùng Thập (Rằm tháng Mười)', category: 'traditional',
+    id: 'that-tich', title: 'Thất Tịch (Lễ Ngâu)', category: 'traditional',
+    rule: { type: 'lunar_fixed', month: 7, day: 7, leapMonthPolicy: 'regular_only' },
+    description: 'Ngày mùng 7 tháng Bảy âm lịch gắn với chuyện Ngưu Lang – Chức Nữ và tục gọi mưa ngâu trong văn hóa Việt. Cách thực hành khác nhau theo địa phương; đây không phải ngày nghỉ lễ theo luật.', sortOrder: 28,
+    sources: [
+      { publisher: 'Đài Tiếng nói Việt Nam', title: 'Thất tịch 2026 là ngày nào, thứ mấy?', url: 'https://vov.vn/doi-song/that-tich-2026-la-ngay-nao-thu-may-post1324704.vov' },
+      { publisher: 'Đài Truyền hình Việt Nam (theo TTXVN)', title: 'Nguồn gốc và ý nghĩa của lễ Thất Tịch', url: 'https://vtv.vn/doi-song/nguon-goc-va-y-nghia-cua-le-that-tich-2021081414364009.htm' },
+      { publisher: 'Việt Nam học – Kỷ yếu Hội thảo Quốc tế lần thứ Tư', title: 'Lễ hội cung đình triều Nguyễn và vấn đề khai thác các lễ hội cung đình', url: 'https://dulieu.itrithuc.vn/media/dataset/2020_08/ky_05778.pdf' },
+    ],
+  },
+  {
+    id: 'trung-thap', title: 'Tết Trùng Thập', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 10, day: 10, leapMonthPolicy: 'regular_only' },
     description: 'Một số tập tục dân gian gắn ngày này với lễ cơm mới và tạ ơn mùa màng; ngày này khác Tết Hạ Nguyên vào Rằm tháng Mười.', sortOrder: 30,
     sources: [{ publisher: 'Tạp chí Khoa học Xã hội', title: 'Tín ngưỡng Thần Nông qua các tiết lễ thờ cúng trong năm', url: 'https://vjol.info.vn/index.php/khxh/article/download/57555/54282/' }],

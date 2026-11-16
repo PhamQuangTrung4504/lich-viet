@@ -12,7 +12,8 @@
     "test:month-grid": "node --experimental-strip-types --test tests/month-grid.test.ts",
     "test:weekday": "node --experimental-strip-types --test tests/weekday.test.ts",
     "test:month-selection": "node --experimental-strip-types --test tests/month-selection.test.ts",
-    "test": "npm run test:calendar && npm run test:events && npm run test:month-grid && npm run test:weekday && npm run test:month-selection"
+    "test:coverage": "node --experimental-strip-types --test tests/event-coverage.test.ts",
+    "test": "npm run test:calendar && npm run test:events && npm run test:coverage && npm run test:month-grid && npm run test:weekday && npm run test:month-selection"
   },
   "devDependencies": {
     "@types/node": "^22.20.5",
