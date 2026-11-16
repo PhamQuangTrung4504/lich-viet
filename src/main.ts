@@ -7,7 +7,7 @@ import {
   solarToVietnameseLunar,
 } from './calendar/core.ts'
 import { getCalendarMonthGrid } from './calendar/month-grid.ts'
-import { createVisibleMonth, parseSupportedYear } from './calendar/month-selection.ts'
+import { createVisibleMonth, formatVisibleMonth, parseSupportedYear } from './calendar/month-selection.ts'
 import type { CivilDate } from './calendar/core.ts'
 import { findEventsForDate, getTodayAndTomorrow } from './events/engine.ts'
 import type { EventDay } from './events/engine.ts'
@@ -229,15 +229,14 @@ function renderCalendar(): HTMLElement {
   const headingButton = button('', 'month-title')
   headingButton.dataset.focusKey = 'month-title'
   headingButton.setAttribute('aria-label', `Chọn tháng, ${MONTHS[state.visibleMonth.month - 1]} năm ${state.visibleMonth.year}`)
-  const monthName = document.createElement('span')
-  monthName.textContent = MONTHS[state.visibleMonth.month - 1]
-  const yearName = document.createElement('strong')
-  yearName.textContent = String(state.visibleMonth.year)
+  const monthLabel = document.createElement('span')
+  monthLabel.className = 'month-title__label'
+  monthLabel.textContent = formatVisibleMonth(state.visibleMonth)
   const chevron = document.createElement('span')
   chevron.className = 'month-title__chevron'
   chevron.setAttribute('aria-hidden', 'true')
-  chevron.textContent = '⌄'
-  headingButton.append(monthName, yearName, chevron)
+  chevron.innerHTML = '<svg viewBox="0 0 24 24" focusable="false"><path d="m6.5 9.5 5.5 5 5.5-5" /></svg>'
+  headingButton.append(monthLabel, chevron)
   headingButton.addEventListener('click', openMonthDialog)
   const nextButton = iconButton('Tháng sau', '›')
   nextButton.dataset.focusKey = 'next-month'
@@ -599,12 +598,22 @@ function attachCalendarSwipe(target: HTMLElement): void {
   let startX: number | undefined
   let startY: number | undefined
   target.addEventListener('touchstart', (event: TouchEvent) => {
+    if (event.touches.length !== 1) {
+      startX = undefined
+      startY = undefined
+      return
+    }
     const touch = event.changedTouches[0]
     if (touch === undefined) return
     startX = touch.clientX
     startY = touch.clientY
   }, { passive: true })
   target.addEventListener('touchend', (event: TouchEvent) => {
+    if (event.touches.length > 0) {
+      startX = undefined
+      startY = undefined
+      return
+    }
     const touch = event.changedTouches[0]
     if (touch === undefined || startX === undefined || startY === undefined) return
     const deltaX = touch.clientX - startX
@@ -705,3 +714,4 @@ window.addEventListener('pagehide', () => {
 
 render()
 scheduleMidnightRefresh()
+window.dispatchEvent(new Event('lichviet:ready'))

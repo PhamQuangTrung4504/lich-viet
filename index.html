@@ -11,9 +11,166 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="Lịch Việt" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <style>
+      #app-startup {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: grid;
+        place-items: center;
+        padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+        color: #26352c;
+        background: #f8f9f5;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        text-align: center;
+        opacity: 1;
+        transition: opacity 220ms ease, visibility 220ms ease;
+      }
+
+      #app-startup.is-hidden {
+        visibility: hidden;
+        pointer-events: none;
+        opacity: 0;
+      }
+
+      #app-startup[aria-hidden="true"] {
+        pointer-events: none;
+      }
+
+      #app-startup__content {
+        display: grid;
+        justify-items: center;
+        gap: 10px;
+      }
+
+      #app-startup__content[hidden] {
+        display: none;
+      }
+
+      #app-startup-icon {
+        display: block;
+        width: 88px;
+        height: 88px;
+      }
+
+      #app-startup__content p,
+      #app-startup__error p {
+        margin: 0;
+      }
+
+      #app-startup__content .startup-brand {
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      #app-startup__content .startup-status,
+      #app-startup__error p {
+        color: #68756b;
+        font-size: 14px;
+      }
+
+      #app-startup__error {
+        display: grid;
+        justify-items: center;
+        gap: 16px;
+        max-width: 320px;
+      }
+
+      #app-startup__error[hidden] {
+        display: none;
+      }
+
+      #app-startup-reload {
+        min-height: 44px;
+        padding: 0 18px;
+        color: #fff;
+        background: #4f8a62;
+        border: 0;
+        border-radius: 12px;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 650;
+        cursor: pointer;
+        touch-action: manipulation;
+      }
+
+      #app-startup-reload:focus-visible {
+        outline: 3px solid rgb(79 138 98 / 58%);
+        outline-offset: 3px;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        #app-startup {
+          transition-duration: 0s;
+        }
+      }
+    </style>
+    <script>
+      (() => {
+        let ready = false;
+        let failed = false;
+
+        const showStartupError = () => {
+          if (ready) return;
+          failed = true;
+          const splash = document.getElementById('app-startup');
+          const content = document.getElementById('app-startup__content');
+          const errorPanel = document.getElementById('app-startup__error');
+          const reload = document.getElementById('app-startup-reload');
+          splash?.setAttribute('aria-busy', 'false');
+          if (content) content.hidden = true;
+          if (errorPanel) errorPanel.hidden = false;
+          if (reload && document.readyState !== 'loading') {
+            requestAnimationFrame(() => reload.focus({ preventScroll: true }));
+          }
+        };
+
+        window.addEventListener('error', (event) => {
+          const target = event.target;
+          const startupAssetFailed = target instanceof HTMLImageElement && target.id === 'app-startup-icon'
+            || target instanceof HTMLScriptElement && target.type === 'module'
+            || target instanceof HTMLLinkElement && target.rel === 'stylesheet';
+          if (event instanceof ErrorEvent || startupAssetFailed) showStartupError();
+        }, true);
+        window.addEventListener('unhandledrejection', showStartupError);
+        window.addEventListener('lichviet:ready', () => {
+          if (failed) return;
+          ready = true;
+          const splash = document.getElementById('app-startup');
+          if (!splash) return;
+          splash.setAttribute('aria-busy', 'false');
+          splash.setAttribute('aria-hidden', 'true');
+          splash.inert = true;
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            splash.remove();
+            return;
+          }
+          requestAnimationFrame(() => splash.classList.add('is-hidden'));
+          window.setTimeout(() => splash.remove(), 240);
+        }, { once: true });
+        document.addEventListener('DOMContentLoaded', () => {
+          const icon = document.getElementById('app-startup-icon');
+          const reload = document.getElementById('app-startup-reload');
+          icon?.addEventListener('error', showStartupError);
+          reload?.addEventListener('click', () => window.location.reload());
+          if (failed) showStartupError();
+        }, { once: true });
+      })();
+    </script>
     <title>Lịch Việt</title>
   </head>
   <body>
+    <div id="app-startup" aria-busy="true">
+      <div id="app-startup__content">
+        <img id="app-startup-icon" src="%BASE_URL%icons/icon-512.png" width="88" height="88" alt="" />
+        <p class="startup-brand" aria-hidden="true">Lịch Việt</p>
+        <p class="startup-status" role="status" aria-live="polite">Đang mở ứng dụng…</p>
+      </div>
+      <div id="app-startup__error" role="alert" hidden>
+        <p>Không thể mở Lịch Việt. Vui lòng kiểm tra kết nối rồi tải lại trang.</p>
+        <button id="app-startup-reload" type="button">Tải lại trang</button>
+      </div>
+    </div>
     <div id="app"></div>
     <script type="module" src="/src/main.ts"></script>
   </body>

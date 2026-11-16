@@ -78,6 +78,7 @@ Giữ cấu trúc nông, module rõ trách nhiệm; có thể điều chỉnh v�
 ## 6. App shell và tương tác
 
 - Dùng một điểm bootstrap và một `AppState` nhỏ: `activeTab`, `visibleMonth`, `selectedDate`, scroll position/tab (nếu DOM tab được remount).
+- Startup splash tĩnh trong `index.html` hiển thị trước khi module ứng dụng hoàn tất tải; main chỉ phát trạng thái sẵn sàng sau lần render đầu, splash mờ đi rồi được gỡ. Lỗi khởi tạo hoặc lỗi tải module/CSS/icon hiển thị thông báo và nút tải lại; không có thời gian chờ giả.
 - Các thao tác người dùng được gom theo chức năng, không thêm state library.
 - Header/footer là anh em của content scroll, không nằm bên trong scroller.
 - CSS nguyên tắc: app container `height: 100vh; height: 100dvh; display: flex; flex-direction: column;` (hoặc grid), header/footer `flex: none`, content `flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior-y: contain;`.

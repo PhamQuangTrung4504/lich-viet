@@ -5,6 +5,10 @@ export interface VisibleMonth {
   readonly month: number
 }
 
+export function formatVisibleMonth(month: VisibleMonth): string {
+  return `Tháng ${month.month} · ${month.year}`
+}
+
 export function parseSupportedYear(value: string): number | null {
   if (!/^\d{4}$/.test(value)) return null
   const year = Number(value)

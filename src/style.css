@@ -51,6 +51,8 @@ select {
 
 button {
   -webkit-tap-highlight-color: transparent;
+  /* Keep scrolling and pinch zoom while suppressing browser double-tap zoom. */
+  touch-action: manipulation;
 }
 
 button:focus-visible,
@@ -197,7 +199,8 @@ select:focus-visible,
 }
 
 .month-card {
-  touch-action: pan-y;
+  /* Vertical pan and pinch remain native; calendar swipe handles horizontal movement. */
+  touch-action: pan-y pinch-zoom;
 }
 
 .month-controls {
@@ -235,22 +238,48 @@ select:focus-visible,
   min-height: 48px;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  padding: 4px;
+  gap: 8px;
+  padding: 4px 8px;
   background: transparent;
   border: 0;
   border-radius: 12px;
   font-size: 14px;
   cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 120ms ease, transform 120ms ease;
 }
 
-.month-title strong {
-  font-size: 18px;
+.month-title:hover {
+  background: var(--sage-soft);
 }
 
-.month-title__chevron {
-  color: var(--sage);
-  font-size: 19px;
+.month-title:active {
+  transform: scale(0.98);
+}
+
+.month-title__label {
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  text-overflow: ellipsis;
+}
+
+.month-title__chevron,
+.month-title__chevron svg {
+  display: block;
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.month-title__chevron svg {
+  fill: none;
+  stroke: var(--sage);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
 }
 
 .weekday-row,
