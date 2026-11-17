@@ -588,4 +588,289 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
       { publisher: 'Chính phủ Việt Nam', title: 'Bộ luật Lao động 45/2019/QH14, Điều 112', url: 'https://vanban.chinhphu.vn/?docid=198540&pageid=27160' },
     ],
   },
+  {
+    id: 'vietnam-students-day', title: 'Ngày truyền thống Học sinh, Sinh viên Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 1, day: 9, startYear: 1950 },
+    description: 'Ngày 9/1 gắn với phong trào học sinh, sinh viên và sự hy sinh của Trần Văn Ơn trong cuộc biểu tình năm 1950. Đây cũng là ngày truyền thống của Hội Sinh viên Việt Nam.', sortOrder: 33,
+    details: {
+      origin: 'Ngày 9/1/1950, học sinh, sinh viên Sài Gòn xuống đường đòi quyền học tập và phản đối đàn áp; học sinh Trần Văn Ơn bị bắn chết. Đại hội toàn quốc Hội Sinh viên Việt Nam năm 1950 chọn ngày này làm ngày truyền thống.',
+      significance: 'Dịp này nhắc đến lịch sử phong trào học sinh, sinh viên và vai trò của thanh niên trong đời sống xã hội.',
+    },
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Kỷ niệm Ngày truyền thống học sinh, sinh viên và Hội Sinh viên Việt Nam', url: 'https://tphcm.chinhphu.vn/tuyen-duong-396-hoc-sinh-sinh-vien-tieu-bieu-nam-2021-101220107083915689.htm' }],
+  },
+  {
+    id: 'vietnam-border-guard-traditional-day', title: 'Ngày truyền thống Bộ đội Biên phòng', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 3, day: 3, startYear: 1959 },
+    description: 'Ngày truyền thống Bộ đội Biên phòng gắn với ngày thành lập lực lượng Công an nhân dân vũ trang vào 3/3/1959. Dịp này ghi nhận nhiệm vụ bảo vệ chủ quyền, an ninh biên giới và gắn bó với nhân dân khu vực biên giới.', sortOrder: 34,
+    details: {
+      origin: 'Lực lượng Công an nhân dân vũ trang, tiền thân của Bộ đội Biên phòng, được thành lập ngày 3/3/1959. Ngày này được kỷ niệm như ngày truyền thống của lực lượng.',
+      significance: 'Các hoạt động kỷ niệm thường nhấn mạnh bảo vệ biên giới, hỗ trợ cộng đồng và phối hợp với người dân ở địa bàn biên giới.',
+    },
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Kỷ niệm Ngày truyền thống Bộ đội Biên phòng và Ngày Biên phòng toàn dân', url: 'https://tiengchuong.chinhphu.vn/nhieu-hoat-dong-ky-niem-60-nam-ngay-truyen-thong-bo-doi-bien-phong-11327668.htm' }],
+  },
+  {
+    id: 'vietnam-all-people-border-day', title: 'Ngày Biên phòng toàn dân', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 3, day: 3, startYear: 1989 },
+    description: 'Ngày Biên phòng toàn dân khuyến khích sự tham gia của chính quyền, lực lượng vũ trang và người dân trong xây dựng, bảo vệ biên giới. Ngày này được phát động từ năm 1989, cùng ngày với ngày truyền thống Bộ đội Biên phòng.', sortOrder: 35,
+    details: {
+      origin: 'Ngày 3/3/1989 được chọn làm Ngày Biên phòng toàn dân. Mốc này khác với ngày thành lập lực lượng Bộ đội Biên phòng năm 1959, dù hai dịp cùng được nhắc đến vào ngày 3/3.',
+      significance: 'Dịp này nhấn mạnh trách nhiệm chung trong bảo vệ chủ quyền, an ninh biên giới và xây dựng khu vực biên giới.',
+    },
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Kỷ niệm Ngày truyền thống Bộ đội Biên phòng và Ngày Biên phòng toàn dân', url: 'https://tiengchuong.chinhphu.vn/nhieu-hoat-dong-ky-niem-60-nam-ngay-truyen-thong-bo-doi-bien-phong-11327668.htm' }],
+  },
+  {
+    id: 'vietnam-consumer-rights-day', title: 'Ngày Quyền của người tiêu dùng Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 3, day: 15, startYear: 2015 },
+    description: 'Ngày Quyền của người tiêu dùng Việt Nam nhấn mạnh quyền lợi người mua và trách nhiệm của cơ quan quản lý, doanh nghiệp cùng cộng đồng. Các hoạt động hằng năm thường phổ biến kiến thức và khuyến khích tiêu dùng an toàn, có trách nhiệm.', sortOrder: 36,
+    details: {
+      origin: 'Thủ tướng Chính phủ chọn ngày 15/3 hằng năm làm Ngày Quyền của người tiêu dùng Việt Nam theo Quyết định 1035/QĐ-TTg năm 2015.',
+      significance: 'Dịp này tạo điểm nhấn cho công tác bảo vệ quyền lợi người tiêu dùng và thúc đẩy sự tham gia của doanh nghiệp, tổ chức xã hội và người dân.',
+    },
+    sources: [{ publisher: 'Bộ Công Thương', title: 'Quyết định của Thủ tướng Chính phủ về Ngày Quyền của người tiêu dùng Việt Nam', url: 'https://moit.gov.vn/tin-tuc/hoat-dong/quyet-dinh-cua-thu-tuong-chinh-phu-ve-ngay-quyen-cua-nguoi-t2.html' }],
+  },
+  {
+    id: 'vietnam-sports-day', title: 'Ngày Thể thao Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 3, day: 27, startYear: 1991 },
+    description: 'Ngày Thể thao Việt Nam khuyến khích rèn luyện thân thể và ghi nhận sự phát triển của phong trào thể dục, thể thao. Ngày 27/3 được chọn theo quyết định của Hội đồng Bộ trưởng năm 1991.', sortOrder: 37,
+    details: {
+      origin: 'Ngày 27/3 được chọn làm Ngày Thể thao Việt Nam theo Quyết định 25/CT năm 1991. Mốc này gắn với lời kêu gọi toàn dân tập thể dục của Chủ tịch Hồ Chí Minh ngày 27/3/1946.',
+      significance: 'Các hoạt động thường gồm biểu dương vận động viên, câu lạc bộ và phong trào rèn luyện sức khỏe ở địa phương.',
+    },
+    sources: [{ publisher: 'Chính phủ Việt Nam', title: 'Quyết định 25/CT về Ngày Thể thao Việt Nam', url: 'https://chinhphu.vn/default.aspx?docid=1311&pageid=27160' }],
+  },
+  {
+    id: 'vietnam-militia-self-defense-day', title: 'Ngày truyền thống Dân quân tự vệ Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 3, day: 28, startYear: 1935 },
+    description: 'Ngày truyền thống Dân quân tự vệ Việt Nam gắn với nghị quyết về đội tự vệ được thông qua ngày 28/3/1935. Dịp kỷ niệm ghi nhận vai trò của lực lượng tại cơ sở trong nhiệm vụ quốc phòng và bảo vệ địa phương.', sortOrder: 38,
+    details: {
+      origin: 'Ngày 28/3/1935, Đại hội Đảng lần thứ nhất thông qua nghị quyết về đội tự vệ. Mốc này được lấy làm ngày truyền thống của lực lượng Dân quân tự vệ.',
+      significance: 'Các hoạt động kỷ niệm nhắc đến lịch sử hình thành và nhiệm vụ quốc phòng toàn dân của lực lượng ở cơ sở.',
+    },
+    sources: [{ publisher: 'Văn phòng Chủ tịch nước', title: 'Kỷ niệm 90 năm Ngày truyền thống Dân quân tự vệ Việt Nam', url: 'https://vpctn.gov.vn/tin-tuc-su-kien/chu-tich-nuoc-luong-cuong-du-le-ky-niem-90-nam-ngay-truyen-thong-dan-quan-tu-ve-viet-nam.html' }],
+  },
+  {
+    id: 'vietnam-persons-with-disabilities-day', title: 'Ngày Người khuyết tật Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 4, day: 18, startYear: 2011 },
+    description: 'Ngày Người khuyết tật Việt Nam nhấn mạnh quyền tham gia bình đẳng, khả năng tiếp cận và hòa nhập cộng đồng. Luật Người khuyết tật quy định ngày 18/4 hằng năm là ngày kỷ niệm này.', sortOrder: 39,
+    details: {
+      origin: 'Luật Người khuyết tật năm 2010 quy định ngày 18/4 hằng năm là Ngày Người khuyết tật Việt Nam; luật có hiệu lực từ năm 2011.',
+      significance: 'Dịp này hướng sự chú ý đến quyền, sự tham gia bình đẳng và việc giảm rào cản đối với người khuyết tật.',
+    },
+    sources: [{ publisher: 'Quốc hội Việt Nam', title: 'Luật số 51/2010/QH12, Điều 11', url: 'https://chinhphu.vn/default.aspx?docid=96045&pageid=27160' }],
+  },
+  {
+    id: 'international-red-cross-day', title: 'Ngày Chữ thập đỏ và Trăng lưỡi liềm đỏ quốc tế', category: 'international',
+    rule: { type: 'solar_fixed', month: 5, day: 8, startYear: 1984 },
+    description: 'Ngày Chữ thập đỏ và Trăng lưỡi liềm đỏ quốc tế ghi nhận hoạt động nhân đạo và đóng góp của hội viên, tình nguyện viên trên thế giới. Ngày 8/5 là ngày sinh Henry Dunant, người khởi xướng phong trào Chữ thập đỏ.', sortOrder: 41,
+    details: {
+      origin: 'Ngày 8/5 được chọn theo ngày sinh Henry Dunant. Lễ kỷ niệm đầu tiên diễn ra năm 1948; tên hiện nay được dùng từ năm 1984.',
+      significance: 'Dịp này tôn vinh hoạt động trợ giúp người dễ bị tổn thương trong thiên tai, khủng hoảng và các hoàn cảnh khó khăn.',
+    },
+    sources: [{ publisher: 'Hội Chữ thập đỏ Việt Nam', title: 'Đề cương tuyên truyền Ngày Chữ thập đỏ và Trăng lưỡi liềm đỏ quốc tế', url: 'https://redcross.org.vn/wp-content/uploads/2023/10/cuong-tuyen-truyen-thang-nhan-dao2020-final3.pdf' }],
+  },
+  {
+    id: 'vietnam-young-pioneers-founding-day', title: 'Ngày thành lập Đội Thiếu niên Tiền phong Hồ Chí Minh', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 5, day: 15, startYear: 1941 },
+    description: 'Ngày 15/5/1941, Hội Nhi đồng Cứu quốc, tiền thân của Đội Thiếu niên Tiền phong Hồ Chí Minh, được thành lập tại Cao Bằng. Ngày kỷ niệm gắn với lịch sử tổ chức và phong trào thiếu nhi Việt Nam.', sortOrder: 42,
+    details: {
+      origin: 'Tổ chức tiền thân được thành lập tại Nà Mạ, Cao Bằng, trong bối cảnh phong trào cách mạng năm 1941. Qua nhiều giai đoạn, tổ chức phát triển thành Đội Thiếu niên Tiền phong Hồ Chí Minh ngày nay.',
+      significance: 'Đội tổ chức hoạt động giáo dục, rèn luyện và sinh hoạt tập thể cho thiếu nhi trong và ngoài nhà trường.',
+    },
+    sources: [{ publisher: 'Hội đồng Đội Trung ương', title: 'Điều lệ Đội Thiếu niên Tiền phong Hồ Chí Minh', url: 'https://thieunhivietnam.vn/pic/FileLibrary/CHUAN-Dieu-le-Doi.pdf' }],
+  },
+  {
+    id: 'vietnam-older-persons-traditional-day', title: 'Ngày truyền thống Người cao tuổi Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 6, day: 6, startYear: 2006 },
+    description: 'Ngày truyền thống Người cao tuổi Việt Nam ghi nhận đóng góp của người cao tuổi và vận động cộng đồng chăm sóc, phát huy vai trò của họ. Ngày 6/6 được chọn làm ngày kỷ niệm từ năm 2006.', sortOrder: 43,
+    details: {
+      origin: 'Thủ tướng Chính phủ chọn ngày 6/6 hằng năm làm Ngày truyền thống Người cao tuổi Việt Nam năm 2006. Ngày này gắn với lời kêu gọi tổ chức các hội cứu quốc của Nguyễn Ái Quốc năm 1941.',
+      significance: 'Các hoạt động nhấn mạnh chăm sóc sức khỏe, đời sống tinh thần và tạo điều kiện để người cao tuổi tiếp tục đóng góp kinh nghiệm cho cộng đồng.',
+    },
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Ngày 6/6, ngày Truyền thống người cao tuổi Việt Nam', url: 'https://baochinhphu.vn/ngay-6-6-ngay-truyen-thong-nguoi-cao-tuoi-viet-nam-10217643.htm' }],
+  },
+  {
+    id: 'vietnam-health-insurance-day', title: 'Ngày Bảo hiểm y tế Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 7, day: 1, startYear: 2009 },
+    description: 'Ngày Bảo hiểm y tế Việt Nam phổ biến chính sách bảo hiểm y tế và khuyến khích người dân tham gia chăm sóc sức khỏe có bảo vệ tài chính. Ngày 1/7 được chọn trùng ngày Luật Bảo hiểm y tế bắt đầu có hiệu lực.', sortOrder: 44,
+    details: {
+      origin: 'Quyết định 823/QĐ-TTg năm 2009 chọn ngày 1/7 hằng năm làm Ngày Bảo hiểm y tế Việt Nam, cùng ngày Luật Bảo hiểm y tế có hiệu lực.',
+      significance: 'Dịp này nhấn mạnh vai trò của bảo hiểm y tế trong tiếp cận dịch vụ chăm sóc sức khỏe và vận động mở rộng bao phủ.',
+    },
+    sources: [{ publisher: 'Thủ tướng Chính phủ', title: 'Quyết định 823/QĐ-TTg về Ngày Bảo hiểm y tế Việt Nam', url: 'https://vanban.chinhphu.vn/default.aspx?docid=88082&pageid=27160' }],
+  },
+  {
+    id: 'vietnam-agent-orange-victims-day', title: 'Ngày Vì nạn nhân chất độc da cam Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 8, day: 10, startYear: 2004 },
+    description: 'Ngày Vì nạn nhân chất độc da cam Việt Nam dành sự quan tâm đến những người chịu ảnh hưởng lâu dài của chất độc da cam/dioxin và gia đình họ. Các hoạt động thường hướng đến thăm hỏi, hỗ trợ và vận động cộng đồng.', sortOrder: 45,
+    details: {
+      significance: 'Dịp này tập trung vào việc chia sẻ khó khăn, chăm sóc và hỗ trợ nạn nhân chất độc da cam/dioxin; các hoạt động cụ thể do tổ chức và địa phương triển khai.',
+    },
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Chung tay xoa dịu nỗi đau da cam', url: 'https://baochinhphu.vn/chung-tay-xoa-diu-noi-dau-da-cam-10235986.htm' }],
+  },
+  {
+    id: 'vietnam-public-security-traditional-day', title: 'Ngày truyền thống Công an nhân dân Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 8, day: 19, startYear: 1945 },
+    description: 'Ngày truyền thống Công an nhân dân Việt Nam gắn với thắng lợi của Cách mạng Tháng Tám năm 1945 và sự hình thành lực lượng công an cách mạng. Dịp này ghi nhận nhiệm vụ bảo vệ an ninh, trật tự và phục vụ nhân dân.', sortOrder: 46,
+    details: {
+      origin: 'Ngày 19/8/1945 được lấy làm mốc truyền thống của lực lượng Công an nhân dân. Dịp kỷ niệm này khác với Ngày hội toàn dân bảo vệ an ninh Tổ quốc, được xác lập từ năm 2005.',
+      significance: 'Các hoạt động kỷ niệm nhìn lại lịch sử lực lượng và nhiệm vụ bảo vệ an ninh quốc gia, trật tự an toàn xã hội.',
+    },
+    sources: [{ publisher: 'Thủ tướng Chính phủ', title: 'Quyết định 280/QĐ-TTg về kỷ niệm Ngày truyền thống Công an nhân dân', url: 'https://chinhphu.vn/?docid=210005&pageid=27160' }],
+  },
+  {
+    id: 'vietnam-all-people-national-security-day', title: 'Ngày hội toàn dân bảo vệ an ninh Tổ quốc', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 8, day: 19, startYear: 2005 },
+    description: 'Ngày hội toàn dân bảo vệ an ninh Tổ quốc khuyến khích người dân phối hợp giữ gìn an ninh, trật tự tại cộng đồng. Ngày hội được tổ chức vào 19/8, cùng ngày với dịp truyền thống Công an nhân dân nhưng có mốc hình thành riêng.', sortOrder: 47,
+    details: {
+      origin: 'Thủ tướng Chính phủ chọn ngày 19/8 hằng năm làm Ngày hội toàn dân bảo vệ an ninh Tổ quốc từ năm 2005. Đây là ngày vận động sự tham gia của cộng đồng, không phải ngày nghỉ lễ.',
+      significance: 'Các hoạt động thường biểu dương mô hình tự quản, phối hợp giữa người dân và lực lượng chức năng trong giữ gìn an ninh tại địa phương.',
+    },
+    sources: [{ publisher: 'Thủ tướng Chính phủ', title: 'Quyết định 280/QĐ-TTg về Ngày hội toàn dân bảo vệ an ninh Tổ quốc', url: 'https://chinhphu.vn/?docid=210005&pageid=27160' }],
+  },
+  {
+    id: 'international-older-persons-day', title: 'Ngày Quốc tế Người cao tuổi', category: 'international',
+    rule: { type: 'solar_fixed', month: 10, day: 1, startYear: 1991 },
+    description: 'Ngày Quốc tế Người cao tuổi nhấn mạnh quyền, sức khỏe và sự tham gia của người cao tuổi trong xã hội. Liên Hợp Quốc chọn ngày 1/10 làm dịp nâng cao nhận thức về già hóa dân số và các vấn đề liên quan.', sortOrder: 48,
+    details: {
+      origin: 'Đại hội đồng Liên Hợp Quốc chọn ngày 1/10 làm Ngày Quốc tế Người cao tuổi năm 1990; ngày này được kỷ niệm lần đầu vào năm 1991.',
+      significance: 'Mỗi năm, các hoạt động tập trung vào một khía cạnh của già hóa, quyền con người và đóng góp của người cao tuổi.',
+    },
+    sources: [{ publisher: 'Liên Hợp Quốc', title: 'International Day of Older Persons', url: 'https://www.un.org/en/observances/older-persons-day' }],
+  },
+  {
+    id: 'vietnam-digital-transformation-day', title: 'Ngày Chuyển đổi số quốc gia', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 10, day: 10, startYear: 2022 },
+    description: 'Ngày Chuyển đổi số quốc gia giúp người dân hiểu rõ hơn vai trò của công nghệ số trong dịch vụ công, kinh tế và đời sống. Các bộ, ngành và địa phương tổ chức hoạt động phù hợp với điều kiện thực tế.', sortOrder: 49,
+    details: {
+      origin: 'Quyết định 505/QĐ-TTg năm 2022 chọn ngày 10/10 hằng năm làm Ngày Chuyển đổi số quốc gia.',
+      significance: 'Ngày này thúc đẩy nhận thức và sự tham gia của cơ quan nhà nước, doanh nghiệp và người dân trong quá trình chuyển đổi số.',
+    },
+    sources: [{ publisher: 'Thủ tướng Chính phủ', title: 'Quyết định 505/QĐ-TTg về Ngày Chuyển đổi số quốc gia', url: 'https://datafiles.chinhphu.vn/cpp/files/vbpq/2022/04/505-ttg.signed.pdf' }],
+  },
+  {
+    id: 'vietnam-entrepreneurs-day', title: 'Ngày Doanh nhân Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 10, day: 13, startYear: 2004 },
+    description: 'Ngày Doanh nhân Việt Nam ghi nhận vai trò của đội ngũ doanh nhân trong hoạt động sản xuất, kinh doanh và tạo việc làm. Ngày 13/10 được chọn theo quyết định của Thủ tướng Chính phủ năm 2004.', sortOrder: 50,
+    details: {
+      origin: 'Quyết định 990/QĐ-TTg ngày 20/9/2004 chọn ngày 13/10 hằng năm là Ngày Doanh nhân Việt Nam.',
+      significance: 'Dịp này tôn vinh đóng góp của doanh nhân và khuyến khích xây dựng môi trường kinh doanh lành mạnh, có trách nhiệm.',
+    },
+    sources: [{ publisher: 'Thủ tướng Chính phủ', title: 'Quyết định 990/QĐ-TTg về Ngày Doanh nhân Việt Nam', url: 'https://chinhphu.vn/default.aspx?docid=13435&pageid=27160' }],
+  },
+  {
+    id: 'vietnam-farmers-union-founding-day', title: 'Ngày thành lập Hội Nông dân Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 10, day: 14, startYear: 1991 },
+    description: 'Ngày thành lập Hội Nông dân Việt Nam kỷ niệm sự ra đời của tổ chức tiền thân Nông hội Đỏ vào ngày 14/10/1930. Ngày này được chọn làm mốc kỷ niệm chính thức từ năm 1991.', sortOrder: 51,
+    details: {
+      origin: 'Hội nghị Trung ương tháng 10/1930 quyết định thành lập Tổng Nông hội Đông Dương, tiền thân của Hội Nông dân Việt Nam. Năm 1991, ngày 14/10 được chọn làm ngày kỷ niệm thành lập Hội.',
+      significance: 'Dịp này nhìn lại lịch sử tổ chức đại diện và tập hợp nông dân, đồng thời ghi nhận vai trò của nông dân trong phát triển nông nghiệp và nông thôn.',
+    },
+    sources: [{ publisher: 'Hội Nông dân Việt Nam', title: 'Tổng quan về Hội Nông dân Việt Nam', url: 'https://www.hoinongdan.org.vn/gioi-thieu/tong-quan-ve-hoi-nong-dan-viet-nam-254049' }],
+  },
+  {
+    id: 'vietnam-population-day', title: 'Ngày Dân số Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 12, day: 26, startYear: 1997 },
+    description: 'Ngày Dân số Việt Nam gắn với mốc ban hành chính sách dân số đầu tiên của Chính phủ vào ngày 26/12/1961. Dịp này đưa các vấn đề dân số, sức khỏe sinh sản và chất lượng cuộc sống vào hoạt động truyền thông cộng đồng.', sortOrder: 52,
+    details: {
+      origin: 'Ngày 26/12 hằng năm được chọn làm Ngày Dân số Việt Nam từ năm 1997, gắn với ngày ban hành Quyết định 216/CP về sinh đẻ có hướng dẫn năm 1961.',
+      significance: 'Các hoạt động truyền thông có thể đề cập quy mô, cơ cấu, chất lượng dân số và chăm sóc sức khỏe sinh sản; nội dung trọng tâm thay đổi theo từng giai đoạn.',
+    },
+    sources: [{ publisher: 'Bộ Y tế – Cục Dân số', title: 'Lịch sử phát triển công tác dân số Việt Nam', url: 'https://vnpa.moh.gov.vn/lich-su-phat-trien/' }],
+  },
+  {
+    id: 'vietnam-trade-union-traditional-day', title: 'Ngày thành lập Công đoàn Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 7, day: 28, startYear: 1983 },
+    description: 'Ngày thành lập Công đoàn Việt Nam kỷ niệm Đại hội thành lập Tổng Công hội Đỏ Bắc Kỳ năm 1929, một mốc trong lịch sử phong trào công nhân. Ngày này được chọn làm ngày truyền thống của tổ chức công đoàn.', sortOrder: 53,
+    details: {
+      origin: 'Đại hội thành lập Tổng Công hội Đỏ Bắc Kỳ diễn ra tại Hà Nội ngày 28/7/1929; tổ chức này là tiền thân của Công đoàn Việt Nam. Đại hội Công đoàn toàn quốc lần thứ V năm 1983 chọn ngày này làm ngày thành lập tổ chức công đoàn.',
+      significance: 'Dịp kỷ niệm nhìn lại lịch sử tổ chức công đoàn và vai trò đại diện, chăm lo quyền lợi hợp pháp của người lao động.',
+    },
+    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Phát biểu của Thủ tướng tại lễ kỷ niệm 90 năm thành lập Công đoàn Việt Nam', url: 'https://baochinhphu.vn/phat-bieu-cua-thu-tuong-tai-le-ky-niem-90-nam-thanh-lap-cong-doan-viet-nam-102259319.htm' }],
+  },
+  {
+    id: 'world-health-day', title: 'Ngày Sức khỏe Thế giới', category: 'international',
+    rule: { type: 'solar_fixed', month: 4, day: 7, startYear: 1950 },
+    description: 'Ngày Sức khỏe Thế giới tập trung sự chú ý vào một vấn đề sức khỏe cộng đồng được WHO lựa chọn mỗi năm. Ngày 7/4 gắn với ngày thành lập Tổ chức Y tế Thế giới năm 1948.', sortOrder: 54,
+    details: {
+      origin: 'WHO tổ chức Ngày Sức khỏe Thế giới vào ngày 7/4 hằng năm từ năm 1950, kỷ niệm ngày tổ chức này chính thức ra đời năm 1948.',
+      significance: 'Chủ đề thay đổi theo năm và thường hướng đến một ưu tiên sức khỏe toàn cầu.',
+    },
+    sources: [
+      { publisher: 'Tổ chức Y tế Thế giới', title: 'World Health Day', url: 'https://www.who.int/campaigns/world-health-day/2014' },
+      { publisher: 'Tổ chức Y tế Thế giới', title: 'Official Records of the Second World Health Assembly, Resolution WHA2.35', url: 'https://iris.who.int/bitstream/handle/10665/85600/Official_record21_eng.pdf' },
+    ],
+  },
+  {
+    id: 'international-day-of-happiness', title: 'Ngày Quốc tế Hạnh phúc', category: 'international',
+    rule: { type: 'solar_fixed', month: 3, day: 20, startYear: 2013 },
+    description: 'Ngày Quốc tế Hạnh phúc nhấn mạnh hạnh phúc và an sinh là mục tiêu chung của con người, gắn với phát triển bao trùm và bền vững. Đại hội đồng Liên Hợp Quốc tuyên bố ngày này vào năm 2012.', sortOrder: 55,
+    details: {
+      origin: 'Nghị quyết 66/281 của Đại hội đồng Liên Hợp Quốc năm 2012 tuyên bố ngày 20/3 là Ngày Quốc tế Hạnh phúc; dịp này được kỷ niệm từ năm 2013.',
+      significance: 'Liên Hợp Quốc khuyến khích nhìn nhận hạnh phúc và chất lượng cuộc sống bên cạnh các mục tiêu kinh tế.',
+    },
+    sources: [{ publisher: 'Liên Hợp Quốc', title: 'International Day of Happiness', url: 'https://www.un.org/en/observances/international-day-happiness' }],
+  },
+  {
+    id: 'earth-day', title: 'Ngày Trái Đất', category: 'international',
+    rule: { type: 'solar_fixed', month: 4, day: 22, startYear: 1970 },
+    description: 'Ngày Trái Đất là dịp quốc tế thúc đẩy quan tâm đến môi trường và hành động bảo vệ hệ sinh thái. Ngày 22/4 được tổ chức từ năm 1970; các chiến dịch cụ thể do nhiều tổ chức và cộng đồng thực hiện.', sortOrder: 56,
+    details: {
+      origin: 'Ngày Trái Đất đầu tiên diễn ra tại Hoa Kỳ ngày 22/4/1970, sau đó phát triển thành các hoạt động môi trường ở nhiều quốc gia.',
+      significance: 'Các hoạt động thường tập trung vào bảo vệ môi trường, giảm ô nhiễm và sử dụng tài nguyên có trách nhiệm; mức độ tham gia khác nhau theo nơi tổ chức.',
+    },
+    sources: [{ publisher: 'EarthDay.org', title: 'The History of Earth Day', url: 'https://www.earthday.org/history/' }],
+  },
+  {
+    id: 'world-blood-donor-day', title: 'Ngày Hiến máu Thế giới', category: 'international',
+    rule: { type: 'solar_fixed', month: 6, day: 14, startYear: 2004 },
+    description: 'Ngày Hiến máu Thế giới tri ân người hiến máu tình nguyện và nhắc đến nhu cầu duy trì nguồn máu an toàn cho người bệnh. Ngày 14/6 được chọn theo ngày sinh của nhà khoa học Karl Landsteiner.', sortOrder: 57,
+    details: {
+      origin: 'WHO tổ chức ngày này từ năm 2004 và Đại hội đồng Y tế Thế giới xác lập thành sự kiện hằng năm vào năm 2005. Ngày 14/6 là ngày sinh của Karl Landsteiner, người có đóng góp quan trọng trong việc phát hiện các nhóm máu ABO.',
+      significance: 'Dịp này ghi nhận người hiến máu tình nguyện và kêu gọi duy trì nguồn cung cấp máu an toàn, đủ dùng.',
+    },
+    sources: [{ publisher: 'Tổ chức Y tế Thế giới', title: 'World Blood Donor Day', url: 'https://www.who.int/westernpacific/newsroom/events/world-blood-donor-day' }],
+  },
+  {
+    id: 'world-population-day', title: 'Ngày Dân số Thế giới', category: 'international',
+    rule: { type: 'solar_fixed', month: 7, day: 11, startYear: 1990 },
+    description: 'Ngày Dân số Thế giới mở ra dịp trao đổi về dân số, sức khỏe và quyền sinh sản. Liên Hợp Quốc chọn ngày 11/7 sau khi dân số thế giới đạt mốc năm tỷ người vào năm 1987.', sortOrder: 58,
+    details: {
+      origin: 'Chương trình Phát triển Liên Hợp Quốc thiết lập ngày này năm 1989; Đại hội đồng Liên Hợp Quốc sau đó ghi nhận và kỷ niệm từ năm 1990.',
+      significance: 'Chủ đề hằng năm thường đề cập mối liên hệ giữa dân số với phát triển, bình đẳng và chăm sóc sức khỏe.',
+    },
+    sources: [{ publisher: 'Quỹ Dân số Liên Hợp Quốc', title: 'World Population Day', url: 'https://www.unfpa.org/events/world-population-day' }],
+  },
+  {
+    id: 'international-youth-day', title: 'Ngày Quốc tế Thanh niên', category: 'international',
+    rule: { type: 'solar_fixed', month: 8, day: 12, startYear: 2000 },
+    description: 'Ngày Quốc tế Thanh niên ghi nhận vai trò của người trẻ và đưa các vấn đề ảnh hưởng đến họ vào thảo luận công cộng. Liên Hợp Quốc chọn ngày 12/8 năm 1999; ngày này được kỷ niệm từ năm 2000.', sortOrder: 59,
+    details: {
+      origin: 'Đại hội đồng Liên Hợp Quốc tuyên bố ngày 12/8 là Ngày Quốc tế Thanh niên năm 1999 theo khuyến nghị của Hội nghị Bộ trưởng phụ trách thanh niên thế giới.',
+      significance: 'Mỗi năm có chủ đề riêng, thường khuyến khích người trẻ tham gia giải quyết các vấn đề xã hội và phát triển.',
+    },
+    sources: [{ publisher: 'Liên Hợp Quốc – UN Youth', title: 'International Youth Day', url: 'https://www.un.org/development/desa/youth/what-we-do-/international-youth-day.html' }],
+  },
+  {
+    id: 'international-day-of-persons-with-disabilities', title: 'Ngày Quốc tế Người khuyết tật', category: 'international',
+    rule: { type: 'solar_fixed', month: 12, day: 3, startYear: 1992 },
+    description: 'Ngày Quốc tế Người khuyết tật thúc đẩy quyền, sự tham gia bình đẳng và khả năng tiếp cận cho người khuyết tật. Liên Hợp Quốc kỷ niệm ngày này từ năm 1992, với chủ đề thay đổi theo từng năm.', sortOrder: 60,
+    details: {
+      origin: 'Đại hội đồng Liên Hợp Quốc tuyên bố ngày 3/12 là Ngày Quốc tế Người khuyết tật năm 1992, sau Thập kỷ Người khuyết tật của Liên Hợp Quốc.',
+      significance: 'Các hoạt động hướng đến xã hội hòa nhập và sự tham gia của người khuyết tật trong đời sống công cộng, học tập và việc làm.',
+    },
+    sources: [{ publisher: 'Liên Hợp Quốc', title: 'International Day of Persons with Disabilities', url: 'https://www.un.org/en/observances/day-of-persons-with-disabilities/' }],
+  },
+  {
+    id: 'international-volunteer-day', title: 'Ngày Tình nguyện viên Quốc tế', category: 'international',
+    rule: { type: 'solar_fixed', month: 12, day: 5, startYear: 1985 },
+    description: 'Ngày Tình nguyện viên Quốc tế ghi nhận đóng góp của những người dành thời gian và kỹ năng phục vụ cộng đồng. Đại hội đồng Liên Hợp Quốc lập ngày kỷ niệm này năm 1985.', sortOrder: 61,
+    details: {
+      origin: 'Liên Hợp Quốc chọn ngày 5/12 làm Ngày Tình nguyện viên Quốc tế năm 1985.',
+      significance: 'Dịp này khuyến khích ghi nhận hoạt động tình nguyện trong phát triển cộng đồng và hỗ trợ các mục tiêu xã hội.',
+    },
+    sources: [
+      { publisher: 'Liên Hợp Quốc', title: 'International Volunteer Day', url: 'https://www.un.org/observances/volunteer-day' },
+      { publisher: 'Thư viện số Liên Hợp Quốc', title: 'Nghị quyết A/RES/40/212', url: 'https://digitallibrary.un.org/record/113305' },
+    ],
+  },
 ]
