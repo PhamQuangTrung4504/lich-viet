@@ -10,7 +10,13 @@ export interface EventSource {
 }
 
 export type EventRule =
-  | { readonly type: 'solar_fixed'; readonly month: number; readonly day: number; readonly startYear?: number }
+  | {
+      readonly type: 'solar_fixed'
+      readonly month: number
+      readonly day: number
+      readonly startYear?: number
+      readonly endYear?: number
+    }
   | {
       readonly type: 'lunar_fixed'
       readonly month: number

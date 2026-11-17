@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
 import test from 'node:test'
-import { createCivilDate, daysInMonth } from '../src/calendar/core.ts'
+import { createCivilDate, daysInMonth, solarToVietnameseLunar } from '../src/calendar/core.ts'
 import { VERIFIED_EVENTS } from '../src/events/data.ts'
 import { findEventsForDate, getTodayAndTomorrow } from '../src/events/engine.ts'
 import type { CalendarEvent, EventRule } from '../src/events/model.ts'
@@ -31,6 +31,12 @@ function assertValidRule(rule: EventRule): void {
       assert.ok(Number.isInteger(rule.day) && rule.day >= 1 && rule.day <= daysInMonth(2000, rule.month))
       if (rule.startYear !== undefined) {
         assert.ok(Number.isInteger(rule.startYear) && rule.startYear >= 1 && rule.startYear <= 9999)
+      }
+      if (rule.endYear !== undefined) {
+        assert.ok(Number.isInteger(rule.endYear) && rule.endYear >= 1 && rule.endYear <= 9999)
+      }
+      if (rule.startYear !== undefined && rule.endYear !== undefined) {
+        assert.ok(rule.startYear <= rule.endYear)
       }
       break
     case 'lunar_fixed':
@@ -161,6 +167,18 @@ test('year-specific rules still match only their exact year', () => {
   assert.deepEqual(findEventsForDate(createCivilDate(2027, 11, 24), [oneYear]), [])
 })
 
+test('solar fixed rules can represent bounded historical names without leaking beyond their effective years', () => {
+  const oldName = VERIFIED_EVENTS.find(({ id }) => id === 'vietnam-book-day-legacy')
+  const newName = VERIFIED_EVENTS.find(({ id }) => id === 'vietnam-book-reading-culture-day')
+  assert.ok(oldName)
+  assert.ok(newName)
+  assert.deepEqual(findEventsForDate(createCivilDate(2013, 4, 21)).filter(({ id }) => id.startsWith('vietnam-book-')), [])
+  assert.deepEqual(findEventsForDate(createCivilDate(2014, 4, 21)).filter(({ id }) => id.startsWith('vietnam-book-')).map(({ id }) => id), ['vietnam-book-day-legacy'])
+  assert.deepEqual(findEventsForDate(createCivilDate(2021, 4, 21)).filter(({ id }) => id.startsWith('vietnam-book-')).map(({ id }) => id), ['vietnam-book-day-legacy'])
+  assert.deepEqual(findEventsForDate(createCivilDate(2022, 4, 21)).filter(({ id }) => id.startsWith('vietnam-book-')).map(({ id }) => id), ['vietnam-book-reading-culture-day'])
+  assert.deepEqual(findEventsForDate(createCivilDate(2026, 4, 21)).filter(({ id }) => id.startsWith('vietnam-book-')).map(({ id }) => id), ['vietnam-book-reading-culture-day'])
+})
+
 test('verified event data includes unique IDs, required metadata, and HTTPS URL syntax', () => {
   const ids = VERIFIED_EVENTS.map(({ id }) => id)
   assert.equal(new Set(ids).size, ids.length)
@@ -198,6 +216,18 @@ test('independent lunar references map Hạ Nguyên to the fifteenth day in 2025
   }
 })
 
+test('independent references verify Thất Tịch on 10 August 2024 and 19 August 2026', () => {
+  // VTV/TTXVN: https://vtv.vn/doi-song/hom-nay-ngay-that-tich-vi-sao-nen-an-che-dau-do-20240810134039121.htm
+  // VOV: https://vov.vn/doi-song/that-tich-2026-la-ngay-nao-thu-may-post1324704.vov
+  for (const solar of [createCivilDate(2024, 8, 10), createCivilDate(2026, 8, 19)]) {
+    assert.deepEqual(solarToVietnameseLunar(solar), {
+      year: solar.year, month: 7, day: 7, isLeapMonth: false,
+    })
+    assert.ok(findEventsForDate(solar).some(({ id }) => id === 'that-tich'))
+  }
+  assert.ok(!findEventsForDate(createCivilDate(2024, 8, 10)).some(({ id }) => id === 'ha-nguyen'))
+})
+
 test('verified production events cover the reported dates and retain category priority', () => {
   // 18/11/2026 = 10/10 lunar per https://amlichchuan.com/lich-am/2026-11-18;
   // 23/11/2026 = 15/10 lunar per https://amlichchuan.com/le/ram-thang-10/2026;
@@ -220,6 +250,36 @@ test('verified production events cover the reported dates and retain category pr
   assert.ok(ids(2026, 2, 14).includes('valentines-day'))
   assert.ok(ids(2025, 1, 28).includes('lunar-new-year-eve'))
   assert.deepEqual(ids(2025, 12, 4).filter((id) => id === 'ha-nguyen'), ['ha-nguyen'])
+})
+
+test('new nationally designated observances use their documented dates and effective years', () => {
+  // Day and naming anchors: Government Resolution 284/QĐ-TTg (old book-day name),
+  // Decision 1862/QĐ-TTg (replacement name), Law 29/2013/QH13, and MTTQ Resolution 04/NQ/ĐCT-MTTW.
+  const ids = (year: number, month: number, day: number) =>
+    findEventsForDate(createCivilDate(year, month, day)).map(({ id }) => id)
+  assert.ok(ids(2026, 2, 27).includes('vietnam-doctors-day'))
+  assert.ok(ids(2013, 5, 18).includes('vietnam-science-technology-day') === false)
+  assert.ok(ids(2014, 5, 18).includes('vietnam-science-technology-day'))
+  assert.ok(ids(2002, 11, 18).includes('vietnam-national-unity-day') === false)
+  assert.ok(ids(2003, 11, 18).includes('vietnam-national-unity-day'))
+  assert.ok(ids(2026, 11, 18).includes('vietnam-national-unity-day'))
+})
+
+test('independent lunar references place Thần Tài and Trung Nguyên without treating either as a statutory holiday', () => {
+  // VietnamNet: https://vietnamnet.vn/ngay-via-than-tai-la-ngay-nao-nam-2024-y-nghia-ngay-via-than-tai-2249346.html
+  // Lịch Âm Việt: https://lichamviet.com/le-tet/via-than-tai-2025/
+  // Cục Văn thư và Lưu trữ nhà nước: https://archives.org.vn/gioi-thieu-tai-lieu-nghiep-vu/tet-trung-nguyen-vu-lan-xa-toi-vog-nhan-nguon-goc-va-tam-thuc-dan-gian-viet.htm
+  // amlichchuan: https://amlichchuan.com/le/ram-thang-7/2026
+  for (const [year, month, day] of [[2024, 2, 19], [2025, 2, 7]] as const) {
+    const events = findEventsForDate(createCivilDate(year, month, day))
+    assert.ok(events.some(({ id }) => id === 'than-tai-day'))
+    assert.equal(events.find(({ id }) => id === 'than-tai-day')?.category, 'traditional')
+    assert.ok(!events.some(({ id }) => id === 'lunar-new-year-day-1'))
+  }
+  const midAutumn = findEventsForDate(createCivilDate(2026, 8, 27))
+  assert.deepEqual(midAutumn.filter(({ id }) => id === 'vu-lan' || id === 'trung-nguyen').map(({ id }) => id), ['vu-lan', 'trung-nguyen'])
+  assert.ok(midAutumn.every(({ category }) => category !== 'official_holiday'))
+  assert.equal(findEventsForDate(createCivilDate(2026, 8, 26)).some(({ id }) => id === 'trung-nguyen'), false)
 })
 
 test('all events present before the dataset expansion remain available', () => {

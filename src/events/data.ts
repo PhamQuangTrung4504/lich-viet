@@ -36,6 +36,15 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Tết ông Công, ông Táo: Sự tích và nét văn hóa', url: 'https://baochinhphu.vn/tet-ong-cong-ong-tao-su-tich-va-net-van-hoa-102215743.htm' }],
   },
   {
+    id: 'than-tai-day', title: 'Ngày vía Thần Tài', category: 'traditional',
+    rule: { type: 'lunar_fixed', month: 1, day: 10, leapMonthPolicy: 'regular_only' },
+    description: 'Ngày vía Thần Tài thường được tổ chức vào mùng 10 tháng Giêng, nhất là trong một số cộng đồng buôn bán. Tập tục và cách lý giải khác nhau theo vùng; đây không phải ngày nghỉ lễ.', sortOrder: 35,
+    sources: [
+      { publisher: 'Trung tâm Quản lý Bảo tồn Di sản Văn hóa Hội An', title: 'Tín ngưỡng thờ cúng thần Tài của người Hoa ở Hội An', url: 'https://hoianheritage.net/uploads/download/4-khanh-van.pdf' },
+      { publisher: 'Tuổi Trẻ', title: 'Mùng 10 tháng giêng: Ngày vía Thần Tài hay ngày vía Thần Đất?', url: 'https://tuoitre.vn/mung-10-thang-gieng-ngay-via-than-tai-hay-ngay-via-than-dat-20220211093522245.htm' },
+    ],
+  },
+  {
     id: 'han-thuc', title: 'Tết Hàn thực', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 3, day: 3, leapMonthPolicy: 'regular_only' },
     description: 'Theo phong tục ở một số vùng, dịp này gắn với bánh trôi, bánh chay và tưởng nhớ tổ tiên; tập tục không đồng nhất trên cả nước.', sortOrder: 27,
@@ -75,6 +84,30 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     sources: [{ publisher: 'Liên Hợp Quốc', title: 'World Water Day', url: 'https://www.un.org/en/yearbook/article/happy-world-water-day' }],
   },
   {
+    id: 'vietnam-doctors-day', title: 'Ngày Thầy thuốc Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 2, day: 27, startYear: 1985 },
+    description: 'Ngày 27/2 hằng năm tôn vinh đội ngũ y tế; mốc này gắn với bức thư Chủ tịch Hồ Chí Minh gửi Hội nghị cán bộ y tế ngày 27/2/1955 và được chính thức chọn làm ngày kỷ niệm năm 1985.', sortOrder: 51,
+    sources: [
+      { publisher: 'Bộ Y tế – Cục Dân số', title: 'Chúc mừng Ngày Thầy thuốc Việt Nam 27/02', url: 'https://vnpa.moh.gov.vn/chuc-mung-ngay-thay-thuoc-viet-nam-27-02/' },
+      { publisher: 'Hội đồng Bộ trưởng', title: 'Quyết định 39-HĐBT về Ngày Thầy thuốc Việt Nam', url: 'https://thuvienphapluat.vn/van-ban/The-thao-Y-te/Quyet-dinh-39-HDBT-ngay-Thay-thuoc-Viet-Nam-17756.aspx' },
+    ],
+  },
+  {
+    id: 'vietnam-book-day-legacy', title: 'Ngày Sách Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 4, day: 21, startYear: 2014, endYear: 2021 },
+    description: 'Ngày 21/4 được chọn là Ngày Sách Việt Nam theo Quyết định 284/QĐ-TTg năm 2014; tên gọi này được thay thế từ năm 2021.', sortOrder: 52,
+    sources: [{ publisher: 'Thủ tướng Chính phủ', title: 'Quyết định 284/QĐ-TTg về Ngày Sách Việt Nam', url: 'https://vanban.chinhphu.vn/default.aspx?docid=172490&pageid=27160' }],
+  },
+  {
+    id: 'vietnam-book-reading-culture-day', title: 'Ngày Sách và Văn hóa đọc Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 4, day: 21, startYear: 2022 },
+    description: 'Ngày 21/4 hằng năm khuyến khích phát triển văn hóa đọc; Quyết định 1862/QĐ-TTg năm 2021 đổi tên Ngày Sách Việt Nam thành Ngày Sách và Văn hóa đọc Việt Nam.', sortOrder: 52,
+    sources: [
+      { publisher: 'Thủ tướng Chính phủ', title: 'Quyết định 1862/QĐ-TTg về Ngày Sách và Văn hóa đọc Việt Nam', url: 'https://vanban.chinhphu.vn/default.aspx?docid=204408&pageid=27160' },
+      { publisher: 'Thủ tướng Chính phủ', title: 'Quyết định 284/QĐ-TTg về Ngày Sách Việt Nam', url: 'https://vanban.chinhphu.vn/default.aspx?docid=172490&pageid=27160' },
+    ],
+  },
+  {
     id: 'reunification-day', title: 'Ngày Giải phóng miền Nam, thống nhất đất nước', category: 'official_holiday',
     rule: { type: 'solar_fixed', month: 4, day: 30 },
     description: 'Ngày 30/4/1975 đánh dấu kết thúc chiến tranh và đất nước thống nhất; đây là ngày nghỉ lễ theo Bộ luật Lao động.', sortOrder: 80,
@@ -109,6 +142,15 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     rule: { type: 'lunar_fixed', month: 7, day: 15, leapMonthPolicy: 'regular_only' },
     description: 'Lễ báo hiếu trong Phật giáo, diễn ra vào Rằm tháng Bảy; tập tục và cách tổ chức có khác biệt giữa các truyền thống, địa phương.', sortOrder: 29,
     sources: [{ publisher: 'Ủy ban Nhà nước về người Việt Nam ở nước ngoài', title: 'Ý nghĩa của ngày lễ Vu Lan và pháp bố thí của Phật giáo', url: 'https://scov.gov.vn/ban-sac-van-hoa/gioi-thieu-ban-sac-van-hoa/y-nghia-cua-ngay-le-vu-lan-va-phap-bo-thi-cua-phat-giao.html' }],
+  },
+  {
+    id: 'trung-nguyen', title: 'Tết Trung Nguyên', category: 'traditional',
+    rule: { type: 'lunar_fixed', month: 7, day: 15, leapMonthPolicy: 'regular_only' },
+    description: 'Tiết Trung Nguyên vào Rằm tháng Bảy có nguồn gốc Đạo giáo; tại Việt Nam, thực hành Trung Nguyên, Vu Lan và Xá tội vong nhân giao thoa nhưng nghi thức, cách hiểu khác nhau theo tôn giáo và địa phương.', sortOrder: 30,
+    sources: [
+      { publisher: 'Cục Văn thư và Lưu trữ nhà nước', title: 'Tiết Trung nguyên, Vu lan, Xá tội vong nhân: nguồn gốc và tâm thức dân gian Việt', url: 'https://archives.org.vn/gioi-thieu-tai-lieu-nghiep-vu/tet-trung-nguyen-vu-lan-xa-toi-vog-nhan-nguon-goc-va-tam-thuc-dan-gian-viet.htm' },
+      { publisher: 'Tuổi Trẻ', title: 'Tết Trung nguyên, Vu Lan, Xá tội vong nhân trong tín ngưỡng Việt', url: 'https://tuoitre.vn/dulichtphcm/tet-trung-nguyen-vu-lan-xa-toi-vong-nhan-trong-tin-nguong-viet-10759329.htm' },
+    ],
   },
   {
     id: 'that-tich', title: 'Thất Tịch (Lễ Ngâu)', category: 'traditional',
@@ -176,6 +218,15 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     rule: { type: 'solar_fixed', month: 5, day: 19, startYear: 1890 },
     description: 'Ngày sinh Chủ tịch Hồ Chí Minh (19/5/1890), được ghi nhớ hằng năm qua các hoạt động tưởng niệm và tìm hiểu di sản của Người.', sortOrder: 36,
     sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Chủ tịch nước dâng hương tưởng nhớ Chủ tịch Hồ Chí Minh', url: 'https://baochinhphu.vn/chu-tich-nuoc-nguyen-xuan-phuc-dang-huong-tuong-nho-chu-tich-ho-chi-minh-102292572.htm' }],
+  },
+  {
+    id: 'vietnam-science-technology-day', title: 'Ngày Khoa học và Công nghệ Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 5, day: 18, startYear: 2014 },
+    description: 'Ngày 18/5 hằng năm tôn vinh khoa học, công nghệ và những người làm khoa học; Điều 7 Luật Khoa học và Công nghệ 2013 quy định ngày này.', sortOrder: 53,
+    sources: [
+      { publisher: 'Quốc hội', title: 'Luật Khoa học và Công nghệ 29/2013/QH13, Điều 7', url: 'https://vbpl.moj.gov.vn/bovanhoathethao/Pages/vbpq-toanvan.aspx?ItemID=32522' },
+      { publisher: 'Bộ Khoa học và Công nghệ', title: 'Hướng dẫn tổ chức kỷ niệm Ngày KH&CN Việt Nam năm 2023', url: 'https://www.most.gov.vn/Images/editor/files/CV%20961_BKHCN_VP%20_7_4.pdf' },
+    ],
   },
   {
     id: 'dien-bien-phu-victory-day', title: 'Ngày Chiến thắng Điện Biên Phủ', category: 'commemoration',
@@ -266,6 +317,12 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     rule: { type: 'solar_fixed', month: 11, day: 20, startYear: 1954 },
     description: 'Ngày 20/11 gắn với việc Đại hội đồng Liên Hợp Quốc thông qua Tuyên ngôn Quyền Trẻ em năm 1959 và Công ước Quyền Trẻ em năm 1989.', sortOrder: 230,
     sources: [{ publisher: 'Liên Hợp Quốc', title: 'World Children’s Day: Background', url: 'https://www.un.org/en/observances/world-childrens-day/background' }],
+  },
+  {
+    id: 'vietnam-national-unity-day', title: 'Ngày hội Đại đoàn kết toàn dân tộc', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 11, day: 18, startYear: 2003 },
+    description: 'Ngày hội được Mặt trận Tổ quốc Việt Nam chọn tổ chức hằng năm vào dịp 18/11 để ôn truyền thống Mặt trận và thúc đẩy đoàn kết tại khu dân cư; hoạt động cụ thể do cộng đồng tổ chức.', sortOrder: 54,
+    sources: [{ publisher: 'Ủy ban Trung ương Mặt trận Tổ quốc Việt Nam', title: 'Nghị quyết 04/NQ/ĐCT-MTTW về tổ chức Ngày hội Đại đoàn kết toàn dân tộc', url: 'https://mattran.org.vn/hoat-dong/mot-so-van-de-ly-luan-ve-to-chuc-ngay-hoi-dai-doan-ket-toan-dan-toc-trong-giai-doan-moi-51227.html' }],
   },
   {
     id: 'vietnamese-teachers-day', title: 'Ngày Nhà giáo Việt Nam', category: 'commemoration',
