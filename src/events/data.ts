@@ -6,18 +6,28 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'new-year-day', title: 'Tết Dương lịch', category: 'official_holiday',
     rule: { type: 'solar_fixed', month: 1, day: 1 },
     description: 'Tết Dương lịch mở đầu năm mới theo lịch Gregory. Nhiều người đón thời khắc chuyển năm cùng gia đình hoặc tại các sự kiện cộng đồng; ở Việt Nam đây là ngày nghỉ lễ theo luật.', sortOrder: 10,
+    details: {
+      significance: 'Ở Việt Nam, ngày 1/1 là ngày nghỉ lễ hưởng nguyên lương theo Bộ luật Lao động. Đây là một trong các ngày lễ tính theo lịch Gregory, không theo lịch âm.',
+    },
     sources: [{ publisher: 'Chính phủ Việt Nam', title: 'Bộ luật Lao động 45/2019/QH14, Điều 112', url: 'https://vanban.chinhphu.vn/?docid=198540&pageid=27160' }],
   },
   {
     id: 'lunar-new-year-day-1', title: 'Mùng 1 Tết Nguyên đán', category: 'official_holiday',
     rule: { type: 'lunar_fixed', month: 1, day: 1, leapMonthPolicy: 'regular_only' },
     description: 'Mùng 1 Tết mở đầu năm mới âm lịch và là dịp sum họp quan trọng của nhiều gia đình Việt. Mọi người thường chúc Tết, thăm hỏi người thân và tưởng nhớ tổ tiên; kỳ nghỉ cụ thể được công bố theo từng năm.', sortOrder: 20,
+    details: {
+      significance: 'Tết Nguyên đán mở đầu năm âm lịch và là dịp nghỉ lễ dài ngày theo luật. Ngày nghỉ cụ thể từng năm do cơ quan có thẩm quyền công bố.',
+      customs: 'Nhiều gia đình chuẩn bị bữa cơm đầu năm, chúc Tết và thăm hỏi người thân; cách đón Tết có khác biệt theo vùng và gia đình.',
+    },
     sources: [{ publisher: 'Chính phủ Việt Nam', title: 'Bộ luật Lao động 45/2019/QH14, Điều 112', url: 'https://vanban.chinhphu.vn/?docid=198540&pageid=27160' }],
   },
   {
     id: 'lunar-new-year-eve', title: 'Giao thừa Tết Nguyên đán', category: 'traditional',
     rule: { type: 'lunar_month_end', month: 12 },
     description: 'Giao thừa là thời khắc chuyển từ ngày cuối tháng Chạp sang mùng 1 Tết. Nhiều gia đình làm lễ đón năm mới và quây quần bên nhau; tháng Chạp kết thúc vào ngày 29 hoặc 30 tùy năm.', sortOrder: 25,
+    details: {
+      customs: 'Ở nhiều gia đình, lễ cúng giao thừa được thực hiện vào thời khắc chuyển năm, sau đó các thành viên chúc Tết và sum họp. Nghi thức và lễ vật tùy phong tục từng nhà, từng địa phương.',
+    },
     sources: [
       { publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Các phong tục Tết cổ truyền tại các quốc gia châu Á', url: 'https://baochinhphu.vn/cac-phong-tuc-tet-co-truyen-tai-cac-quoc-gia-chau-a-102179307.htm' },
       { publisher: 'Đài Tiếng nói Việt Nam', title: 'Vì sao 8 năm liền kể từ 2025, Tết Nguyên đán không có ngày 30 Tết?', url: 'https://vov.gov.vn/vi-sao-8-nam-lien-ke-tu-2025-tet-nguyen-dan-khong-co-ngay-30-tet-dtnew-1045532' },
@@ -343,12 +353,20 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'ho-chi-minh-birthday', title: 'Ngày sinh Chủ tịch Hồ Chí Minh', category: 'commemoration',
     rule: { type: 'solar_fixed', month: 5, day: 19, startYear: 1890 },
     description: 'Ngày 19/5/1890 là ngày sinh Chủ tịch Hồ Chí Minh. Hằng năm, người dân tưởng niệm và tìm hiểu về cuộc đời, sự nghiệp cùng những dấu ấn của ông trong lịch sử Việt Nam hiện đại.', sortOrder: 36,
+    details: {
+      origin: 'Hồ Chí Minh sinh ngày 19/5/1890 tại làng Hoàng Trù, huyện Nam Đàn, tỉnh Nghệ An. Ngày sinh được dùng làm mốc kỷ niệm hằng năm.',
+      significance: 'Các hoạt động kỷ niệm thường gắn với việc tìm hiểu cuộc đời và vai trò của ông trong lịch sử Việt Nam thế kỷ XX.',
+    },
     sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Chủ tịch nước dâng hương tưởng nhớ Chủ tịch Hồ Chí Minh', url: 'https://baochinhphu.vn/chu-tich-nuoc-nguyen-xuan-phuc-dang-huong-tuong-nho-chu-tich-ho-chi-minh-102292572.htm' }],
   },
   {
     id: 'vietnam-science-technology-day', title: 'Ngày Khoa học và Công nghệ Việt Nam', category: 'commemoration',
     rule: { type: 'solar_fixed', month: 5, day: 18, startYear: 2014, endYear: 2025 },
     description: 'Từ năm 2014 đến kỳ kỷ niệm tháng 5/2025, ngày 18/5 mang tên Ngày Khoa học và Công nghệ Việt Nam. Dịp này tôn vinh đóng góp của giới nghiên cứu và khuyến khích ứng dụng khoa học vào đời sống.', sortOrder: 53,
+    details: {
+      origin: 'Luật Khoa học và Công nghệ năm 2013 chọn ngày 18/5 hằng năm làm Ngày Khoa học và Công nghệ Việt Nam; lần đầu được tổ chức năm 2014.',
+      significance: 'Dịp này ghi nhận đóng góp của người làm khoa học, công nghệ và khuyến khích đưa kết quả nghiên cứu vào sản xuất, đời sống.',
+    },
     sources: [
       { publisher: 'Quốc hội', title: 'Luật Khoa học và Công nghệ 29/2013/QH13, Điều 7', url: 'https://vbpl.moj.gov.vn/bovanhoathethao/Pages/vbpq-toanvan.aspx?ItemID=32522' },
       { publisher: 'Bộ Khoa học và Công nghệ', title: 'Hướng dẫn tổ chức kỷ niệm Ngày KH&CN Việt Nam năm 2023', url: 'https://www.most.gov.vn/Images/editor/files/CV%20961_BKHCN_VP%20_7_4.pdf' },
@@ -358,6 +376,10 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'vietnam-science-technology-innovation-day', title: 'Ngày Khoa học, Công nghệ và Đổi mới sáng tạo Việt Nam', category: 'commemoration',
     rule: { type: 'solar_fixed', month: 5, day: 18, startYear: 2026 },
     description: 'Từ năm 2026, ngày 18/5 mang tên Ngày Khoa học, Công nghệ và Đổi mới sáng tạo Việt Nam. Dịp này ghi nhận đóng góp của hoạt động nghiên cứu, ứng dụng công nghệ và đổi mới sáng tạo.', sortOrder: 53,
+    details: {
+      origin: 'Luật Khoa học, Công nghệ và Đổi mới sáng tạo năm 2025 đổi tên ngày 18/5; tên mới được áp dụng từ kỳ kỷ niệm năm 2026.',
+      significance: 'Tên gọi mở rộng phạm vi ghi nhận từ khoa học và công nghệ sang cả hoạt động đổi mới sáng tạo.',
+    },
     sources: [
       { publisher: 'Quốc hội', title: 'Luật 93/2025/QH15, Điều 7', url: 'https://chinhphu.vn/?classid=1&docid=214603&orggroupid=1&pageid=27160' },
       { publisher: 'Cục Điện lực - Bộ Công Thương', title: 'Ngày 18/5 chính thức trở thành Ngày Khoa học, Công nghệ và Đổi mới sáng tạo Việt Nam', url: 'https://eav.gov.vn/d/vi-VN/news-o/Ngay-185-chinh-thuc-tro-thanh-Ngay-Khoa-hoc-Cong-nghe-va-Doi-moi-sang-tao-Viet-Nam-60-38-59081' },
@@ -433,14 +455,29 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     sources: [{ publisher: 'UNESCO', title: 'International Literacy Day', url: 'https://www.unesco.org/en/days/literacy' }],
   },
   {
+    id: 'international-day-of-peace-2000', title: 'Ngày Quốc tế Hòa bình', category: 'international',
+    rule: { type: 'year_specific', date: { year: 2000, month: 9, day: 19 } },
+    description: 'Năm 2000, ngày kỷ niệm của Liên Hợp Quốc rơi vào thứ Ba tuần thứ ba của tháng 9, theo quy tắc khi đó.', sortOrder: 189,
+    sources: [{ publisher: 'Liên Hợp Quốc', title: 'Lịch sử Ngày Quốc tế Hòa bình', url: 'https://www.un.org/en/peaceandsecurity/the-history-of-the-international-day-of-peace' }],
+  },
+  {
+    id: 'international-day-of-peace-2001', title: 'Ngày Quốc tế Hòa bình', category: 'international',
+    rule: { type: 'year_specific', date: { year: 2001, month: 9, day: 14 } },
+    description: 'Năm 2001, Liên Hợp Quốc dời lễ kỷ niệm tại trụ sở sang ngày 14/9 sau vụ tấn công ngày 11/9.', sortOrder: 189,
+    sources: [{ publisher: 'Liên Hợp Quốc', title: 'Lịch sử Ngày Quốc tế Hòa bình', url: 'https://www.un.org/en/peaceandsecurity/the-history-of-the-international-day-of-peace' }],
+  },
+  {
     id: 'international-day-of-peace', title: 'Ngày Quốc tế Hòa bình', category: 'international',
-    rule: { type: 'solar_fixed', month: 9, day: 21 },
+    rule: { type: 'solar_fixed', month: 9, day: 21, startYear: 2002 },
     description: 'Ngày Quốc tế Hòa bình là dịp nhấn mạnh việc xây dựng hòa bình và chấm dứt bạo lực. Liên Hợp Quốc chọn ngày 21/9 làm ngày ngừng bắn và bất bạo động trên toàn cầu.', sortOrder: 190,
     details: {
       origin: 'Đại hội đồng Liên Hợp Quốc lập ngày kỷ niệm này năm 1981; đến năm 2001, ngày 21/9 được ấn định hằng năm và gắn với lời kêu gọi ngừng bắn, bất bạo động.',
       significance: 'Dịp này khuyến khích giáo dục về hòa bình và sự hợp tác giữa cộng đồng, quốc gia.',
     },
-    sources: [{ publisher: 'Liên Hợp Quốc', title: 'International Day of Peace', url: 'https://www.un.org/observances/international-day-peace' }],
+    sources: [
+      { publisher: 'Liên Hợp Quốc', title: 'International Day of Peace', url: 'https://www.un.org/observances/international-day-peace' },
+      { publisher: 'Thư viện số Liên Hợp Quốc', title: 'Nghị quyết A/RES/55/282', url: 'https://digitallibrary.un.org/record/447991' },
+    ],
   },
   {
     id: 'mid-autumn-festival', title: 'Tết Trung thu', category: 'traditional',
@@ -540,6 +577,10 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'vietnam-culture-day', title: 'Ngày Văn hóa Việt Nam', category: 'official_holiday',
     rule: { type: 'solar_fixed', month: 11, day: 24, startYear: 2026 },
     description: 'Ngày Văn hóa Việt Nam là dịp tôn vinh các giá trị văn hóa và khuyến khích người dân tham gia hoạt động văn hóa. Từ năm 2026, ngày 24/11 là ngày nghỉ lễ hưởng nguyên lương tại Việt Nam.', sortOrder: 250,
+    details: {
+      origin: 'Nghị quyết 28/2026/QH16 chọn ngày 24/11 hằng năm là Ngày Văn hóa Việt Nam, đồng thời quy định đây là ngày nghỉ hưởng nguyên lương.',
+      significance: 'Ngày này dành để tôn vinh giá trị văn hóa Việt Nam và khuyến khích người dân tham gia, thụ hưởng các hoạt động văn hóa.',
+    },
     sources: [{ publisher: 'Chính phủ Việt Nam', title: 'Nghị quyết 28/2026/QH16', url: 'https://vanban.chinhphu.vn/?docid=218008&pageid=27160' }],
   },
   {
@@ -566,12 +607,20 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'vietnam-peoples-army-day', title: 'Ngày thành lập Quân đội nhân dân Việt Nam', category: 'commemoration',
     rule: { type: 'solar_fixed', month: 12, day: 22, startYear: 1944 },
     description: 'Ngày 22/12/1944, Đội Việt Nam Tuyên truyền Giải phóng quân — tiền thân của Quân đội nhân dân Việt Nam — được thành lập tại Cao Bằng.', sortOrder: 280,
+    details: {
+      origin: 'Đội Việt Nam Tuyên truyền Giải phóng quân thành lập ngày 22/12/1944 tại khu rừng Trần Hưng Đạo, Cao Bằng. Đội là tiền thân của Quân đội nhân dân Việt Nam.',
+      significance: 'Ngày 22/12 đồng thời là ngày hội quốc phòng toàn dân, gắn với hoạt động tri ân và tìm hiểu lịch sử quân đội.',
+    },
     sources: [{ publisher: 'Bộ Quốc phòng Việt Nam', title: 'Lịch sử hình thành và phát triển Quân đội nhân dân Việt Nam', url: 'https://www.mod.gov.vn/home/detail?current=true&urile=wcm%3Apath%3A%2Fmod%2Fsa-mod-site%2Fsa-qdndvn%2Fsa-qdndvn-child%2Fsa-qdndvn-gt%2Flich-su-hinh-thanh-va-phat-trien' }],
   },
   {
     id: 'national-resistance-day', title: 'Ngày Toàn quốc kháng chiến', category: 'commemoration',
     rule: { type: 'solar_fixed', month: 12, day: 19, startYear: 1946 },
     description: 'Ngày 19/12/1946, Chủ tịch Hồ Chí Minh ra Lời kêu gọi Toàn quốc kháng chiến, mở đầu cuộc kháng chiến toàn quốc chống thực dân Pháp.', sortOrder: 40,
+    details: {
+      origin: 'Tối 19/12/1946, Chủ tịch Hồ Chí Minh ra Lời kêu gọi Toàn quốc kháng chiến trong bối cảnh xung đột Việt–Pháp lan rộng sau Cách mạng Tháng Tám.',
+      significance: 'Đây là dấu mốc mở đầu cuộc kháng chiến toàn quốc, được tưởng niệm trong lịch sử hiện đại Việt Nam.',
+    },
     sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Chủ tịch Hồ Chí Minh với ngày Toàn quốc kháng chiến', url: 'https://baochinhphu.vn/chu-tich-ho-chi-minh-voi-ngay-toan-quoc-khang-chien-102213564.htm' }],
   },
   {
@@ -609,8 +658,21 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Kỷ niệm Ngày truyền thống Bộ đội Biên phòng và Ngày Biên phòng toàn dân', url: 'https://tiengchuong.chinhphu.vn/nhieu-hoat-dong-ky-niem-60-nam-ngay-truyen-thong-bo-doi-bien-phong-11327668.htm' }],
   },
   {
+    id: 'vietnam-all-people-border-day-legacy', title: 'Ngày Biên phòng', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 3, day: 3, startYear: 2000, endYear: 2003 },
+    description: 'Từ năm 1989 đến hết năm 2003, ngày 3/3 mang tên Ngày Biên phòng. Luật Biên giới quốc gia đổi tên dịp này thành Ngày Biên phòng toàn dân từ năm 2004.', sortOrder: 35,
+    details: {
+      origin: 'Quyết định 16/HĐBT năm 1989 lấy ngày 3/3 hằng năm là Ngày Biên phòng. Luật Biên giới quốc gia năm 2003 dùng tên Ngày Biên phòng toàn dân và có hiệu lực từ ngày 1/1/2004.',
+      significance: 'Dịp này vận động sự tham gia của chính quyền, lực lượng và người dân trong xây dựng, bảo vệ biên giới.',
+    },
+    sources: [
+      { publisher: 'Hội đồng Bộ trưởng', title: 'Quyết định 16/HĐBT về việc tổ chức Ngày Biên phòng 3/3 hằng năm', url: 'https://chinhphu.vn/default.aspx?docid=4364&pageid=27160' },
+      { publisher: 'Quốc hội', title: 'Luật Biên giới quốc gia 06/2003/QH11', url: 'https://chinhphu.vn/default.aspx?docid=93588&pageid=27160' },
+    ],
+  },
+  {
     id: 'vietnam-all-people-border-day', title: 'Ngày Biên phòng toàn dân', category: 'commemoration',
-    rule: { type: 'solar_fixed', month: 3, day: 3, startYear: 1989 },
+    rule: { type: 'solar_fixed', month: 3, day: 3, startYear: 2004 },
     description: 'Ngày Biên phòng toàn dân khuyến khích sự tham gia của chính quyền, lực lượng vũ trang và người dân trong xây dựng, bảo vệ biên giới. Ngày này được phát động từ năm 1989, cùng ngày với ngày truyền thống Bộ đội Biên phòng.', sortOrder: 35,
     details: {
       origin: 'Ngày 3/3/1989 được chọn làm Ngày Biên phòng toàn dân. Mốc này khác với ngày thành lập lực lượng Bộ đội Biên phòng năm 1959, dù hai dịp cùng được nhắc đến vào ngày 3/3.',
@@ -620,13 +682,16 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
   },
   {
     id: 'vietnam-consumer-rights-day', title: 'Ngày Quyền của người tiêu dùng Việt Nam', category: 'commemoration',
-    rule: { type: 'solar_fixed', month: 3, day: 15, startYear: 2015 },
+    rule: { type: 'solar_fixed', month: 3, day: 15, startYear: 2016 },
     description: 'Ngày Quyền của người tiêu dùng Việt Nam nhấn mạnh quyền lợi người mua và trách nhiệm của cơ quan quản lý, doanh nghiệp cùng cộng đồng. Các hoạt động hằng năm thường phổ biến kiến thức và khuyến khích tiêu dùng an toàn, có trách nhiệm.', sortOrder: 36,
     details: {
       origin: 'Thủ tướng Chính phủ chọn ngày 15/3 hằng năm làm Ngày Quyền của người tiêu dùng Việt Nam theo Quyết định 1035/QĐ-TTg năm 2015.',
       significance: 'Dịp này tạo điểm nhấn cho công tác bảo vệ quyền lợi người tiêu dùng và thúc đẩy sự tham gia của doanh nghiệp, tổ chức xã hội và người dân.',
     },
-    sources: [{ publisher: 'Bộ Công Thương', title: 'Quyết định của Thủ tướng Chính phủ về Ngày Quyền của người tiêu dùng Việt Nam', url: 'https://moit.gov.vn/tin-tuc/hoat-dong/quyet-dinh-cua-thu-tuong-chinh-phu-ve-ngay-quyen-cua-nguoi-t2.html' }],
+    sources: [
+      { publisher: 'Thủ tướng Chính phủ', title: 'Quyết định 1035/QĐ-TTg về Ngày Quyền của người tiêu dùng Việt Nam', url: 'https://vanban.chinhphu.vn/default.aspx?docid=180513&pageid=27160' },
+      { publisher: 'Bộ Công Thương', title: 'Bộ Công Thương ban hành kế hoạch tổ chức Ngày Quyền của người tiêu dùng Việt Nam', url: 'https://moit.gov.vn/tin-tuc/hoat-dong/bo-cong-thuong-ban-hanh-ke-hoach-to-chuc-ngay-quyen-nguoi-ti2.html' },
+    ],
   },
   {
     id: 'vietnam-sports-day', title: 'Ngày Thể thao Việt Nam', category: 'commemoration',
@@ -872,5 +937,78 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
       { publisher: 'Liên Hợp Quốc', title: 'International Volunteer Day', url: 'https://www.un.org/observances/volunteer-day' },
       { publisher: 'Thư viện số Liên Hợp Quốc', title: 'Nghị quyết A/RES/40/212', url: 'https://digitallibrary.un.org/record/113305' },
     ],
+  },
+  {
+    id: 'vietnam-cultural-heritage-day', title: 'Ngày Di sản văn hóa Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 11, day: 23, startYear: 2005 },
+    description: 'Ngày Di sản văn hóa Việt Nam khuyến khích cộng đồng tham gia bảo vệ và phát huy giá trị di sản. Ngày 23/11 được chọn năm 2005, cùng ngày Sắc lệnh đầu tiên về bảo tồn cổ tích được ban hành năm 1945.', sortOrder: 62,
+    details: {
+      origin: 'Ngày 23/11/1945, Chủ tịch Hồ Chí Minh ký Sắc lệnh 65 về nhiệm vụ bảo tồn cổ tích. Năm 2005, Thủ tướng Chính phủ chọn ngày này làm Ngày Di sản văn hóa Việt Nam.',
+      significance: 'Dịp này ghi nhận trách nhiệm bảo vệ, gìn giữ và phát huy di sản văn hóa; các cơ quan văn hóa, bảo tàng và địa phương thường tổ chức hoạt động tìm hiểu di sản.',
+    },
+    sources: [
+      { publisher: 'Cục Di sản văn hóa', title: 'Quyết định 36/2005/QĐ-TTg về Ngày Di sản văn hóa Việt Nam', url: 'https://dsvh.gov.vn/quyet-dinh-cua-thu-tuong-chinh-phu-ve-%E2%80%9Cngay-di-san-van-hoa-viet-nam%E2%80%9D-1668' },
+      { publisher: 'Chính phủ Việt Nam', title: 'Sắc lệnh số 65 ngày 23/11/1945', url: 'https://vanban.chinhphu.vn/default.aspx?docid=477&pageid=27160' },
+    ],
+  },
+  {
+    id: 'vietnam-fire-safety-day-legacy', title: 'Ngày phòng cháy, chữa cháy toàn dân', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 10, day: 4, startYear: 2000, endYear: 2000 },
+    description: 'Năm 2000, ngày 4/10 được gọi là Ngày phòng cháy, chữa cháy toàn dân theo quyết định của Thủ tướng Chính phủ năm 1996.', sortOrder: 63,
+    details: {
+      origin: 'Quyết định 369/TTg năm 1996 lấy ngày 4/10 hằng năm là ngày phòng cháy, chữa cháy toàn dân. Luật năm 2001 chuẩn hóa tên thành Ngày toàn dân phòng cháy và chữa cháy.',
+      significance: 'Dịp này dành cho hoạt động tuyên truyền, vận động cơ quan và người dân quan tâm đến công tác phòng cháy, chữa cháy.',
+    },
+    sources: [{ publisher: 'Thủ tướng Chính phủ', title: 'Quyết định 369/TTg về ngày 4/10 hằng năm', url: 'https://vanban.chinhphu.vn/default.aspx?docid=3211&pageid=27160' }],
+  },
+  {
+    id: 'vietnam-national-fire-prevention-day', title: 'Ngày toàn dân phòng cháy và chữa cháy', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 10, day: 4, startYear: 2001, endYear: 2024 },
+    description: 'Từ năm 2001 đến 2024, ngày 4/10 mang tên Ngày toàn dân phòng cháy và chữa cháy theo Luật Phòng cháy và chữa cháy.', sortOrder: 63,
+    details: {
+      origin: 'Điều 11 Luật Phòng cháy và chữa cháy năm 2001 quy định ngày 4/10 hằng năm là Ngày toàn dân phòng cháy và chữa cháy.',
+      significance: 'Ngày kỷ niệm nhấn mạnh trách nhiệm phòng ngừa và tham gia công tác phòng cháy, chữa cháy của các cơ quan, tổ chức và người dân.',
+    },
+    sources: [{ publisher: 'Quốc hội', title: 'Luật Phòng cháy và Chữa cháy 27/2001/QH10, Điều 11', url: 'https://vanban.chinhphu.vn/?docid=80179&pageid=27160' }],
+  },
+  {
+    id: 'vietnam-fire-rescue-day', title: 'Ngày toàn dân phòng cháy, chữa cháy, cứu nạn, cứu hộ', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 10, day: 4, startYear: 2025 },
+    description: 'Từ năm 2025, tên ngày 4/10 được bổ sung nội dung cứu nạn, cứu hộ theo luật mới có hiệu lực từ ngày 1/7/2025.', sortOrder: 63,
+    details: {
+      origin: 'Luật Phòng cháy, chữa cháy và cứu nạn, cứu hộ năm 2024 đổi tên ngày 4/10 thành Ngày toàn dân phòng cháy, chữa cháy, cứu nạn, cứu hộ; luật có hiệu lực từ 1/7/2025.',
+      significance: 'Dịp này nhắc đến trách nhiệm chủ động phòng ngừa cháy, nổ và sẵn sàng ứng phó tai nạn, sự cố.',
+    },
+    sources: [{ publisher: 'Quốc hội', title: 'Luật Phòng cháy, chữa cháy và cứu nạn, cứu hộ 55/2024/QH15, Điều 12', url: 'https://vanban.chinhphu.vn/?classid=1&docid=212483&pageid=27160&typegroupid=3' }],
+  },
+  {
+    id: 'vietnam-anti-drug-day', title: 'Ngày Toàn dân phòng, chống ma túy', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 6, day: 26, startYear: 2001 },
+    description: 'Ngày 26/6 là dịp vận động cộng đồng cùng tham gia phòng, chống ma túy. Thủ tướng Chính phủ chọn ngày này năm 2001, cùng với tháng 6 là Tháng hành động phòng, chống ma túy.', sortOrder: 64,
+    details: {
+      origin: 'Quyết định 93/2001/QĐ-TTg chọn ngày 26/6 hằng năm là Ngày Toàn dân phòng, chống ma túy và tháng 6 là Tháng hành động phòng, chống ma túy.',
+      significance: 'Các hoạt động tập trung phổ biến tác hại của ma túy, vận động phòng ngừa và huy động sự tham gia của cộng đồng.',
+    },
+    sources: [{ publisher: 'Thủ tướng Chính phủ', title: 'Quyết định 93/2001/QĐ-TTg về Ngày Toàn dân phòng, chống ma túy', url: 'https://chinhphu.vn/default.aspx?docid=9124&pageid=27160' }],
+  },
+  {
+    id: 'vietnam-voluntary-blood-donation-day', title: 'Ngày Toàn dân hiến máu tình nguyện', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 4, day: 7, startYear: 2000 },
+    description: 'Ngày 7/4 ghi nhận và vận động hiến máu tình nguyện, góp phần duy trì nguồn máu cho cấp cứu và điều trị. Ngày này được chọn năm 2000, trùng Ngày Sức khỏe Thế giới.', sortOrder: 65,
+    details: {
+      origin: 'Quyết định 43/2000/QĐ-TTg lấy ngày 7/4 hằng năm là Ngày Toàn dân hiến máu tình nguyện. Quyết định được ký nhân Ngày Sức khỏe Thế giới năm 2000.',
+      significance: 'Ngày này đề cao nguồn máu hiến tự nguyện và sự tham gia thường xuyên của cộng đồng để hỗ trợ người bệnh.',
+    },
+    sources: [{ publisher: 'Viện Huyết học – Truyền máu Trung ương', title: '22 năm Ngày Toàn dân hiến máu tình nguyện 7/4', url: 'https://vienhuyethoc.vn/22-nam-ngay-toan-dan-hien-mau-tinh-nguyen-7-4/' }],
+  },
+  {
+    id: 'vietnam-poetry-day', title: 'Ngày Thơ Việt Nam', category: 'commemoration',
+    rule: { type: 'lunar_fixed', month: 1, day: 15, leapMonthPolicy: 'regular_only', startYear: 2003 },
+    description: 'Ngày Thơ Việt Nam diễn ra vào Rằm tháng Giêng và là dịp gặp gỡ của người làm thơ, người yêu thơ cùng công chúng. Hội Nhà văn Việt Nam tổ chức ngày thơ đầu tiên vào năm 2003.', sortOrder: 66,
+    details: {
+      origin: 'Hội Nhà văn Việt Nam tổ chức Ngày Thơ Việt Nam lần đầu năm 2003 vào Rằm tháng Giêng, gắn với bài thơ Nguyên tiêu của Chủ tịch Hồ Chí Minh.',
+      significance: 'Các chương trình thường có đọc thơ, giao lưu và giới thiệu tác phẩm; hình thức tổ chức thay đổi theo từng năm và địa phương.',
+    },
+    sources: [{ publisher: 'Hội Nhà văn Việt Nam', title: 'Ngày xuân trẩy hội thi ca', url: 'https://vanvn.vn/ngay-xuan-tray-hoi-thi-ca/' }],
   },
 ]

@@ -10,6 +10,7 @@ type Candidate = {
   readonly expectedRule: string
   readonly status: CandidateStatus
   readonly aliases?: readonly string[]
+  readonly occasionKey?: string
   readonly reviewNote?: string
 }
 
@@ -55,7 +56,9 @@ const CANDIDATES: readonly Candidate[] = [
   { id: 'august-revolution-day', title: 'Ngày Cách mạng Tháng Tám', category: 'commemoration', expectedRule: 'solar:8:19:start=1945', status: 'approved' },
   { id: 'national-day', title: 'Quốc khánh Việt Nam', category: 'official_holiday', expectedRule: 'solar:9:2', status: 'approved' },
   { id: 'international-literacy-day', title: 'Ngày Quốc tế Xóa mù chữ', category: 'international', expectedRule: 'solar:9:8', status: 'approved' },
-  { id: 'international-day-of-peace', title: 'Ngày Quốc tế Hòa bình', category: 'international', expectedRule: 'solar:9:21', status: 'approved' },
+  { id: 'international-day-of-peace-2000', title: 'Ngày Quốc tế Hòa bình', category: 'international', expectedRule: 'year_specific:2000-9-19', status: 'approved', occasionKey: 'international-day-of-peace' },
+  { id: 'international-day-of-peace-2001', title: 'Ngày Quốc tế Hòa bình', category: 'international', expectedRule: 'year_specific:2001-9-14', status: 'approved', occasionKey: 'international-day-of-peace' },
+  { id: 'international-day-of-peace', title: 'Ngày Quốc tế Hòa bình', category: 'international', expectedRule: 'solar:9:21:start=2002', status: 'approved', occasionKey: 'international-day-of-peace' },
   { id: 'mid-autumn-festival', title: 'Tết Trung thu', category: 'traditional', expectedRule: 'lunar:8:15:regular_only', status: 'approved', aliases: ['Tết Trông Trăng', 'Tết Đoàn Viên'] },
   { id: 'trung-cuu', title: 'Tết Trùng Cửu (Trùng Dương)', category: 'traditional', expectedRule: 'lunar:9:9:regular_only', status: 'approved' },
   { id: 'hanoi-liberation-day', title: 'Ngày Giải phóng Thủ đô', category: 'commemoration', expectedRule: 'solar:10:10:start=1954', status: 'approved' },
@@ -73,8 +76,9 @@ const CANDIDATES: readonly Candidate[] = [
   { id: 'christmas-day', title: 'Lễ Giáng sinh', category: 'international', expectedRule: 'solar:12:25', status: 'approved' },
   { id: 'vietnam-students-day', title: 'Ngày truyền thống Học sinh, Sinh viên Việt Nam', category: 'commemoration', expectedRule: 'solar:1:9:start=1950', status: 'approved' },
   { id: 'vietnam-border-guard-traditional-day', title: 'Ngày truyền thống Bộ đội Biên phòng', category: 'commemoration', expectedRule: 'solar:3:3:start=1959', status: 'approved' },
-  { id: 'vietnam-all-people-border-day', title: 'Ngày Biên phòng toàn dân', category: 'commemoration', expectedRule: 'solar:3:3:start=1989', status: 'approved' },
-  { id: 'vietnam-consumer-rights-day', title: 'Ngày Quyền của người tiêu dùng Việt Nam', category: 'commemoration', expectedRule: 'solar:3:15:start=2015', status: 'approved' },
+  { id: 'vietnam-all-people-border-day-legacy', title: 'Ngày Biên phòng', category: 'commemoration', expectedRule: 'solar:3:3:start=2000:end=2003', status: 'approved' },
+  { id: 'vietnam-all-people-border-day', title: 'Ngày Biên phòng toàn dân', category: 'commemoration', expectedRule: 'solar:3:3:start=2004', status: 'approved' },
+  { id: 'vietnam-consumer-rights-day', title: 'Ngày Quyền của người tiêu dùng Việt Nam', category: 'commemoration', expectedRule: 'solar:3:15:start=2016', status: 'approved' },
   { id: 'vietnam-sports-day', title: 'Ngày Thể thao Việt Nam', category: 'commemoration', expectedRule: 'solar:3:27:start=1991', status: 'approved' },
   { id: 'vietnam-militia-self-defense-day', title: 'Ngày truyền thống Dân quân tự vệ Việt Nam', category: 'commemoration', expectedRule: 'solar:3:28:start=1935', status: 'approved' },
   { id: 'vietnam-persons-with-disabilities-day', title: 'Ngày Người khuyết tật Việt Nam', category: 'commemoration', expectedRule: 'solar:4:18:start=2011', status: 'approved' },
@@ -99,6 +103,13 @@ const CANDIDATES: readonly Candidate[] = [
   { id: 'international-youth-day', title: 'Ngày Quốc tế Thanh niên', category: 'international', expectedRule: 'solar:8:12:start=2000', status: 'approved' },
   { id: 'international-day-of-persons-with-disabilities', title: 'Ngày Quốc tế Người khuyết tật', category: 'international', expectedRule: 'solar:12:3:start=1992', status: 'approved' },
   { id: 'international-volunteer-day', title: 'Ngày Tình nguyện viên Quốc tế', category: 'international', expectedRule: 'solar:12:5:start=1985', status: 'approved' },
+  { id: 'vietnam-cultural-heritage-day', title: 'Ngày Di sản văn hóa Việt Nam', category: 'commemoration', expectedRule: 'solar:11:23:start=2005', status: 'approved' },
+  { id: 'vietnam-fire-safety-day-legacy', title: 'Ngày phòng cháy, chữa cháy toàn dân', category: 'commemoration', expectedRule: 'solar:10:4:start=2000:end=2000', status: 'approved' },
+  { id: 'vietnam-national-fire-prevention-day', title: 'Ngày toàn dân phòng cháy và chữa cháy', category: 'commemoration', expectedRule: 'solar:10:4:start=2001:end=2024', status: 'approved' },
+  { id: 'vietnam-fire-rescue-day', title: 'Ngày toàn dân phòng cháy, chữa cháy, cứu nạn, cứu hộ', category: 'commemoration', expectedRule: 'solar:10:4:start=2025', status: 'approved' },
+  { id: 'vietnam-anti-drug-day', title: 'Ngày Toàn dân phòng, chống ma túy', category: 'commemoration', expectedRule: 'solar:6:26:start=2001', status: 'approved' },
+  { id: 'vietnam-voluntary-blood-donation-day', title: 'Ngày Toàn dân hiến máu tình nguyện', category: 'commemoration', expectedRule: 'solar:4:7:start=2000', status: 'approved' },
+  { id: 'vietnam-poetry-day', title: 'Ngày Thơ Việt Nam', category: 'commemoration', expectedRule: 'lunar:1:15:regular_only:start=2003', status: 'approved' },
   { id: 'mothers-day', title: 'Ngày của Mẹ', category: 'international', expectedRule: 'weekday_rule:5:0:2', status: 'under_review', reviewNote: 'Quy tắc phổ biến quốc tế đã biết, nhưng độ phổ biến và cách dùng tại Việt Nam chưa được nghiên cứu đủ.' },
   { id: 'fathers-day', title: 'Ngày của Cha', category: 'international', expectedRule: 'weekday_rule:6:0:3', status: 'under_review', reviewNote: 'Quy tắc phổ biến quốc tế đã biết, nhưng độ phổ biến và cách dùng tại Việt Nam chưa được nghiên cứu đủ.' },
   { id: 'substitute-holiday-schedules', title: 'Lịch nghỉ bù theo từng năm', category: 'official_holiday', expectedRule: 'year_specific', status: 'out_of_scope', reviewNote: 'Cần văn bản/điều chỉnh chính thức cho từng năm; không suy ra từ ngày lễ lặp.' },
@@ -160,13 +171,49 @@ const REFERENCE_CANDIDATES: readonly SourceCandidate[] = [
     'https://vjol.info.vn/index.php/khxh/article/download/57555/54282/',
     'https://baochinhphu.vn/mua-xuan-va-tet-nguyen-tieu-102138919.htm',
   ] },
+  { id: 'consumer-rights-observance', priority: 'P0', status: 'approved', eventIds: ['vietnam-consumer-rights-day'], referenceUrls: [
+    'https://vanban.chinhphu.vn/default.aspx?docid=180513&pageid=27160',
+    'https://moit.gov.vn/tin-tuc/hoat-dong/bo-cong-thuong-ban-hanh-ke-hoach-to-chuc-ngay-quyen-nguoi-ti2.html',
+  ] },
+  { id: 'all-people-border-observance', priority: 'P0', status: 'approved', eventIds: ['vietnam-all-people-border-day-legacy', 'vietnam-all-people-border-day'], referenceUrls: [], referenceUrlsByEventId: {
+    'vietnam-all-people-border-day-legacy': [
+      'https://chinhphu.vn/default.aspx?docid=4364&pageid=27160',
+      'https://chinhphu.vn/default.aspx?docid=93588&pageid=27160',
+    ],
+    'vietnam-all-people-border-day': [
+      'https://tiengchuong.chinhphu.vn/nhieu-hoat-dong-ky-niem-60-nam-ngay-truyen-thong-bo-doi-bien-phong-11327668.htm',
+    ],
+  } },
+  { id: 'vietnam-cultural-heritage-observance', priority: 'P0', status: 'approved', eventIds: ['vietnam-cultural-heritage-day'], referenceUrls: [
+    'https://dsvh.gov.vn/quyet-dinh-cua-thu-tuong-chinh-phu-ve-%E2%80%9Cngay-di-san-van-hoa-viet-nam%E2%80%9D-1668',
+    'https://vanban.chinhphu.vn/default.aspx?docid=477&pageid=27160',
+  ] },
+  { id: 'fire-safety-observance', priority: 'P0', status: 'approved', eventIds: ['vietnam-fire-safety-day-legacy', 'vietnam-national-fire-prevention-day', 'vietnam-fire-rescue-day'], referenceUrls: [], referenceUrlsByEventId: {
+    'vietnam-fire-safety-day-legacy': ['https://vanban.chinhphu.vn/default.aspx?docid=3211&pageid=27160'],
+    'vietnam-national-fire-prevention-day': ['https://vanban.chinhphu.vn/?docid=80179&pageid=27160'],
+    'vietnam-fire-rescue-day': ['https://vanban.chinhphu.vn/?classid=1&docid=212483&pageid=27160&typegroupid=3'],
+  } },
+  { id: 'anti-drug-day-observance', priority: 'P0', status: 'approved', eventIds: ['vietnam-anti-drug-day'], referenceUrls: [
+    'https://chinhphu.vn/default.aspx?docid=9124&pageid=27160',
+  ] },
+  { id: 'international-day-of-peace-observance', priority: 'P1', status: 'approved', eventIds: ['international-day-of-peace-2000', 'international-day-of-peace-2001', 'international-day-of-peace'], referenceUrls: [], referenceUrlsByEventId: {
+    'international-day-of-peace-2000': ['https://www.un.org/en/peaceandsecurity/the-history-of-the-international-day-of-peace'],
+    'international-day-of-peace-2001': ['https://www.un.org/en/peaceandsecurity/the-history-of-the-international-day-of-peace'],
+    'international-day-of-peace': ['https://digitallibrary.un.org/record/447991'],
+  } },
+  { id: 'voluntary-blood-donation-day-observance', priority: 'P1', status: 'approved', eventIds: ['vietnam-voluntary-blood-donation-day'], referenceUrls: [
+    'https://vienhuyethoc.vn/22-nam-ngay-toan-dan-hien-mau-tinh-nguyen-7-4/',
+  ] },
+  { id: 'vietnam-poetry-day-observance', priority: 'P1', status: 'approved', eventIds: ['vietnam-poetry-day'], referenceUrls: [
+    'https://vanvn.vn/ngay-xuan-tray-hoi-thi-ca/',
+  ] },
 ]
 
 function actualRule(event: (typeof VERIFIED_EVENTS)[number]): string {
   const rule = event.rule
   switch (rule.type) {
     case 'solar_fixed': return `solar:${rule.month}:${rule.day}${rule.startYear === undefined ? '' : `:start=${rule.startYear}`}${rule.endYear === undefined ? '' : `:end=${rule.endYear}`}`
-    case 'lunar_fixed': return `lunar:${rule.month}:${rule.day}:${rule.leapMonthPolicy}`
+    case 'lunar_fixed': return `lunar:${rule.month}:${rule.day}:${rule.leapMonthPolicy}${rule.startYear === undefined ? '' : `:start=${rule.startYear}`}${rule.endYear === undefined ? '' : `:end=${rule.endYear}`}`
     case 'lunar_month_end': return `lunar_month_end:${rule.month}`
     case 'weekday_rule': return `weekday_rule:${rule.month}:${rule.weekday}:${rule.occurrence}`
     case 'year_specific': return `year_specific:${rule.date.year}-${rule.date.month}-${rule.date.day}`
@@ -201,8 +248,9 @@ test('candidate aliases do not silently identify two distinct occasions', () => 
     for (const alias of [candidate.title, ...(candidate.aliases ?? [])]) {
       const normalized = alias.normalize('NFC').toLocaleLowerCase('vi').replace(/[()]/g, '').trim()
       const previous = aliases.get(normalized)
-      assert.ok(previous === undefined || previous === candidate.id, `Alias "${alias}" collides between ${previous} and ${candidate.id}`)
-      aliases.set(normalized, candidate.id)
+      const occasionKey = candidate.occasionKey ?? candidate.id
+      assert.ok(previous === undefined || previous === occasionKey, `Alias "${alias}" collides between ${previous} and ${occasionKey}`)
+      aliases.set(normalized, occasionKey)
     }
   }
   assert.notEqual(candidatesById('trung-thap').expectedRule, candidatesById('ha-nguyen').expectedRule)
@@ -221,6 +269,22 @@ test('verified event details retain evidence and distinguish Trùng Thập from 
   assert.match(haNguyen.description, /khác ngày Trùng Thập 10\/10/)
   assert.notDeepEqual(trungThap.rule, haNguyen.rule)
   assert.ok(trungThap.sources.some(({ url }) => url === 'https://vjol.info.vn/index.php/khxhvn/article/download/108698/91296/'))
+})
+
+test('requested core event popups have non-empty researched detail beyond their card description', () => {
+  const eventsById = new Map(VERIFIED_EVENTS.map((event) => [event.id, event]))
+  for (const eventId of [
+    'new-year-day', 'lunar-new-year-day-1', 'lunar-new-year-eve', 'ho-chi-minh-birthday',
+    'vietnam-science-technology-day', 'vietnam-science-technology-innovation-day', 'vietnam-culture-day',
+    'vietnam-peoples-army-day', 'national-resistance-day',
+  ]) {
+    const event = eventsById.get(eventId)
+    assert.ok(event?.details, `${eventId} needs popup detail`)
+    const detailText = [event.details.origin, event.details.significance, event.details.customs]
+      .filter((value): value is string => value !== undefined)
+    assert.ok(detailText.length > 0)
+    assert.ok(detailText.every((text) => text.trim() !== event.description.trim()), `${eventId} repeats its description as detail`)
+  }
 })
 
 test('detail metadata is optional, non-empty when present, and Wikipedia links are explicit Vietnamese pages', () => {
@@ -254,8 +318,8 @@ function candidatesById(id: string): Candidate {
 test('source coverage: independently referenced P0/P1 candidates are in production with their evidence links', () => {
   const productionById = new Map(VERIFIED_EVENTS.map((event) => [event.id, event]))
   assert.equal(new Set(REFERENCE_CANDIDATES.map(({ id }) => id)).size, REFERENCE_CANDIDATES.length)
-  assert.equal(REFERENCE_CANDIDATES.filter(({ priority }) => priority === 'P0').length, 5)
-  assert.equal(REFERENCE_CANDIDATES.filter(({ priority }) => priority === 'P1').length, 5)
+  assert.equal(REFERENCE_CANDIDATES.filter(({ priority }) => priority === 'P0').length, 10)
+  assert.equal(REFERENCE_CANDIDATES.filter(({ priority }) => priority === 'P1').length, 8)
   for (const candidate of REFERENCE_CANDIDATES.filter(({ status }) => status === 'approved')) {
     for (const eventId of candidate.eventIds) {
       const event = productionById.get(eventId)

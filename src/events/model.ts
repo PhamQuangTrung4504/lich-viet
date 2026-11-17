@@ -29,6 +29,9 @@ export type EventRule =
       readonly month: number
       readonly day: number
       readonly leapMonthPolicy: LeapMonthPolicy
+      /** Inclusive Vietnamese lunar-year bounds; omitted bounds preserve the existing unbounded rule. */
+      readonly startYear?: number
+      readonly endYear?: number
     }
   | { readonly type: 'lunar_month_end'; readonly month: number }
   | {

@@ -13,6 +13,7 @@ type AtlasCandidate = {
   readonly group: 'official' | 'historical' | 'organization' | 'traditional' | 'social' | 'international' | 'seasonal'
   readonly priority: AtlasPriority
   readonly expectedRule: string
+  readonly eventRuleOverrides?: Readonly<Record<string, string>>
   readonly scope: string
   readonly effectiveRange: string
   readonly sourceUrls: readonly string[]
@@ -40,8 +41,8 @@ const VIETNAM_EVENT_ATLAS: readonly AtlasCandidate[] = [
   { id: 'mid-autumn-festival', title: 'Tết Trung thu', aliases: ['Tết Trông Trăng', 'Tết Đoàn Viên'], group: 'traditional', priority: 'P1', expectedRule: 'lunar:8:15:regular_only', scope: 'Lễ tiết phổ biến gắn với gia đình và trẻ em; tập tục tùy nơi', effectiveRange: 'Lặp theo tháng Tám âm lịch thường', sourceUrls: ['https://scov.gov.vn/cong-tac-doi-ngoai/ngoai-giao-van-hoa/nguon-goc-va-y-nghia-cua-ram-trung-thu-trong-van-hoa-viet.html'], status: 'approved', eventIds: ['mid-autumn-festival'] },
   { id: 'students-day', title: 'Ngày truyền thống Học sinh, Sinh viên Việt Nam', aliases: ['Ngày truyền thống Học sinh, Sinh viên và Hội Sinh viên Việt Nam'], group: 'historical', priority: 'P1', expectedRule: 'solar:1:9:start=1950', scope: 'Toàn quốc; ngày truyền thống của phong trào và Hội Sinh viên', effectiveRange: 'Từ mốc kỷ niệm năm 1950', sourceUrls: ['https://tphcm.chinhphu.vn/tuyen-duong-396-hoc-sinh-sinh-vien-tieu-bieu-nam-2021-101220107083915689.htm'], status: 'approved', eventIds: ['vietnam-students-day'] },
   { id: 'border-guard-traditional-day', title: 'Ngày truyền thống Bộ đội Biên phòng', aliases: ['Ngày truyền thống BĐBP'], group: 'organization', priority: 'P0', expectedRule: 'solar:3:3:start=1959', scope: 'Toàn quốc; lực lượng Bộ đội Biên phòng', effectiveRange: 'Từ ngày thành lập lực lượng năm 1959', sourceUrls: ['https://tiengchuong.chinhphu.vn/nhieu-hoat-dong-ky-niem-60-nam-ngay-truyen-thong-bo-doi-bien-phong-11327668.htm'], status: 'approved', eventIds: ['vietnam-border-guard-traditional-day'] },
-  { id: 'all-people-border-day', title: 'Ngày Biên phòng toàn dân', aliases: [], group: 'official', priority: 'P0', expectedRule: 'solar:3:3:start=1989', scope: 'Toàn quốc; vận động trách nhiệm cộng đồng về biên giới', effectiveRange: 'Từ năm 1989', sourceUrls: ['https://tiengchuong.chinhphu.vn/nhieu-hoat-dong-ky-niem-60-nam-ngay-truyen-thong-bo-doi-bien-phong-11327668.htm'], status: 'approved', eventIds: ['vietnam-all-people-border-day'] },
-  { id: 'consumer-rights-day', title: 'Ngày Quyền của người tiêu dùng Việt Nam', aliases: [], group: 'official', priority: 'P0', expectedRule: 'solar:3:15:start=2015', scope: 'Toàn quốc; không phải ngày nghỉ lễ', effectiveRange: 'Theo Quyết định 1035/QĐ-TTg năm 2015', sourceUrls: ['https://moit.gov.vn/tin-tuc/hoat-dong/quyet-dinh-cua-thu-tuong-chinh-phu-ve-ngay-quyen-cua-nguoi-t2.html'], status: 'approved', eventIds: ['vietnam-consumer-rights-day'] },
+  { id: 'all-people-border-day', title: 'Ngày Biên phòng toàn dân', aliases: ['Ngày Biên phòng (tên đến hết 2003)'], group: 'official', priority: 'P0', expectedRule: 'solar:3:3:start=2004', eventRuleOverrides: { 'vietnam-all-people-border-day-legacy': 'solar:3:3:start=2000:end=2003' }, scope: 'Toàn quốc; vận động trách nhiệm cộng đồng về biên giới', effectiveRange: 'Ngày Biên phòng được chọn năm 1989; tên theo Luật Biên giới quốc gia có hiệu lực 1/1/2004', sourceUrls: ['https://chinhphu.vn/default.aspx?docid=4364&pageid=27160', 'https://chinhphu.vn/default.aspx?docid=93588&pageid=27160'], status: 'approved', eventIds: ['vietnam-all-people-border-day-legacy', 'vietnam-all-people-border-day'] },
+  { id: 'consumer-rights-day', title: 'Ngày Quyền của người tiêu dùng Việt Nam', aliases: [], group: 'official', priority: 'P0', expectedRule: 'solar:3:15:start=2016', scope: 'Toàn quốc; không phải ngày nghỉ lễ', effectiveRange: 'Quyết định 1035/QĐ-TTg ban hành năm 2015; các địa phương đồng loạt tổ chức từ 2016', sourceUrls: ['https://vanban.chinhphu.vn/default.aspx?docid=180513&pageid=27160', 'https://moit.gov.vn/tin-tuc/hoat-dong/bo-cong-thuong-ban-hanh-ke-hoach-to-chuc-ngay-quyen-nguoi-ti2.html'], status: 'approved', eventIds: ['vietnam-consumer-rights-day'] },
   { id: 'sports-day', title: 'Ngày Thể thao Việt Nam', aliases: [], group: 'official', priority: 'P0', expectedRule: 'solar:3:27:start=1991', scope: 'Toàn quốc; ngày kỷ niệm thể thao, không phải ngày nghỉ', effectiveRange: 'Quyết định 25/CT năm 1991', sourceUrls: ['https://chinhphu.vn/default.aspx?docid=1311&pageid=27160'], status: 'approved', eventIds: ['vietnam-sports-day'] },
   { id: 'militia-self-defense-day', title: 'Ngày truyền thống Dân quân tự vệ Việt Nam', aliases: [], group: 'organization', priority: 'P0', expectedRule: 'solar:3:28:start=1935', scope: 'Toàn quốc; lực lượng Dân quân tự vệ', effectiveRange: 'Từ nghị quyết ngày 28/3/1935', sourceUrls: ['https://vpctn.gov.vn/tin-tuc-su-kien/chu-tich-nuoc-luong-cuong-du-le-ky-niem-90-nam-ngay-truyen-thong-dan-quan-tu-ve-viet-nam.html'], status: 'approved', eventIds: ['vietnam-militia-self-defense-day'] },
   { id: 'vietnam-disability-day', title: 'Ngày Người khuyết tật Việt Nam', aliases: [], group: 'official', priority: 'P0', expectedRule: 'solar:4:18:start=2011', scope: 'Toàn quốc; ngày theo Điều 11 Luật Người khuyết tật', effectiveRange: 'Từ khi Luật 51/2010/QH12 có hiệu lực năm 2011', sourceUrls: ['https://chinhphu.vn/default.aspx?docid=96045&pageid=27160'], status: 'approved', eventIds: ['vietnam-persons-with-disabilities-day'] },
@@ -66,6 +67,12 @@ const VIETNAM_EVENT_ATLAS: readonly AtlasCandidate[] = [
   { id: 'international-youth-day', title: 'Ngày Quốc tế Thanh niên', aliases: [], group: 'international', priority: 'P1', expectedRule: 'solar:8:12:start=2000', scope: 'Quốc tế; observance của Liên Hợp Quốc', effectiveRange: 'Được tuyên bố năm 1999, kỷ niệm từ 2000', sourceUrls: ['https://www.un.org/development/desa/youth/what-we-do-/international-youth-day.html'], status: 'approved', eventIds: ['international-youth-day'] },
   { id: 'international-day-of-persons-with-disabilities', title: 'Ngày Quốc tế Người khuyết tật', aliases: [], group: 'international', priority: 'P1', expectedRule: 'solar:12:3:start=1992', scope: 'Quốc tế; observance của Liên Hợp Quốc', effectiveRange: 'Từ năm 1992', sourceUrls: ['https://www.un.org/en/observances/day-of-persons-with-disabilities/'], status: 'approved', eventIds: ['international-day-of-persons-with-disabilities'] },
   { id: 'international-volunteer-day', title: 'Ngày Tình nguyện viên Quốc tế', aliases: [], group: 'international', priority: 'P2', expectedRule: 'solar:12:5:start=1985', scope: 'Quốc tế; ngày của Liên Hợp Quốc', effectiveRange: 'Từ năm 1985', sourceUrls: ['https://www.un.org/observances/volunteer-day', 'https://digitallibrary.un.org/record/113305'], status: 'approved', eventIds: ['international-volunteer-day'] },
+  { id: 'international-day-of-peace', title: 'Ngày Quốc tế Hòa bình', aliases: [], group: 'international', priority: 'P1', expectedRule: 'solar:9:21:start=2002', eventRuleOverrides: { 'international-day-of-peace-2000': 'year_specific:2000-9-19', 'international-day-of-peace-2001': 'year_specific:2001-9-14' }, scope: 'Quốc tế; ngày observance của Liên Hợp Quốc', effectiveRange: 'Thứ Ba tuần thứ ba tháng 9 trước 2002; lễ tại trụ sở được dời sang 14/9 năm 2001; ngày 21/9 cố định từ 2002', sourceUrls: ['https://www.un.org/en/peaceandsecurity/the-history-of-the-international-day-of-peace', 'https://digitallibrary.un.org/record/447991'], status: 'approved', eventIds: ['international-day-of-peace-2000', 'international-day-of-peace-2001', 'international-day-of-peace'] },
+  { id: 'vietnam-cultural-heritage-day', title: 'Ngày Di sản văn hóa Việt Nam', aliases: [], group: 'official', priority: 'P0', expectedRule: 'solar:11:23:start=2005', scope: 'Toàn quốc; ngày kỷ niệm văn hóa, không phải ngày nghỉ lễ', effectiveRange: 'Được chọn theo Quyết định 36/2005/QĐ-TTg; ngày trùng Sắc lệnh bảo tồn cổ tích năm 1945', sourceUrls: ['https://dsvh.gov.vn/quyet-dinh-cua-thu-tuong-chinh-phu-ve-%E2%80%9Cngay-di-san-van-hoa-viet-nam%E2%80%9D-1668', 'https://vanban.chinhphu.vn/default.aspx?docid=477&pageid=27160'], status: 'approved', eventIds: ['vietnam-cultural-heritage-day'] },
+  { id: 'vietnam-fire-safety-day', title: 'Ngày Toàn dân phòng cháy, chữa cháy, cứu nạn, cứu hộ', aliases: ['Ngày phòng cháy, chữa cháy toàn dân', 'Ngày toàn dân phòng cháy và chữa cháy'], group: 'official', priority: 'P0', expectedRule: 'solar:10:4:start=2025', eventRuleOverrides: { 'vietnam-fire-safety-day-legacy': 'solar:10:4:start=2000:end=2000', 'vietnam-national-fire-prevention-day': 'solar:10:4:start=2001:end=2024' }, scope: 'Toàn quốc; ngày tuyên truyền, không phải ngày nghỉ lễ', effectiveRange: 'Mốc 4/10 từ Quyết định 369/TTg; tên theo luật 2001; bổ sung cứu nạn, cứu hộ từ khi Luật 55/2024/QH15 có hiệu lực 1/7/2025', sourceUrls: ['https://vanban.chinhphu.vn/default.aspx?docid=3211&pageid=27160', 'https://vanban.chinhphu.vn/?docid=80179&pageid=27160', 'https://vanban.chinhphu.vn/?classid=1&docid=212483&pageid=27160&typegroupid=3'], status: 'approved', eventIds: ['vietnam-fire-safety-day-legacy', 'vietnam-national-fire-prevention-day', 'vietnam-fire-rescue-day'] },
+  { id: 'vietnam-anti-drug-day', title: 'Ngày Toàn dân phòng, chống ma túy', aliases: [], group: 'official', priority: 'P0', expectedRule: 'solar:6:26:start=2001', scope: 'Toàn quốc; ngày vận động phòng, chống ma túy, không phải ngày nghỉ lễ', effectiveRange: 'Quyết định 93/2001/QĐ-TTg', sourceUrls: ['https://chinhphu.vn/default.aspx?docid=9124&pageid=27160'], status: 'approved', eventIds: ['vietnam-anti-drug-day'] },
+  { id: 'vietnam-voluntary-blood-donation-day', title: 'Ngày Toàn dân hiến máu tình nguyện', aliases: [], group: 'organization', priority: 'P1', expectedRule: 'solar:4:7:start=2000', scope: 'Toàn quốc; ngày vận động hiến máu tình nguyện', effectiveRange: 'Quyết định 43/2000/QĐ-TTg', sourceUrls: ['https://vienhuyethoc.vn/22-nam-ngay-toan-dan-hien-mau-tinh-nguyen-7-4/'], status: 'approved', eventIds: ['vietnam-voluntary-blood-donation-day'] },
+  { id: 'vietnam-poetry-day', title: 'Ngày Thơ Việt Nam', aliases: ['Ngày thơ Nguyên tiêu'], group: 'traditional', priority: 'P1', expectedRule: 'lunar:1:15:regular_only:start=2003', scope: 'Toàn quốc; hoạt động văn hóa do Hội Nhà văn Việt Nam khởi xướng, hình thức có thể khác theo địa phương', effectiveRange: 'Tổ chức từ năm 2003 vào Rằm tháng Giêng', sourceUrls: ['https://vanvn.vn/ngay-xuan-tray-hoi-thi-ca/'], status: 'approved', eventIds: ['vietnam-poetry-day'] },
   { id: 'mothers-day', title: 'Ngày của Mẹ', aliases: [], group: 'social', priority: 'P2', expectedRule: 'weekday_rule:5:0:2', scope: 'Ngày Chủ nhật thứ hai tháng 5 tại một số quốc gia; cách hưởng ứng ở Việt Nam chưa đủ đại diện để xếp là dịp phổ biến', effectiveRange: 'Không xác lập phạm vi Việt Nam', sourceUrls: ['https://www.history.com/articles/mothers-day-second-sunday-may'], status: 'under_review', eventIds: [], reviewReason: 'Cần nguồn Việt Nam độc lập chứng minh mức độ phổ biến, không chỉ quy tắc Hoa Kỳ.' },
   { id: 'fathers-day', title: 'Ngày của Cha', aliases: [], group: 'social', priority: 'P2', expectedRule: 'weekday_rule:6:0:3', scope: 'Ngày Chủ nhật thứ ba tháng 6 tại một số quốc gia; cách hưởng ứng ở Việt Nam chưa đủ đại diện', effectiveRange: 'Không xác lập phạm vi Việt Nam', sourceUrls: ['https://www.history.com/articles/fathers-day'], status: 'under_review', eventIds: [], reviewReason: 'Cần nguồn Việt Nam độc lập và quy tắc phạm vi phù hợp.' },
   { id: 'international-mens-day', title: 'Ngày Quốc tế Nam giới', aliases: [], group: 'social', priority: 'P2', expectedRule: 'solar:11:19', scope: 'Hưởng ứng không đồng đều; chưa xác minh mức độ phổ biến tại Việt Nam', effectiveRange: 'Chưa xác lập cho sản phẩm', sourceUrls: ['https://internationalmensday.com/about/history-background/'], status: 'under_review', eventIds: [], reviewReason: 'Thiếu bằng chứng về mức độ phổ biến và nguồn chuẩn hóa tại Việt Nam.' },
@@ -76,7 +83,7 @@ function eventRule(event: (typeof VERIFIED_EVENTS)[number]): string {
   const rule = event.rule
   switch (rule.type) {
     case 'solar_fixed': return `solar:${rule.month}:${rule.day}${rule.startYear === undefined ? '' : `:start=${rule.startYear}`}${rule.endYear === undefined ? '' : `:end=${rule.endYear}`}`
-    case 'lunar_fixed': return `lunar:${rule.month}:${rule.day}:${rule.leapMonthPolicy}`
+    case 'lunar_fixed': return `lunar:${rule.month}:${rule.day}:${rule.leapMonthPolicy}${rule.startYear === undefined ? '' : `:start=${rule.startYear}`}${rule.endYear === undefined ? '' : `:end=${rule.endYear}`}`
     case 'lunar_month_end': return `lunar_month_end:${rule.month}`
     case 'weekday_rule': return `weekday_rule:${rule.month}:${rule.weekday}:${rule.occurrence}`
     case 'year_specific': return `year_specific:${rule.date.year}-${rule.date.month}-${rule.date.day}`
@@ -104,16 +111,17 @@ test('every approved P0/P1 Atlas candidate is represented with its independently
     for (const eventId of candidate.eventIds) {
       const event = productionById.get(eventId)
       assert.ok(event, `${candidate.id} is missing production event ${eventId}`)
-      assert.equal(eventRule(event), candidate.expectedRule, `${candidate.id} rule differs from the researched date/effective range`)
+      assert.equal(eventRule(event), candidate.eventRuleOverrides?.[eventId] ?? candidate.expectedRule, `${candidate.id} rule differs from the researched date/effective range`)
       if (event.rule.type === 'solar_fixed'
         && (event.rule.startYear === undefined || event.rule.startYear <= 2026)
         && (event.rule.endYear === undefined || event.rule.endYear >= 2026)) {
         const occurrence = findEventsForDate(createCivilDate(2026, event.rule.month, event.rule.day), [event])
         assert.deepEqual(occurrence.map(({ id }) => id), [event.id], `${candidate.id} should match its researched 2026 solar date`)
       }
-      for (const sourceUrl of candidate.sourceUrls) {
-        assert.ok(event.sources.some(({ url }) => url === sourceUrl), `${eventId} does not retain ${sourceUrl}`)
-      }
+    }
+    const mappedEvents = candidate.eventIds.map((eventId) => productionById.get(eventId))
+    for (const sourceUrl of candidate.sourceUrls) {
+      assert.ok(mappedEvents.some((event) => event?.sources.some(({ url }) => url === sourceUrl)), `${candidate.id} mappings do not retain ${sourceUrl}`)
     }
   }
 })
@@ -159,17 +167,54 @@ test('2026 official observances, effective years, overlaps and classifications m
 test('effective start years exclude newly designated observances from earlier years', () => {
   const eventIdsOn = (year: number, month: number, day: number) =>
     findEventsForDate(createCivilDate(year, month, day)).map(({ id }) => id)
-  assert.ok(!eventIdsOn(2014, 3, 15).includes('vietnam-consumer-rights-day'))
-  assert.ok(eventIdsOn(2015, 3, 15).includes('vietnam-consumer-rights-day'))
+  assert.ok(!eventIdsOn(2015, 3, 15).includes('vietnam-consumer-rights-day'))
+  assert.ok(eventIdsOn(2016, 3, 15).includes('vietnam-consumer-rights-day'))
   assert.ok(!eventIdsOn(2008, 7, 1).includes('vietnam-health-insurance-day'))
   assert.ok(eventIdsOn(2009, 7, 1).includes('vietnam-health-insurance-day'))
   assert.ok(!eventIdsOn(2021, 10, 10).includes('vietnam-digital-transformation-day'))
   assert.ok(eventIdsOn(2022, 10, 10).includes('vietnam-digital-transformation-day'))
   assert.ok(!eventIdsOn(2004, 8, 19).includes('vietnam-all-people-national-security-day'))
   assert.ok(eventIdsOn(2005, 8, 19).includes('vietnam-all-people-national-security-day'))
-  assert.ok(eventIdsOn(2000, 3, 3).includes('vietnam-all-people-border-day'))
+  assert.ok(eventIdsOn(2000, 3, 3).includes('vietnam-all-people-border-day-legacy'))
   assert.ok(!eventIdsOn(2010, 4, 18).includes('vietnam-persons-with-disabilities-day'))
   assert.ok(eventIdsOn(2011, 4, 18).includes('vietnam-persons-with-disabilities-day'))
+})
+
+test('research-backed historical names, exceptional dates and newly catalogued overlaps are exact', () => {
+  const ids = (year: number, month: number, day: number) =>
+    findEventsForDate(createCivilDate(year, month, day)).map(({ id }) => id)
+
+  assert.ok(ids(2000, 9, 19).includes('international-day-of-peace-2000'))
+  assert.ok(!ids(2000, 9, 21).some((id) => id.startsWith('international-day-of-peace')))
+  assert.ok(ids(2001, 9, 14).includes('international-day-of-peace-2001'))
+  assert.ok(!ids(2001, 9, 18).some((id) => id.startsWith('international-day-of-peace')))
+  assert.ok(!ids(2001, 9, 21).some((id) => id.startsWith('international-day-of-peace')))
+  assert.ok(ids(2002, 9, 21).includes('international-day-of-peace'))
+  assert.ok(ids(2026, 9, 21).includes('international-day-of-peace'))
+
+  for (const year of [2000, 2003]) {
+    const borderNames = ids(year, 3, 3).filter((id) => id.includes('all-people-border-day'))
+    assert.deepEqual(borderNames, ['vietnam-all-people-border-day-legacy'])
+  }
+  assert.deepEqual(ids(2004, 3, 3).filter((id) => id.includes('all-people-border-day')), ['vietnam-all-people-border-day'])
+  assert.ok(ids(2004, 3, 3).includes('vietnam-border-guard-traditional-day'))
+
+  const november23 = ids(2026, 11, 23)
+  for (const id of ['ha-nguyen', 'vietnam-red-cross-founding-day', 'vietnam-cultural-heritage-day']) assert.ok(november23.includes(id), `${id} should appear on 23/11/2026`)
+  const april7 = ids(2026, 4, 7)
+  assert.ok(april7.includes('world-health-day'))
+  assert.ok(april7.includes('vietnam-voluntary-blood-donation-day'))
+
+  assert.deepEqual(ids(2024, 10, 4).filter((id) => id.startsWith('vietnam-') && id.includes('fire-')), ['vietnam-national-fire-prevention-day'])
+  assert.deepEqual(ids(2026, 10, 4).filter((id) => id.startsWith('vietnam-') && id.includes('fire-')), ['vietnam-fire-rescue-day'])
+  assert.ok(ids(2026, 6, 26).includes('vietnam-anti-drug-day'))
+
+  // Calendar anchors: 2002 Rằm tháng Giêng = 26/02/2002 (Báo Nghệ An);
+  // 2003 = 15/02/2003 (Amlich.org); 2026 = 03/03/2026 (Quảng Ninh provincial portal).
+  assert.ok(!ids(2002, 2, 26).includes('vietnam-poetry-day'))
+  assert.ok(ids(2003, 2, 15).includes('vietnam-poetry-day'))
+  assert.ok(ids(2026, 3, 3).includes('vietnam-poetry-day'))
+  assert.ok(!ids(2026, 3, 2).includes('vietnam-poetry-day'))
 })
 
 test('August 2024 overlap remains two distinct observances, and no new entry is incorrectly a day off', () => {

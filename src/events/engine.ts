@@ -64,6 +64,8 @@ function matchesRule(date: CivilDate, rule: EventRule, lunarDate: VietnameseLuna
         && (rule.endYear === undefined || date.year <= rule.endYear)
     case 'lunar_fixed': {
       if (lunarDate === undefined || lunarDate.month !== rule.month || lunarDate.day !== rule.day) return false
+      if (rule.startYear !== undefined && lunarDate.year < rule.startYear) return false
+      if (rule.endYear !== undefined && lunarDate.year > rule.endYear) return false
       if (rule.leapMonthPolicy === 'regular_only') return !lunarDate.isLeapMonth
       if (rule.leapMonthPolicy === 'leap_only') return lunarDate.isLeapMonth
       return true

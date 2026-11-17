@@ -43,6 +43,9 @@ function assertValidRule(rule: EventRule): void {
       assert.ok(Number.isInteger(rule.month) && rule.month >= 1 && rule.month <= 12)
       assert.ok(Number.isInteger(rule.day) && rule.day >= 1 && rule.day <= 30)
       assert.ok(['regular_only', 'leap_only', 'both'].includes(rule.leapMonthPolicy))
+      if (rule.startYear !== undefined) assert.ok(Number.isInteger(rule.startYear) && rule.startYear >= 1 && rule.startYear <= 9999)
+      if (rule.endYear !== undefined) assert.ok(Number.isInteger(rule.endYear) && rule.endYear >= 1 && rule.endYear <= 9999)
+      if (rule.startYear !== undefined && rule.endYear !== undefined) assert.ok(rule.startYear <= rule.endYear)
       break
     case 'lunar_month_end':
       assert.ok(Number.isInteger(rule.month) && rule.month >= 1 && rule.month <= 12)
@@ -91,6 +94,24 @@ test('lunar rules use Vietnamese lunar conversion and explicit leap-month polici
   assert.deepEqual(findEventsForDate(createCivilDate(2023, 3, 22), [regular, leap, both]).map(({ id }) => id), ['leap', 'both'])
   assert.equal(findEventsForDate(createCivilDate(2026, 2, 17)).some(({ id }) => id === 'lunar-new-year-day-1'), true)
   assert.equal(findEventsForDate(createCivilDate(2025, 1, 29)).some(({ id }) => id === 'lunar-new-year-day-1'), true)
+})
+
+test('lunar fixed rules can be bounded by Vietnamese lunar year without changing unbounded rules', () => {
+  const bounded = fixture('bounded-lunar', 1, {
+    type: 'lunar_fixed', month: 1, day: 15, leapMonthPolicy: 'regular_only', startYear: 2003,
+  })
+  assertValidRule(bounded.rule)
+  assert.deepEqual(findEventsForDate(createCivilDate(2002, 2, 26), [bounded]), [])
+  assert.deepEqual(findEventsForDate(createCivilDate(2003, 2, 15), [bounded]), [bounded])
+  assert.deepEqual(findEventsForDate(createCivilDate(2026, 3, 3), [bounded]), [bounded])
+
+  const unbounded = fixture('unbounded-lunar', 2, {
+    type: 'lunar_fixed', month: 1, day: 15, leapMonthPolicy: 'regular_only',
+  })
+  assert.deepEqual(findEventsForDate(createCivilDate(2002, 2, 26), [unbounded]), [unbounded])
+  assert.throws(() => assertValidRule({
+    type: 'lunar_fixed', month: 1, day: 15, leapMonthPolicy: 'regular_only', startYear: 2004, endYear: 2003,
+  }), { name: 'AssertionError' })
 })
 
 test('lunar month end matches the actual final day of month twelve, whether day 29 or 30', () => {
