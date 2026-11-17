@@ -19,7 +19,7 @@ const CANDIDATES: readonly Candidate[] = [
   { id: 'new-year-day', title: 'Tết Dương lịch', category: 'official_holiday', expectedRule: 'solar:1:1', status: 'approved' },
   { id: 'lunar-new-year-day-1', title: 'Mùng 1 Tết Nguyên đán', category: 'official_holiday', expectedRule: 'lunar:1:1:regular_only', status: 'approved', aliases: ['Mùng Một Tết'] },
   { id: 'lunar-new-year-eve', title: 'Giao thừa Tết Nguyên đán', category: 'traditional', expectedRule: 'lunar_month_end:12', status: 'approved' },
-  { id: 'nguyen-tieu', title: 'Tết Nguyên tiêu (Rằm tháng Giêng)', category: 'traditional', expectedRule: 'lunar:1:15:regular_only', status: 'approved', aliases: ['Rằm tháng Giêng'] },
+  { id: 'nguyen-tieu', title: 'Tết Nguyên tiêu (Rằm tháng Giêng)', category: 'traditional', expectedRule: 'lunar:1:15:regular_only', status: 'approved', aliases: ['Tết Thượng Nguyên', 'Rằm tháng Giêng'] },
   { id: 'tao-quan', title: 'Lễ tiễn Táo quân', category: 'traditional', expectedRule: 'lunar:12:23:regular_only', status: 'approved', aliases: ['Ông Công Ông Táo'] },
   { id: 'than-tai-day', title: 'Ngày vía Thần Tài', category: 'traditional', expectedRule: 'lunar:1:10:regular_only', status: 'approved' },
   { id: 'han-thuc', title: 'Tết Hàn thực', category: 'traditional', expectedRule: 'lunar:3:3:regular_only', status: 'approved' },
@@ -38,7 +38,7 @@ const CANDIDATES: readonly Candidate[] = [
   { id: 'vu-lan', title: 'Lễ Vu Lan', category: 'traditional', expectedRule: 'lunar:7:15:regular_only', status: 'approved', aliases: ['Vu Lan'] },
   { id: 'trung-nguyen', title: 'Tết Trung Nguyên', category: 'traditional', expectedRule: 'lunar:7:15:regular_only', status: 'approved' },
   { id: 'that-tich', title: 'Thất Tịch (Lễ Ngâu)', category: 'traditional', expectedRule: 'lunar:7:7:regular_only', status: 'approved', aliases: ['Lễ Ngâu', 'Ngày ông Ngâu bà Ngâu'] },
-  { id: 'trung-thap', title: 'Tết Trùng Thập', category: 'traditional', expectedRule: 'lunar:10:10:regular_only', status: 'approved', aliases: ['Trùng Thập'] },
+  { id: 'trung-thap', title: 'Tết Trùng Thập', category: 'traditional', expectedRule: 'lunar:10:10:regular_only', status: 'approved', aliases: ['Trùng Thập', 'Tết Song Thập'] },
   { id: 'ha-nguyen', title: 'Tết Hạ Nguyên (Rằm tháng Mười)', category: 'traditional', expectedRule: 'lunar:10:15:regular_only', status: 'approved', aliases: ['Hạ Nguyên', 'Rằm tháng Mười'] },
   { id: 'world-environment-day', title: 'Ngày Môi trường Thế giới', category: 'international', expectedRule: 'solar:6:5', status: 'approved' },
   { id: 'vietnam-press-day', title: 'Ngày Báo chí Cách mạng Việt Nam', category: 'commemoration', expectedRule: 'solar:6:21:start=1925', status: 'approved' },
@@ -56,7 +56,7 @@ const CANDIDATES: readonly Candidate[] = [
   { id: 'national-day', title: 'Quốc khánh Việt Nam', category: 'official_holiday', expectedRule: 'solar:9:2', status: 'approved' },
   { id: 'international-literacy-day', title: 'Ngày Quốc tế Xóa mù chữ', category: 'international', expectedRule: 'solar:9:8', status: 'approved' },
   { id: 'international-day-of-peace', title: 'Ngày Quốc tế Hòa bình', category: 'international', expectedRule: 'solar:9:21', status: 'approved' },
-  { id: 'mid-autumn-festival', title: 'Tết Trung thu', category: 'traditional', expectedRule: 'lunar:8:15:regular_only', status: 'approved' },
+  { id: 'mid-autumn-festival', title: 'Tết Trung thu', category: 'traditional', expectedRule: 'lunar:8:15:regular_only', status: 'approved', aliases: ['Tết Trông Trăng', 'Tết Đoàn Viên'] },
   { id: 'trung-cuu', title: 'Tết Trùng Cửu (Trùng Dương)', category: 'traditional', expectedRule: 'lunar:9:9:regular_only', status: 'approved' },
   { id: 'hanoi-liberation-day', title: 'Ngày Giải phóng Thủ đô', category: 'commemoration', expectedRule: 'solar:10:10:start=1954', status: 'approved' },
   { id: 'halloween', title: 'Halloween', category: 'international', expectedRule: 'solar:10:31', status: 'approved' },
@@ -125,6 +125,7 @@ const REFERENCE_CANDIDATES: readonly SourceCandidate[] = [
     'https://vtv.vn/doi-song/nguon-goc-va-y-nghia-cua-le-that-tich-2021081414364009.htm',
   ] },
   { id: 'trung-thap-observance', priority: 'P1', status: 'approved', eventIds: ['trung-thap'], referenceUrls: [
+    'https://vjol.info.vn/index.php/khxhvn/article/download/108698/91296/',
     'https://vjol.info.vn/index.php/khxh/article/download/57555/54282/',
   ] },
   { id: 'ha-nguyen-observance', priority: 'P1', status: 'approved', eventIds: ['ha-nguyen'], referenceUrls: [
@@ -177,6 +178,41 @@ test('candidate aliases do not silently identify two distinct occasions', () => 
     }
   }
   assert.notEqual(candidatesById('trung-thap').expectedRule, candidatesById('ha-nguyen').expectedRule)
+})
+
+test('verified event details retain evidence and distinguish Trùng Thập from Hạ Nguyên', () => {
+  const eventsById = new Map(VERIFIED_EVENTS.map((event) => [event.id, event]))
+  const trungThap = eventsById.get('trung-thap')
+  const haNguyen = eventsById.get('ha-nguyen')
+  assert.ok(trungThap?.details)
+  assert.ok(haNguyen?.details)
+  assert.deepEqual(trungThap.details.aliases, ['Tết Song Thập'])
+  assert.match(trungThap.details.notes ?? '', /không phải lúc nào cũng đồng nhất/)
+  assert.match(trungThap.details.notes ?? '', /không kết luận mọi tập tục Trùng Thập/)
+  assert.match(trungThap.details.notes ?? '', /27\/2 hiện đại/)
+  assert.match(haNguyen.details.notes ?? '', /15\/10 âm lịch/)
+  assert.notDeepEqual(trungThap.rule, haNguyen.rule)
+  assert.ok(trungThap.sources.some(({ url }) => url === 'https://vjol.info.vn/index.php/khxhvn/article/download/108698/91296/'))
+})
+
+test('detail metadata is optional, non-empty when present, and Wikipedia links are explicit Vietnamese pages', () => {
+  const wikipediaEvents = VERIFIED_EVENTS.filter(({ wikipediaUrl }) => wikipediaUrl !== undefined)
+  assert.deepEqual(wikipediaEvents.map(({ id }) => id).sort(), ['doan-ngo', 'mid-autumn-festival'])
+  for (const event of VERIFIED_EVENTS) {
+    assert.ok(event.sources.length > 0, `${event.id} must keep source metadata outside the cards`)
+    const details = event.details
+    if (details === undefined) continue
+    for (const alias of details.aliases ?? []) assert.ok(alias.trim().length > 0, `${event.id} has an empty alias`)
+    for (const text of [details.origin, details.significance, details.customs, details.notes]) {
+      if (text !== undefined) assert.ok(text.trim().length > 0, `${event.id} has an empty detail paragraph`)
+    }
+    if (event.wikipediaUrl !== undefined) {
+      const url = new URL(event.wikipediaUrl)
+      assert.equal(url.protocol, 'https:')
+      assert.equal(url.hostname, 'vi.wikipedia.org')
+      assert.ok(url.pathname.startsWith('/wiki/'))
+    }
+  }
 })
 
 function candidatesById(id: string): Candidate {

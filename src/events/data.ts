@@ -27,7 +27,15 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'nguyen-tieu', title: 'Tết Nguyên tiêu (Rằm tháng Giêng)', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 1, day: 15, leapMonthPolicy: 'regular_only' },
     description: 'Còn gọi là Tết Thượng nguyên, ngày này diễn ra vào Rằm tháng Giêng; nhiều người đến chùa cầu bình an và may mắn.', sortOrder: 30,
-    sources: [{ publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Mùa xuân và Tết Nguyên tiêu', url: 'https://baochinhphu.vn/mua-xuan-va-tet-nguyen-tieu-102138919.htm' }],
+    details: {
+      aliases: ['Tết Thượng Nguyên', 'Rằm tháng Giêng'],
+      significance: '“Nguyên tiêu” chỉ đêm rằm đầu tiên của năm mới. Dịp này có các nghi thức cầu an; quy mô và cách tổ chức tùy cộng đồng.',
+      customs: 'Tại Hội An, Tết Nguyên tiêu có sắc thái địa phương riêng và đã được ghi danh là Di sản văn hóa phi vật thể quốc gia.',
+    },
+    sources: [
+      { publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Mùa xuân và Tết Nguyên tiêu', url: 'https://baochinhphu.vn/mua-xuan-va-tet-nguyen-tieu-102138919.htm' },
+      { publisher: 'Trung tâm Quản lý Bảo tồn Di sản Văn hóa Hội An', title: 'Tết Nguyên tiêu ở Hội An', url: 'https://hoianheritage.net/uploads/download/files/ban-tin-01-2023.pdf' },
+    ],
   },
   {
     id: 'tao-quan', title: 'Lễ tiễn Táo quân', category: 'traditional',
@@ -39,6 +47,11 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'than-tai-day', title: 'Ngày vía Thần Tài', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 1, day: 10, leapMonthPolicy: 'regular_only' },
     description: 'Ngày vía Thần Tài thường được tổ chức vào mùng 10 tháng Giêng, nhất là trong một số cộng đồng buôn bán. Tập tục và cách lý giải khác nhau theo vùng; đây không phải ngày nghỉ lễ.', sortOrder: 35,
+    details: {
+      significance: 'Đây là dịp thờ cúng Thần Tài được chú ý trong một số cộng đồng, đặc biệt trong giới buôn bán; mức độ phổ biến và cách giải thích thay đổi theo địa phương.',
+      customs: 'Một số người làm lễ hoặc cầu may trong việc buôn bán. Tập tục không đồng nhất trên cả nước và không phải ngày nghỉ lễ.',
+      notes: 'Nghiên cứu được dẫn về tín ngưỡng thờ Thần Tài tập trung vào cộng đồng người Hoa ở Hội An; không nên khái quát riêng trường hợp đó thành nguồn gốc duy nhất của tập tục trên toàn quốc.',
+    },
     sources: [
       { publisher: 'Trung tâm Quản lý Bảo tồn Di sản Văn hóa Hội An', title: 'Tín ngưỡng thờ cúng thần Tài của người Hoa ở Hội An', url: 'https://hoianheritage.net/uploads/download/4-khanh-van.pdf' },
       { publisher: 'Tuổi Trẻ', title: 'Mùng 10 tháng giêng: Ngày vía Thần Tài hay ngày vía Thần Đất?', url: 'https://tuoitre.vn/mung-10-thang-gieng-ngay-via-than-tai-hay-ngay-via-than-dat-20220211093522245.htm' },
@@ -135,18 +148,35 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'doan-ngo', title: 'Tết Đoan Ngọ', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 5, day: 5, leapMonthPolicy: 'regular_only' },
     description: 'Tết cổ truyền vào mùng 5 tháng 5 âm lịch, còn gọi là Tết Đoan Dương; ở Việt Nam ngày này thường được gọi là Tết “giết sâu bọ”.', sortOrder: 110,
+    details: {
+      aliases: ['Tết Đoan Dương'],
+      significance: 'Đoan Ngọ là tiết lễ giữa năm theo lịch âm. Tên gọi Đoan Dương cũng xuất hiện trong tư liệu về nghi lễ cung đình triều Nguyễn.',
+      customs: 'Phong tục từng vùng có thể gồm dâng sản vật mùa hạ, ăn một số món theo tập quán và thăm hỏi gia đình; không có một nghi thức duy nhất áp dụng khắp nơi.',
+      notes: 'Các cách kể về nguồn gốc không hoàn toàn thống nhất; không nên xem một truyền thuyết là sự kiện lịch sử đã được xác lập.',
+    },
+    wikipediaUrl: 'https://vi.wikipedia.org/wiki/T%E1%BA%BFt_%C4%90oan_Ng%E1%BB%8D',
     sources: [{ publisher: 'Bộ Văn hóa, Thể thao và Du lịch', title: 'Khám phá nét đẹp Tết Đoan Ngọ', url: 'https://bvhttdl.gov.vn/Pages/chi-tiet.aspx?url=%2Fkham-pha-net-dep-tet-doan-ngo-qua-trung-bay-chuyen-de-tai-hoang-thanh-thang-long.htm' }],
   },
   {
     id: 'vu-lan', title: 'Lễ Vu Lan', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 7, day: 15, leapMonthPolicy: 'regular_only' },
     description: 'Lễ báo hiếu trong Phật giáo, diễn ra vào Rằm tháng Bảy; tập tục và cách tổ chức có khác biệt giữa các truyền thống, địa phương.', sortOrder: 29,
+    details: {
+      aliases: ['Lễ Báo hiếu'],
+      significance: 'Trong Phật giáo và thực hành văn hóa Việt Nam, Vu Lan nhấn mạnh lòng tri ân, tưởng nhớ và hiếu kính với cha mẹ, tổ tiên.',
+      customs: 'Nghi lễ, hoạt động tưởng niệm và cách thực hành khác nhau theo cộng đồng Phật giáo và địa phương.',
+      notes: 'Vu Lan và Tết Trung Nguyên cùng vào Rằm tháng Bảy nhưng là những dịp có nền tảng tín ngưỡng và cách diễn giải riêng.',
+    },
     sources: [{ publisher: 'Ủy ban Nhà nước về người Việt Nam ở nước ngoài', title: 'Ý nghĩa của ngày lễ Vu Lan và pháp bố thí của Phật giáo', url: 'https://scov.gov.vn/ban-sac-van-hoa/gioi-thieu-ban-sac-van-hoa/y-nghia-cua-ngay-le-vu-lan-va-phap-bo-thi-cua-phat-giao.html' }],
   },
   {
     id: 'trung-nguyen', title: 'Tết Trung Nguyên', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 7, day: 15, leapMonthPolicy: 'regular_only' },
     description: 'Tiết Trung Nguyên vào Rằm tháng Bảy có nguồn gốc Đạo giáo; tại Việt Nam, thực hành Trung Nguyên, Vu Lan và Xá tội vong nhân giao thoa nhưng nghi thức, cách hiểu khác nhau theo tôn giáo và địa phương.', sortOrder: 30,
+    details: {
+      significance: 'Trung Nguyên là một trong ba tiết Thượng Nguyên, Trung Nguyên và Hạ Nguyên trong hệ thống lễ tiết; tại Việt Nam, thực hành có sự giao thoa với các tín ngưỡng khác.',
+      notes: 'Không đồng nhất Tết Trung Nguyên với Lễ Vu Lan hoặc ngày Xá tội vong nhân; các dịp này có liên hệ trong thực hành dân gian nhưng không phải cùng một khái niệm.',
+    },
     sources: [
       { publisher: 'Cục Văn thư và Lưu trữ nhà nước', title: 'Tiết Trung nguyên, Vu lan, Xá tội vong nhân: nguồn gốc và tâm thức dân gian Việt', url: 'https://archives.org.vn/gioi-thieu-tai-lieu-nghiep-vu/tet-trung-nguyen-vu-lan-xa-toi-vog-nhan-nguon-goc-va-tam-thuc-dan-gian-viet.htm' },
       { publisher: 'Tuổi Trẻ', title: 'Tết Trung nguyên, Vu Lan, Xá tội vong nhân trong tín ngưỡng Việt', url: 'https://tuoitre.vn/dulichtphcm/tet-trung-nguyen-vu-lan-xa-toi-vong-nhan-trong-tin-nguong-viet-10759329.htm' },
@@ -156,6 +186,11 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'that-tich', title: 'Thất Tịch (Lễ Ngâu)', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 7, day: 7, leapMonthPolicy: 'regular_only' },
     description: 'Ngày mùng 7 tháng Bảy âm lịch gắn với chuyện Ngưu Lang – Chức Nữ và tục gọi mưa ngâu trong văn hóa Việt. Cách thực hành khác nhau theo địa phương; đây không phải ngày nghỉ lễ theo luật.', sortOrder: 28,
+    details: {
+      aliases: ['Lễ Ngâu'],
+      significance: 'Dịp này gắn với truyện Ngưu Lang – Chức Nữ trong văn hóa dân gian và với cách gọi mưa ngâu ở Việt Nam.',
+      notes: 'Các tích truyện là truyền thuyết dân gian, không phải ghi chép về một sự kiện lịch sử.',
+    },
     sources: [
       { publisher: 'Đài Tiếng nói Việt Nam', title: 'Thất tịch 2026 là ngày nào, thứ mấy?', url: 'https://vov.vn/doi-song/that-tich-2026-la-ngay-nao-thu-may-post1324704.vov' },
       { publisher: 'Đài Truyền hình Việt Nam (theo TTXVN)', title: 'Nguồn gốc và ý nghĩa của lễ Thất Tịch', url: 'https://vtv.vn/doi-song/nguon-goc-va-y-nghia-cua-le-that-tich-2021081414364009.htm' },
@@ -166,12 +201,28 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'trung-thap', title: 'Tết Trùng Thập', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 10, day: 10, leapMonthPolicy: 'regular_only' },
     description: 'Một số tập tục dân gian gắn ngày này với lễ cơm mới và tạ ơn mùa màng; ngày này khác Tết Hạ Nguyên vào Rằm tháng Mười.', sortOrder: 30,
-    sources: [{ publisher: 'Tạp chí Khoa học Xã hội', title: 'Tín ngưỡng Thần Nông qua các tiết lễ thờ cúng trong năm', url: 'https://vjol.info.vn/index.php/khxh/article/download/57555/54282/' }],
+    details: {
+      aliases: ['Tết Song Thập'],
+      significance: 'Tên Trùng Thập chỉ ngày mùng 10 tháng Mười âm lịch. Tên gọi Song Thập cũng được dùng trong một số tài liệu phổ thông.',
+      customs: 'Tư liệu tục lệ ghi nhận có nơi tổ chức lễ Trùng Thập riêng, có nơi gắn ngày này với lễ cơm mới. Lễ vật và cách cúng thay đổi theo làng.',
+      notes: 'Nghiên cứu của Đào Phương Chi cho thấy Trùng Thập không phải lúc nào cũng đồng nhất với Thường Tân, Cơm mới hay Xôi mới. Bài viết xác định nguồn gốc Trung Quốc cho lễ Thường Tân, không kết luận mọi tập tục Trùng Thập ở Việt Nam cùng nguồn gốc đó. Tết Hạ Nguyên là ngày 15/10 âm lịch, không phải cùng ngày. Cách gọi “tết thầy thuốc” trong tư liệu dân gian không đồng nhất với Ngày Thầy thuốc Việt Nam 27/2 hiện đại.',
+    },
+    sources: [
+      { publisher: 'Tạp chí Khoa học xã hội Việt Nam', title: 'Đào Phương Chi, “Nghiên cứu tiết Thường tân và các tiết lễ liên quan”, số 12 (204), 2024', url: 'https://vjol.info.vn/index.php/khxhvn/article/download/108698/91296/' },
+      { publisher: 'Báo Giáo dục và Thời đại', title: 'Người Việt đón... 10 cái Tết trong năm', url: 'https://giaoducthoidai.vn/nguoi-viet-don-10-cai-tet-trong-nam-post464134.html' },
+      { publisher: 'Tạp chí Khoa học Xã hội', title: 'Tín ngưỡng Thần Nông qua các tiết lễ thờ cúng trong năm', url: 'https://vjol.info.vn/index.php/khxh/article/download/57555/54282/' },
+    ],
   },
   {
     id: 'ha-nguyen', title: 'Tết Hạ Nguyên (Rằm tháng Mười)', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 10, day: 15, leapMonthPolicy: 'regular_only' },
     description: 'Lễ tiết dân gian vào Rằm tháng Mười; một số nơi gắn dịp này với cơm mới, tạ ơn mùa màng và cúng tổ tiên.', sortOrder: 31,
+    details: {
+      aliases: ['Rằm tháng Mười'],
+      significance: 'Hạ Nguyên là tiết rằm tháng Mười, cùng với Thượng Nguyên (rằm tháng Giêng) và Trung Nguyên (rằm tháng Bảy) tạo thành ba mốc lễ tiết trong lịch cũ.',
+      customs: 'Một số nơi gắn dịp này với lễ vật mùa vụ hoặc việc cúng tại gia; thực hành không giống nhau ở mọi địa phương.',
+      notes: 'Hạ Nguyên diễn ra ngày 15/10 âm lịch, khác Tết Trùng Thập vào ngày 10/10 âm lịch.',
+    },
     sources: [
       { publisher: 'Cổng Thông tin điện tử Chính phủ', title: 'Mùa xuân và Tết Nguyên tiêu', url: 'https://baochinhphu.vn/mua-xuan-va-tet-nguyen-tieu-102138919.htm' },
       { publisher: 'Tạp chí Khoa học Xã hội', title: 'Tín ngưỡng Thần Nông qua các tiết lễ thờ cúng trong năm', url: 'https://vjol.info.vn/index.php/khxh/article/download/57555/54282/' },
@@ -289,12 +340,23 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'mid-autumn-festival', title: 'Tết Trung thu', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 8, day: 15, leapMonthPolicy: 'regular_only' },
     description: 'Diễn ra vào Rằm tháng 8 âm lịch, Trung thu là dịp đoàn tụ gia đình và cũng là ngày hội dành cho trẻ em ở Việt Nam.', sortOrder: 200,
+    details: {
+      aliases: ['Tết Trông Trăng', 'Tết Đoàn Viên'],
+      significance: 'Tết Trung thu diễn ra vào Rằm tháng Tám. Ở Việt Nam, dịp này thường gắn với trẻ em, sum họp và các hoạt động ngắm trăng.',
+      customs: 'Tùy địa phương, có thể có rước đèn, múa lân, trông trăng và chia sẻ bánh Trung thu; không phải nơi nào cũng tổ chức giống nhau.',
+    },
+    wikipediaUrl: 'https://vi.wikipedia.org/wiki/T%E1%BA%BFt_Trung_thu',
     sources: [{ publisher: 'Ủy ban Nhà nước về người Việt Nam ở nước ngoài', title: 'Nguồn gốc và ý nghĩa của Rằm Trung thu trong văn hóa Việt', url: 'https://scov.gov.vn/cong-tac-doi-ngoai/ngoai-giao-van-hoa/nguon-goc-va-y-nghia-cua-ram-trung-thu-trong-van-hoa-viet.html' }],
   },
   {
     id: 'trung-cuu', title: 'Tết Trùng Cửu (Trùng Dương)', category: 'traditional',
     rule: { type: 'lunar_fixed', month: 9, day: 9, leapMonthPolicy: 'regular_only' },
     description: 'Lễ tiết vào mùng 9 tháng Chín âm lịch, có nguồn gốc từ Trung Hoa và dấu vết trong văn hóa Việt; hiện không được thực hành đồng đều ở mọi nơi.', sortOrder: 32,
+    details: {
+      aliases: ['Tết Trùng Dương'],
+      significance: 'Tên Trùng Cửu/Trùng Dương gắn với ngày mùng 9 tháng Chín âm lịch; mức độ thực hành hiện nay khác nhau giữa các nơi.',
+      notes: 'Đây là lễ tiết truyền thống, không phải ngày nghỉ lễ theo luật Việt Nam.',
+    },
     sources: [{ publisher: 'Đài Tiếng nói Việt Nam', title: 'Ý nghĩa những ngày Tết tính theo âm lịch', url: 'https://vov.vn/van-hoa-giai-tri/y-nghia-nhung-ngay-tet-tinh-theo-am-lich-198117.vov' }],
   },
   {

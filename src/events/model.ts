@@ -9,6 +9,14 @@ export interface EventSource {
   readonly url: string
 }
 
+export interface EventDetails {
+  readonly aliases?: readonly string[]
+  readonly origin?: string
+  readonly significance?: string
+  readonly customs?: string
+  readonly notes?: string
+}
+
 export type EventRule =
   | {
       readonly type: 'solar_fixed'
@@ -39,6 +47,8 @@ export interface CalendarEvent {
   readonly category: EventCategory
   readonly rule: EventRule
   readonly description: string
+  readonly details?: EventDetails
+  readonly wikipediaUrl?: string
   readonly sources: readonly EventSource[]
   readonly sortOrder: number
 }

@@ -85,6 +85,15 @@ root.innerHTML = `
       <button class="primary-button" type="submit">Xem lịch</button>
     </form>
   </dialog>
+  <dialog class="event-dialog" id="event-dialog" aria-labelledby="event-dialog-title" aria-describedby="event-dialog-date">
+    <div class="event-dialog__header">
+      <button class="icon-button event-dialog__close" id="close-event-dialog" type="button" aria-label="Đóng chi tiết sự kiện">×</button>
+      <p class="eyebrow">TÌM HIỂU NGÀY ĐẶC BIỆT</p>
+      <h2 id="event-dialog-title"></h2>
+      <p class="event-dialog__date" id="event-dialog-date"></p>
+    </div>
+    <div class="event-dialog__body" id="event-dialog-body"></div>
+  </dialog>
 `
 
 const content = getElement<HTMLElement>('#app-content')
@@ -95,6 +104,11 @@ const eventsNav = getElement<HTMLButtonElement>('#nav-events')
 appendIcon(getElement<HTMLElement>('#nav-calendar .nav-icon'), 'calendar')
 appendIcon(getElement<HTMLElement>('#nav-events .nav-icon'), 'events')
 const dialog = getElement<HTMLDialogElement>('#month-dialog')
+const eventDialog = getElement<HTMLDialogElement>('#event-dialog')
+const eventDialogTitle = getElement<HTMLElement>('#event-dialog-title')
+const eventDialogDate = getElement<HTMLElement>('#event-dialog-date')
+const eventDialogBody = getElement<HTMLElement>('#event-dialog-body')
+const closeEventDialogButton = getElement<HTMLButtonElement>('#close-event-dialog')
 const monthForm = getElement<HTMLFormElement>('#month-form')
 const closeDialogButton = getElement<HTMLButtonElement>('#close-month-dialog')
 const monthPickerGrid = getElement<HTMLElement>('#month-picker-grid')
@@ -365,7 +379,7 @@ function renderDayDetails(): HTMLElement {
   else {
     const list = document.createElement('div')
     list.className = 'calendar-event-list'
-    events.forEach((event) => list.append(createEventCard(event, true)))
+    events.forEach((event) => list.append(createEventCard(event, state.selectedDate, true)))
     section.append(list)
   }
   return section
@@ -415,7 +429,7 @@ function renderEventGroup(label: string, day: EventDay): HTMLElement {
   else {
     const cards = document.createElement('div')
     cards.className = 'event-card-list'
-    day.events.forEach((event) => cards.append(createEventCard(event, false)))
+    day.events.forEach((event) => cards.append(createEventCard(event, day.date, false)))
     group.append(cards)
   }
   return group
@@ -433,41 +447,89 @@ function makeGroupHeading(label: string, date: CivilDate): HTMLElement {
   return heading
 }
 
-function createEventCard(event: CalendarEvent, compact: boolean): HTMLElement {
-  const card = document.createElement('article')
-  card.className = compact ? 'event-card event-card--compact' : 'event-card'
-  const top = document.createElement('div')
+function createEventCard(event: CalendarEvent, date: CivilDate, compact: boolean): HTMLButtonElement {
+  const card = button('', compact ? 'event-card event-card--compact' : 'event-card')
+  card.dataset.eventId = event.id
+  card.setAttribute('aria-label', `${event.title}, ${CATEGORY_LABELS[event.category]}, xem chi tiết`)
+  const top = document.createElement('span')
   top.className = 'event-card__top'
   const category = document.createElement('span')
   category.className = 'event-card__category'
   category.textContent = CATEGORY_LABELS[event.category]
   top.append(category)
-  const titleElement = document.createElement('h3')
+  const titleElement = document.createElement('span')
+  titleElement.className = 'event-card__title'
+  titleElement.setAttribute('role', 'heading')
+  titleElement.setAttribute('aria-level', '3')
   titleElement.textContent = event.title
-  const description = document.createElement('p')
+  const description = document.createElement('span')
   description.className = 'event-card__description'
   description.textContent = event.description
   card.append(top, titleElement, description)
-  if (!compact && event.sources.length > 0) {
-    const sourceDetails = document.createElement('details')
-    sourceDetails.className = 'event-card__sources'
-    const sourceSummary = document.createElement('summary')
-    sourceSummary.textContent = event.sources.length === 1
-      ? `Xem nguồn: ${event.sources[0].publisher}`
-      : `Nguồn tham khảo (${event.sources.length})`
-    sourceDetails.append(sourceSummary)
-    event.sources.forEach((source, index) => {
-      const link = document.createElement('a')
-      link.href = source.url
-      link.target = '_blank'
-      link.rel = 'noopener noreferrer'
-      link.dataset.focusKey = `source-${event.id}-${index}`
-      link.textContent = `${source.publisher}: ${source.title}`
-      sourceDetails.append(link)
-    })
-    card.append(sourceDetails)
-  }
+  card.addEventListener('click', () => openEventDialog(event, date, card))
   return card
+}
+
+function openEventDialog(event: CalendarEvent, date: CivilDate, opener: HTMLButtonElement): void {
+  if (dialog.open || eventDialog.open) return
+  eventDialogTitle.textContent = event.title
+  const lunar = solarToVietnameseLunar(date)
+  eventDialogDate.textContent = `${formatDate(date, true)} · Âm lịch ${lunar.day}/${lunar.month}/${lunar.year}${lunar.isLeapMonth ? ' (tháng nhuận)' : ''}`
+  eventDialogBody.replaceChildren()
+  const category = document.createElement('p')
+  category.className = 'event-dialog__category'
+  category.textContent = CATEGORY_LABELS[event.category]
+  const introduction = document.createElement('p')
+  introduction.className = 'event-dialog__introduction'
+  introduction.textContent = event.description
+  eventDialogBody.append(category, introduction)
+
+  const details = event.details
+  if (details?.aliases !== undefined && details.aliases.length > 0) {
+    appendEventDetail(eventDialogBody, 'Tên gọi khác', details.aliases.join(' · '))
+  }
+  if (details?.origin !== undefined) appendEventDetail(eventDialogBody, 'Nguồn gốc', details.origin)
+  if (details?.significance !== undefined) appendEventDetail(eventDialogBody, 'Ý nghĩa', details.significance)
+  if (details?.customs !== undefined) appendEventDetail(eventDialogBody, 'Phong tục', details.customs)
+  if (details?.notes !== undefined) appendEventDetail(eventDialogBody, 'Lưu ý', details.notes)
+
+  const wikipediaUrl = verifiedWikipediaUrl(event.wikipediaUrl)
+  if (wikipediaUrl !== undefined) {
+    const link = document.createElement('a')
+    link.className = 'event-dialog__wikipedia'
+    link.href = wikipediaUrl
+    link.target = '_blank'
+    link.rel = 'noopener noreferrer'
+    link.textContent = 'Đọc thêm trên Wikipedia'
+    eventDialogBody.append(link)
+  }
+
+  eventDialogOpener = opener
+  eventDialog.showModal()
+  closeEventDialogButton.focus()
+}
+
+let eventDialogOpener: HTMLButtonElement | undefined
+
+function appendEventDetail(container: HTMLElement, label: string, text: string): void {
+  const section = document.createElement('section')
+  section.className = 'event-dialog__section'
+  const heading = document.createElement('h3')
+  heading.textContent = label
+  const paragraph = document.createElement('p')
+  paragraph.textContent = text
+  section.append(heading, paragraph)
+  container.append(section)
+}
+
+function verifiedWikipediaUrl(value: string | undefined): string | undefined {
+  if (value === undefined) return undefined
+  try {
+    const url = new URL(value)
+    return url.protocol === 'https:' && url.hostname === 'vi.wikipedia.org' ? url.href : undefined
+  } catch {
+    return undefined
+  }
 }
 
 function makeNotice(text: string): HTMLElement {
@@ -528,6 +590,7 @@ function selectCalendarDate(date: CivilDate): void {
 }
 
 function openMonthDialog(): void {
+  if (eventDialog.open) return
   draftMonth = { ...state.visibleMonth }
   yearInput.value = String(draftMonth.year)
   clearYearError()
@@ -670,6 +733,14 @@ content.addEventListener('scroll', () => {
 closeDialogButton.addEventListener('click', () => dialog.close())
 dialog.addEventListener('close', () => {
   queueMicrotask(() => content.querySelector<HTMLButtonElement>('.month-title')?.focus({ preventScroll: true }))
+})
+closeEventDialogButton.addEventListener('click', () => eventDialog.close())
+eventDialog.addEventListener('close', () => {
+  queueMicrotask(() => {
+    if (eventDialogOpener?.isConnected) eventDialogOpener.focus({ preventScroll: true })
+    else content.focus({ preventScroll: true })
+    eventDialogOpener = undefined
+  })
 })
 monthPickerGrid.addEventListener('click', (event) => {
   if (!(event.target instanceof Element)) return

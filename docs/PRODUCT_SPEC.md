@@ -54,9 +54,9 @@
 - “Hôm nay/Ngày mai” được xác định theo ngày dân sự hiện tại tại **múi giờ thiết bị của người dùng**; không lấy từ ngày đang chọn trong tab Lịch.
 - Khi ứng dụng quay lại foreground, chuyển ngày hoặc tải lại, dữ liệu tự phản ánh ngày mới.
 - Mỗi nhóm có ngày tháng rõ ràng; có nhiều sự kiện thì hiển thị nhiều thẻ có thể cuộn.
-- Mỗi thẻ: tên, loại sự kiện (ngày lễ chính thức/ngày kỷ niệm/truyền thống/quốc tế...), ngày, mô tả ngắn chính xác. Nguồn nội dung được lưu trong dữ liệu (liên kết nếu phù hợp).
+- Mỗi thẻ sự kiện là nút có thể kích hoạt bằng cảm ứng hoặc bàn phím. Chạm/mở thẻ hiển thị modal dùng chung với ngày dương/âm của lần xuất hiện, phân loại và nội dung chi tiết đã kiểm chứng nếu có.
+- Thẻ chỉ hiển thị loại, tên và mô tả ngắn; không render nguồn hoặc URL. Nguồn vẫn được lưu trong dữ liệu để kiểm chứng. Modal chỉ có liên kết Wikipedia khi URL bài viết đã được kiểm tra và đúng sự kiện.
 - Mô tả khoảng 1–3 câu, súc tích, dễ đọc; tránh lặp câu, không sáng tác nguồn gốc.
-- Nguồn tham khảo được trình bày gọn; người dùng có thể mở phần nguồn để xem tên tài liệu và liên kết đầy đủ.
 - Nếu không có sự kiện trong danh mục đã biên soạn, hiển thị “Chưa ghi nhận sự kiện đặc biệt trong dữ liệu hiện có”, không khẳng định ngày đó hoàn toàn không có sự kiện.
 - Không dùng dữ liệu sự kiện giả hoặc placeholder Valentine/ngày khác trong production.
 
