@@ -64,7 +64,7 @@ const CANDIDATES: readonly Candidate[] = [
   { id: 'hanoi-liberation-day', title: 'Ngày Giải phóng Thủ đô', category: 'commemoration', expectedRule: 'solar:10:10:start=1954', status: 'approved' },
   { id: 'halloween', title: 'Halloween', category: 'international', expectedRule: 'solar:10:31', status: 'approved' },
   { id: 'world-teachers-day', title: 'Ngày Nhà giáo Thế giới', category: 'international', expectedRule: 'solar:10:5', status: 'approved' },
-  { id: 'vietnamese-womens-day', title: 'Ngày Phụ nữ Việt Nam', category: 'commemoration', expectedRule: 'solar:10:20:start=1930', status: 'approved' },
+  { id: 'vietnamese-womens-day', title: 'Ngày Phụ nữ Việt Nam', category: 'commemoration', expectedRule: 'solar:10:20:start=2010', status: 'approved', occasionKey: 'vietnam-womens-day' },
   { id: 'world-childrens-day', title: 'Ngày Trẻ em Thế giới', category: 'international', expectedRule: 'solar:11:20:start=1954', status: 'approved' },
   { id: 'vietnam-national-unity-day', title: 'Ngày hội Đại đoàn kết toàn dân tộc', category: 'commemoration', expectedRule: 'solar:11:18:start=2003', status: 'approved' },
   { id: 'vietnamese-teachers-day', title: 'Ngày Nhà giáo Việt Nam', category: 'commemoration', expectedRule: 'solar:11:20:start=1982', status: 'approved' },
@@ -110,8 +110,28 @@ const CANDIDATES: readonly Candidate[] = [
   { id: 'vietnam-anti-drug-day', title: 'Ngày Toàn dân phòng, chống ma túy', category: 'commemoration', expectedRule: 'solar:6:26:start=2001', status: 'approved' },
   { id: 'vietnam-voluntary-blood-donation-day', title: 'Ngày Toàn dân hiến máu tình nguyện', category: 'commemoration', expectedRule: 'solar:4:7:start=2000', status: 'approved' },
   { id: 'vietnam-poetry-day', title: 'Ngày Thơ Việt Nam', category: 'commemoration', expectedRule: 'lunar:1:15:regular_only:start=2003', status: 'approved' },
-  { id: 'mothers-day', title: 'Ngày của Mẹ', category: 'international', expectedRule: 'weekday_rule:5:0:2', status: 'under_review', reviewNote: 'Quy tắc phổ biến quốc tế đã biết, nhưng độ phổ biến và cách dùng tại Việt Nam chưa được nghiên cứu đủ.' },
-  { id: 'fathers-day', title: 'Ngày của Cha', category: 'international', expectedRule: 'weekday_rule:6:0:3', status: 'under_review', reviewNote: 'Quy tắc phổ biến quốc tế đã biết, nhưng độ phổ biến và cách dùng tại Việt Nam chưa được nghiên cứu đủ.' },
+  { id: 'mothers-day', title: 'Ngày của Mẹ', category: 'international', expectedRule: 'weekday_rule:5:0:2', status: 'approved' },
+  { id: 'fathers-day', title: 'Ngày của Cha', category: 'international', expectedRule: 'weekday_rule:6:0:3', status: 'approved' },
+  { id: 'lunar-new-year-day-2', title: 'Mùng 2 Tết Nguyên đán', category: 'traditional', expectedRule: 'lunar:1:2:regular_only', status: 'approved', occasionKey: 'lunar-new-year' },
+  { id: 'lunar-new-year-day-3', title: 'Mùng 3 Tết Nguyên đán', category: 'traditional', expectedRule: 'lunar:1:3:regular_only', status: 'approved', occasionKey: 'lunar-new-year' },
+  { id: 'vietnam-womens-union-founding-day', title: 'Ngày thành lập Hội Liên hiệp Phụ nữ Việt Nam', category: 'commemoration', expectedRule: 'solar:10:20:start=2000:end=2009', status: 'approved', occasionKey: 'vietnam-womens-day' },
+  { id: 'vietnam-national-health-day', title: 'Ngày Sức khỏe toàn dân', category: 'commemoration', expectedRule: 'solar:4:7:start=2026', status: 'approved' },
+  { id: 'vietnam-ethnic-cultures-day', title: 'Ngày Văn hóa các dân tộc Việt Nam', category: 'commemoration', expectedRule: 'solar:4:19:start=2009', status: 'approved' },
+  { id: 'vietnam-social-work-day', title: 'Ngày Công tác xã hội Việt Nam', category: 'commemoration', expectedRule: 'solar:3:25:start=2017', status: 'approved' },
+  { id: 'vietnam-youth-federation-day', title: 'Ngày truyền thống Hội Liên hiệp Thanh niên Việt Nam', category: 'commemoration', expectedRule: 'solar:10:15:start=1956', status: 'approved' },
+  { id: 'vietnam-lawyers-traditional-day', title: 'Ngày truyền thống Luật sư Việt Nam', category: 'commemoration', expectedRule: 'solar:10:10:start=2013', status: 'approved' },
+  { id: 'vietnam-overseas-vietnamese-language-day', title: 'Ngày Tôn vinh tiếng Việt trong cộng đồng người Việt Nam ở nước ngoài', category: 'commemoration', expectedRule: 'solar:9:8:start=2023', status: 'approved' },
+  { id: 'vietnam-veterans-association-founding-day', title: 'Ngày thành lập Hội Cựu chiến binh Việt Nam', category: 'commemoration', expectedRule: 'solar:12:6:start=1989', status: 'approved' },
+  { id: 'vietnam-national-defense-day', title: 'Ngày hội Quốc phòng toàn dân', category: 'commemoration', expectedRule: 'solar:12:22:start=1989', status: 'approved' },
+  { id: 'vietnam-mttq-traditional-day', title: 'Ngày truyền thống Mặt trận Tổ quốc Việt Nam', category: 'commemoration', expectedRule: 'solar:11:18:start=1986', status: 'approved' },
+  { id: 'world-tuberculosis-day', title: 'Ngày Thế giới phòng, chống lao', category: 'international', expectedRule: 'solar:3:24:start=1982', status: 'approved' },
+  { id: 'april-fools-day', title: 'Cá tháng Tư', category: 'international', expectedRule: 'solar:4:1', status: 'approved' },
+  { id: 'international-nurses-day', title: 'Ngày Quốc tế Điều dưỡng', category: 'international', expectedRule: 'solar:5:12:start=1965', status: 'approved' },
+  { id: 'international-day-of-families', title: 'Ngày Quốc tế Gia đình', category: 'international', expectedRule: 'solar:5:15:start=1994', status: 'approved' },
+  { id: 'world-no-tobacco-day', title: 'Ngày Thế giới không thuốc lá', category: 'international', expectedRule: 'solar:5:31:start=1988', status: 'approved' },
+  { id: 'international-day-against-drug-abuse', title: 'Ngày Quốc tế phòng, chống ma túy', category: 'international', expectedRule: 'solar:6:26:start=1988', status: 'approved' },
+  { id: 'world-food-day', title: 'Ngày Lương thực Thế giới', category: 'international', expectedRule: 'solar:10:16:start=1981', status: 'approved' },
+  { id: 'international-mens-day', title: 'Ngày Quốc tế Nam giới', category: 'international', expectedRule: 'solar:11:19:start=1999', status: 'approved' },
   { id: 'substitute-holiday-schedules', title: 'Lịch nghỉ bù theo từng năm', category: 'official_holiday', expectedRule: 'year_specific', status: 'out_of_scope', reviewNote: 'Cần văn bản/điều chỉnh chính thức cho từng năm; không suy ra từ ngày lễ lặp.' },
 ]
 
@@ -207,6 +227,21 @@ const REFERENCE_CANDIDATES: readonly SourceCandidate[] = [
   { id: 'vietnam-poetry-day-observance', priority: 'P1', status: 'approved', eventIds: ['vietnam-poetry-day'], referenceUrls: [
     'https://vanvn.vn/ngay-xuan-tray-hoi-thi-ca/',
   ] },
+  { id: 'vietnam-national-health-day-observance', priority: 'P0', status: 'approved', eventIds: ['vietnam-national-health-day'], referenceUrls: ['https://baochinhphu.vn/nghi-quyet-cua-bo-chinh-tri-ve-mot-so-giai-phap-dot-pha-tang-cuong-bao-ve-cham-soc-va-nang-cao-suc-khoe-nhan-dan-10225091200201604.htm', 'https://baochinhphu.vn/ngay-suc-khoe-toan-dan-2026-lay-phong-benh-lam-trong-tam-102260405103933858.htm'] },
+  { id: 'vietnam-ethnic-cultures-day-observance', priority: 'P0', status: 'approved', eventIds: ['vietnam-ethnic-cultures-day'], referenceUrls: ['https://langvanhoavietnam.vn/qua-trinh-hinh-thanh-va-phat-trien/'] },
+  { id: 'vietnam-social-work-day-observance', priority: 'P1', status: 'approved', eventIds: ['vietnam-social-work-day'], referenceUrls: ['https://vanban.chinhphu.vn/default.aspx?docid=186399&pageid=27160'] },
+  { id: 'vietnam-youth-federation-day-observance', priority: 'P0', status: 'approved', eventIds: ['vietnam-youth-federation-day'], referenceUrls: ['https://baochinhphu.vn/ky-niem-55-nam-ngay-truyen-thong-hoi-lien-hiep-thanh-nien-viet-nam-102106013.htm'] },
+  { id: 'vietnam-lawyers-day-observance', priority: 'P1', status: 'approved', eventIds: ['vietnam-lawyers-traditional-day'], referenceUrls: ['https://baochinhphu.vn/10-10-la-ngay-truyen-thong-cua-luat-su-viet-nam-102137265.htm'] },
+  { id: 'vietnam-overseas-vietnamese-language-day-observance', priority: 'P1', status: 'approved', eventIds: ['vietnam-overseas-vietnamese-language-day'], referenceUrls: ['https://vanban.chinhphu.vn/?classid=2&docid=206314&pageid=27160', 'https://baochinhphu.vn/8-9-la-ngay-ton-vinh-tieng-viet-trong-cong-dong-nguoi-viet-nam-o-nuoc-ngoai-10222080317153996.htm'] },
+  { id: 'vietnam-veterans-association-day-observance', priority: 'P0', status: 'approved', eventIds: ['vietnam-veterans-association-founding-day'], referenceUrls: ['https://www.hoiccbvietnam.vn/lich-su-truyen-thong-pa15.html'] },
+  { id: 'vietnam-national-defense-day-observance', priority: 'P0', status: 'approved', eventIds: ['vietnam-national-defense-day'], referenceUrls: ['https://btllang.mod.gov.vn/tin-tuc/tin-tong-hop/15323-de-cuong-tuyen-truyen-80-nam-ngay-thanh-lap-quan-doi-nhan-dan-viet-nam-va-35-nam-ngay-hoi-quoc-phong-toan-dan.html'] },
+  { id: 'vietnam-mttq-traditional-day-observance', priority: 'P0', status: 'approved', eventIds: ['vietnam-mttq-traditional-day'], referenceUrls: ['https://m.mattran.org.vn/van-ban-huong-dan/ngay-1811-duoc-lay-lam-ngay-ky-niem-thanh-lap-mat-tran-dan-toc-thong-nhat-viet-nam-tu-khi-nao-10575.html'] },
+  { id: 'world-tuberculosis-day-observance', priority: 'P1', status: 'approved', eventIds: ['world-tuberculosis-day'], referenceUrls: ['https://www.who.int/campaigns/world-tb-day'] },
+  { id: 'international-nurses-day-observance', priority: 'P1', status: 'approved', eventIds: ['international-nurses-day'], referenceUrls: ['https://icn.ch/how-we-do-it/campaigns/international-nurses-day'] },
+  { id: 'international-families-day-observance', priority: 'P1', status: 'approved', eventIds: ['international-day-of-families'], referenceUrls: ['https://www.un.org/en/observances/international-day-families'] },
+  { id: 'world-no-tobacco-day-observance', priority: 'P1', status: 'approved', eventIds: ['world-no-tobacco-day'], referenceUrls: ['https://www.who.int/campaigns/world-no-tobacco-day'] },
+  { id: 'international-drug-day-observance', priority: 'P1', status: 'approved', eventIds: ['international-day-against-drug-abuse'], referenceUrls: ['https://www.un.org/en/observances/end-drug-abuse-day'] },
+  { id: 'world-food-day-observance', priority: 'P1', status: 'approved', eventIds: ['world-food-day'], referenceUrls: ['https://www.fao.org/world-food-day/en'] },
 ]
 
 function actualRule(event: (typeof VERIFIED_EVENTS)[number]): string {
@@ -318,8 +353,8 @@ function candidatesById(id: string): Candidate {
 test('source coverage: independently referenced P0/P1 candidates are in production with their evidence links', () => {
   const productionById = new Map(VERIFIED_EVENTS.map((event) => [event.id, event]))
   assert.equal(new Set(REFERENCE_CANDIDATES.map(({ id }) => id)).size, REFERENCE_CANDIDATES.length)
-  assert.equal(REFERENCE_CANDIDATES.filter(({ priority }) => priority === 'P0').length, 10)
-  assert.equal(REFERENCE_CANDIDATES.filter(({ priority }) => priority === 'P1').length, 8)
+  assert.equal(REFERENCE_CANDIDATES.filter(({ priority }) => priority === 'P0').length, 16)
+  assert.equal(REFERENCE_CANDIDATES.filter(({ priority }) => priority === 'P1').length, 17)
   for (const candidate of REFERENCE_CANDIDATES.filter(({ status }) => status === 'approved')) {
     for (const eventId of candidate.eventIds) {
       const event = productionById.get(eventId)
