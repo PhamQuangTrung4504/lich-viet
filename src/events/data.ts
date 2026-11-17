@@ -221,11 +221,20 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
   },
   {
     id: 'vietnam-science-technology-day', title: 'Ngày Khoa học và Công nghệ Việt Nam', category: 'commemoration',
-    rule: { type: 'solar_fixed', month: 5, day: 18, startYear: 2014 },
-    description: 'Ngày 18/5 hằng năm tôn vinh khoa học, công nghệ và những người làm khoa học; Điều 7 Luật Khoa học và Công nghệ 2013 quy định ngày này.', sortOrder: 53,
+    rule: { type: 'solar_fixed', month: 5, day: 18, startYear: 2014, endYear: 2025 },
+    description: 'Từ 2014 đến kỳ kỷ niệm tháng 5/2025, ngày 18/5 mang tên Ngày Khoa học và Công nghệ Việt Nam theo Điều 7 Luật Khoa học và Công nghệ 2013.', sortOrder: 53,
     sources: [
       { publisher: 'Quốc hội', title: 'Luật Khoa học và Công nghệ 29/2013/QH13, Điều 7', url: 'https://vbpl.moj.gov.vn/bovanhoathethao/Pages/vbpq-toanvan.aspx?ItemID=32522' },
       { publisher: 'Bộ Khoa học và Công nghệ', title: 'Hướng dẫn tổ chức kỷ niệm Ngày KH&CN Việt Nam năm 2023', url: 'https://www.most.gov.vn/Images/editor/files/CV%20961_BKHCN_VP%20_7_4.pdf' },
+    ],
+  },
+  {
+    id: 'vietnam-science-technology-innovation-day', title: 'Ngày Khoa học, Công nghệ và Đổi mới sáng tạo Việt Nam', category: 'commemoration',
+    rule: { type: 'solar_fixed', month: 5, day: 18, startYear: 2026 },
+    description: 'Từ năm 2026, ngày 18/5 mang tên Ngày Khoa học, Công nghệ và Đổi mới sáng tạo Việt Nam theo Điều 7 Luật 93/2025/QH15.', sortOrder: 53,
+    sources: [
+      { publisher: 'Quốc hội', title: 'Luật 93/2025/QH15, Điều 7', url: 'https://chinhphu.vn/?classid=1&docid=214603&orggroupid=1&pageid=27160' },
+      { publisher: 'Cục Điện lực - Bộ Công Thương', title: 'Ngày 18/5 chính thức trở thành Ngày Khoa học, Công nghệ và Đổi mới sáng tạo Việt Nam', url: 'https://eav.gov.vn/d/vi-VN/news-o/Ngay-185-chinh-thuc-tro-thanh-Ngay-Khoa-hoc-Cong-nghe-va-Doi-moi-sang-tao-Viet-Nam-60-38-59081' },
     ],
   },
   {

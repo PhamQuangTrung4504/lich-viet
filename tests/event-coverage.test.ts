@@ -47,7 +47,8 @@ const CANDIDATES: readonly Candidate[] = [
   { id: 'vietnam-communist-party-founding-day', title: 'Ngày thành lập Đảng Cộng sản Việt Nam', category: 'commemoration', expectedRule: 'solar:2:3:start=1930', status: 'approved' },
   { id: 'vietnam-youth-union-founding-day', title: 'Ngày thành lập Đoàn TNCS Hồ Chí Minh', category: 'commemoration', expectedRule: 'solar:3:26:start=1931', status: 'approved' },
   { id: 'ho-chi-minh-birthday', title: 'Ngày sinh Chủ tịch Hồ Chí Minh', category: 'commemoration', expectedRule: 'solar:5:19:start=1890', status: 'approved' },
-  { id: 'vietnam-science-technology-day', title: 'Ngày Khoa học và Công nghệ Việt Nam', category: 'commemoration', expectedRule: 'solar:5:18:start=2014', status: 'approved' },
+  { id: 'vietnam-science-technology-day', title: 'Ngày Khoa học và Công nghệ Việt Nam', category: 'commemoration', expectedRule: 'solar:5:18:start=2014:end=2025', status: 'approved' },
+  { id: 'vietnam-science-technology-innovation-day', title: 'Ngày Khoa học, Công nghệ và Đổi mới sáng tạo Việt Nam', category: 'commemoration', expectedRule: 'solar:5:18:start=2026', status: 'approved' },
   { id: 'dien-bien-phu-victory-day', title: 'Ngày Chiến thắng Điện Biên Phủ', category: 'commemoration', expectedRule: 'solar:5:7:start=1954', status: 'approved' },
   { id: 'vietnam-family-day', title: 'Ngày Gia đình Việt Nam', category: 'commemoration', expectedRule: 'solar:6:28:start=2001', status: 'approved' },
   { id: 'war-invalids-martyrs-day', title: 'Ngày Thương binh - Liệt sĩ', category: 'commemoration', expectedRule: 'solar:7:27:start=1947', status: 'approved' },
@@ -81,6 +82,7 @@ type SourceCandidate = {
   readonly status: 'approved' | 'under_review' | 'out_of_scope'
   readonly eventIds: readonly string[]
   readonly referenceUrls: readonly string[]
+  readonly referenceUrlsByEventId?: Readonly<Record<string, readonly string[]>>
 }
 
 // P0: formal national designation by law/government/central institution.
@@ -98,10 +100,15 @@ const REFERENCE_CANDIDATES: readonly SourceCandidate[] = [
     'https://vanban.chinhphu.vn/default.aspx?docid=172490&pageid=27160',
     'https://vanban.chinhphu.vn/default.aspx?docid=204408&pageid=27160',
   ] },
-  { id: 'science-and-technology-day', priority: 'P0', status: 'approved', eventIds: ['vietnam-science-technology-day'], referenceUrls: [
-    'https://vbpl.moj.gov.vn/bovanhoathethao/Pages/vbpq-toanvan.aspx?ItemID=32522',
-    'https://www.most.gov.vn/Images/editor/files/CV%20961_BKHCN_VP%20_7_4.pdf',
-  ] },
+  { id: 'science-and-technology-day', priority: 'P0', status: 'approved', eventIds: ['vietnam-science-technology-day', 'vietnam-science-technology-innovation-day'], referenceUrls: [
+      'https://vbpl.moj.gov.vn/bovanhoathethao/Pages/vbpq-toanvan.aspx?ItemID=32522',
+      'https://www.most.gov.vn/Images/editor/files/CV%20961_BKHCN_VP%20_7_4.pdf',
+    ], referenceUrlsByEventId: {
+      'vietnam-science-technology-innovation-day': [
+      'https://chinhphu.vn/?classid=1&docid=214603&orggroupid=1&pageid=27160',
+      'https://eav.gov.vn/d/vi-VN/news-o/Ngay-185-chinh-thuc-tro-thanh-Ngay-Khoa-hoc-Cong-nghe-va-Doi-moi-sang-tao-Viet-Nam-60-38-59081',
+      ],
+    } },
   { id: 'national-unity-day', priority: 'P0', status: 'approved', eventIds: ['vietnam-national-unity-day'], referenceUrls: [
     'https://mattran.org.vn/hoat-dong/mot-so-van-de-ly-luan-ve-to-chuc-ngay-hoi-dai-doan-ket-toan-dan-toc-trong-giai-doan-moi-51227.html',
   ] },
@@ -188,7 +195,9 @@ test('source coverage: independently referenced P0/P1 candidates are in producti
       const event = productionById.get(eventId)
       assert.ok(event, `Source candidate ${candidate.id} is missing production event ${eventId}`)
       const eventUrls = new Set(event.sources.map(({ url }) => url))
-      for (const url of candidate.referenceUrls) {
+      const referenceUrls = candidate.referenceUrlsByEventId?.[eventId] ?? candidate.referenceUrls
+      assert.ok(referenceUrls.length > 0, `${candidate.id} needs source references for ${eventId}`)
+      for (const url of referenceUrls) {
         assert.ok(eventUrls.has(url), `${eventId} does not retain candidate reference ${url}`)
       }
     }

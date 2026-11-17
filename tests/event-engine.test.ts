@@ -258,11 +258,32 @@ test('new nationally designated observances use their documented dates and effec
   const ids = (year: number, month: number, day: number) =>
     findEventsForDate(createCivilDate(year, month, day)).map(({ id }) => id)
   assert.ok(ids(2026, 2, 27).includes('vietnam-doctors-day'))
-  assert.ok(ids(2013, 5, 18).includes('vietnam-science-technology-day') === false)
+  assert.ok(!ids(2013, 5, 18).some((id) => id.startsWith('vietnam-science-technology-')))
   assert.ok(ids(2014, 5, 18).includes('vietnam-science-technology-day'))
   assert.ok(ids(2002, 11, 18).includes('vietnam-national-unity-day') === false)
   assert.ok(ids(2003, 11, 18).includes('vietnam-national-unity-day'))
   assert.ok(ids(2026, 11, 18).includes('vietnam-national-unity-day'))
+})
+
+test('science day keeps the legally applicable Vietnamese name on 18 May across the 2025 transition', () => {
+  // Law 29/2013/QH13 governed the former name; Law 93/2025/QH15 took effect 1 October 2025,
+  // and the Ministry of Industry and Trade reports the new name from 18 May 2026:
+  // https://chinhphu.vn/?classid=1&docid=214603&orggroupid=1&pageid=27160
+  // https://eav.gov.vn/d/vi-VN/news-o/Ngay-185-chinh-thuc-tro-thanh-Ngay-Khoa-hoc-Cong-nghe-va-Doi-moi-sang-tao-Viet-Nam-60-38-59081
+  const namesByDate = [
+    { year: 2013, expected: [] },
+    { year: 2014, expected: ['vietnam-science-technology-day'] },
+    { year: 2025, expected: ['vietnam-science-technology-day'] },
+    { year: 2026, expected: ['vietnam-science-technology-innovation-day'] },
+    { year: 2027, expected: ['vietnam-science-technology-innovation-day'] },
+    { year: 2099, expected: ['vietnam-science-technology-innovation-day'] },
+  ] as const
+  for (const { year, expected } of namesByDate) {
+    const actual = findEventsForDate(createCivilDate(year, 5, 18))
+      .filter(({ id }) => id.startsWith('vietnam-science-technology-'))
+      .map(({ id }) => id)
+    assert.deepEqual(actual, expected, `unexpected science-day records for 18/05/${year}`)
+  }
 })
 
 test('independent lunar references place Thần Tài and Trung Nguyên without treating either as a statutory holiday', () => {
