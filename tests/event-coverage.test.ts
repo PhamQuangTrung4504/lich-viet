@@ -187,10 +187,10 @@ test('verified event details retain evidence and distinguish Trùng Thập from 
   assert.ok(trungThap?.details)
   assert.ok(haNguyen?.details)
   assert.deepEqual(trungThap.details.aliases, ['Tết Song Thập'])
-  assert.match(trungThap.details.notes ?? '', /không phải lúc nào cũng đồng nhất/)
-  assert.match(trungThap.details.notes ?? '', /không kết luận mọi tập tục Trùng Thập/)
-  assert.match(trungThap.details.notes ?? '', /27\/2 hiện đại/)
-  assert.match(haNguyen.details.notes ?? '', /15\/10 âm lịch/)
+  assert.match(trungThap.details.customs ?? '', /một số nhà thầy thuốc/i)
+  assert.match(trungThap.details.customs ?? '', /không đồng nghĩa hoàn toàn với Thường Tân hay Cơm mới/)
+  assert.match(trungThap.details.customs ?? '', /27\/2 hiện nay/)
+  assert.match(haNguyen.description, /khác ngày Trùng Thập 10\/10/)
   assert.notDeepEqual(trungThap.rule, haNguyen.rule)
   assert.ok(trungThap.sources.some(({ url }) => url === 'https://vjol.info.vn/index.php/khxhvn/article/download/108698/91296/'))
 })
@@ -200,10 +200,12 @@ test('detail metadata is optional, non-empty when present, and Wikipedia links a
   assert.deepEqual(wikipediaEvents.map(({ id }) => id).sort(), ['doan-ngo', 'mid-autumn-festival'])
   for (const event of VERIFIED_EVENTS) {
     assert.ok(event.sources.length > 0, `${event.id} must keep source metadata outside the cards`)
+    assert.ok(event.description.trim().length >= 40, `${event.id} needs a useful card description`)
     const details = event.details
     if (details === undefined) continue
+    assert.equal('notes' in details, false, `${event.id} should not have a separate notes section`)
     for (const alias of details.aliases ?? []) assert.ok(alias.trim().length > 0, `${event.id} has an empty alias`)
-    for (const text of [details.origin, details.significance, details.customs, details.notes]) {
+    for (const text of [details.origin, details.significance, details.customs]) {
       if (text !== undefined) assert.ok(text.trim().length > 0, `${event.id} has an empty detail paragraph`)
     }
     if (event.wikipediaUrl !== undefined) {

@@ -88,7 +88,7 @@ root.innerHTML = `
   <dialog class="event-dialog" id="event-dialog" aria-labelledby="event-dialog-title" aria-describedby="event-dialog-date">
     <div class="event-dialog__header">
       <button class="icon-button event-dialog__close" id="close-event-dialog" type="button" aria-label="Đóng chi tiết sự kiện">×</button>
-      <p class="eyebrow">TÌM HIỂU NGÀY ĐẶC BIỆT</p>
+      <p class="eyebrow">CHI TIẾT SỰ KIỆN</p>
       <h2 id="event-dialog-title"></h2>
       <p class="event-dialog__date" id="event-dialog-date"></p>
     </div>
@@ -491,8 +491,6 @@ function openEventDialog(event: CalendarEvent, date: CivilDate, opener: HTMLButt
   if (details?.origin !== undefined) appendEventDetail(eventDialogBody, 'Nguồn gốc', details.origin)
   if (details?.significance !== undefined) appendEventDetail(eventDialogBody, 'Ý nghĩa', details.significance)
   if (details?.customs !== undefined) appendEventDetail(eventDialogBody, 'Phong tục', details.customs)
-  if (details?.notes !== undefined) appendEventDetail(eventDialogBody, 'Lưu ý', details.notes)
-
   const wikipediaUrl = verifiedWikipediaUrl(event.wikipediaUrl)
   if (wikipediaUrl !== undefined) {
     const link = document.createElement('a')

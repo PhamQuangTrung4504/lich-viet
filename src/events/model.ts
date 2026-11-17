@@ -14,7 +14,6 @@ export interface EventDetails {
   readonly origin?: string
   readonly significance?: string
   readonly customs?: string
-  readonly notes?: string
 }
 
 export type EventRule =
