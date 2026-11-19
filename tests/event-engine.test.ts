@@ -84,6 +84,17 @@ test('solar fixed rules with a start year are excluded before it and recur throu
   assert.equal(findEventsForDate(createCivilDate(2027, 1, 1)).some(({ id }) => id === 'new-year-day'), true)
 })
 
+test('World No Tobacco Day uses 31 May throughout the supported range from the corrected start year', () => {
+  const event = VERIFIED_EVENTS.find(({ id }) => id === 'world-no-tobacco-day')
+  assert.ok(event)
+  assert.deepEqual(event.rule, { type: 'solar_fixed', month: 5, day: 31, startYear: 1989 })
+  for (let year = 2000; year <= 2099; year += 1) {
+    const ids = findEventsForDate(createCivilDate(year, 5, 31)).map(({ id }) => id)
+    assert.ok(ids.includes(event.id), `missing World No Tobacco Day on 31/05/${year}`)
+    assert.ok(!findEventsForDate(createCivilDate(year, 5, 30)).some(({ id }) => id === event.id))
+  }
+})
+
 test('lunar rules use Vietnamese lunar conversion and explicit leap-month policies', () => {
   const regular = fixture('regular', 1, { type: 'lunar_fixed', month: 2, day: 1, leapMonthPolicy: 'regular_only' })
   const leap = fixture('leap', 2, { type: 'lunar_fixed', month: 2, day: 1, leapMonthPolicy: 'leap_only' })

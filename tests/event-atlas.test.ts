@@ -90,9 +90,9 @@ const VIETNAM_EVENT_ATLAS: readonly AtlasCandidate[] = [
   { id: 'vietnam-mttq-traditional-day', title: 'Ngày truyền thống Mặt trận Tổ quốc Việt Nam', aliases: [], group: 'organization', priority: 'P0', expectedRule: 'solar:11:18:start=1986', scope: 'Toàn quốc; ngày truyền thống của Mặt trận Tổ quốc Việt Nam', effectiveRange: 'Lấy ngày 18/11/1930 làm ngày truyền thống từ năm 1986', sourceUrls: ['https://m.mattran.org.vn/van-ban-huong-dan/ngay-1811-duoc-lay-lam-ngay-ky-niem-thanh-lap-mat-tran-dan-toc-thong-nhat-viet-nam-tu-khi-nao-10575.html'], status: 'approved', eventIds: ['vietnam-mttq-traditional-day'] },
   { id: 'world-tuberculosis-day', title: 'Ngày Thế giới phòng, chống lao', aliases: [], group: 'international', priority: 'P1', expectedRule: 'solar:3:24:start=1982', scope: 'Quốc tế; chiến dịch của WHO', effectiveRange: 'Tổ chức từ năm 1982', sourceUrls: ['https://www.who.int/campaigns/world-tb-day'], status: 'approved', eventIds: ['world-tuberculosis-day'] },
   { id: 'april-fools-day', title: 'Cá tháng Tư', aliases: ['Ngày nói dối'], group: 'international', priority: 'P2', expectedRule: 'solar:4:1', scope: 'Tập tục đùa vui phổ biến ở nhiều nơi; nguồn gốc chính xác chưa rõ', effectiveRange: 'Ngày 1/4 hằng năm', sourceUrls: ['https://cdcsnd1.bocongan.gov.vn/home/tin-tuc-su-kien/nguon-goc-va-y-nghia-ngay-ca-thang-tu-903'], status: 'approved', eventIds: ['april-fools-day'] },
-  { id: 'international-nurses-day', title: 'Ngày Quốc tế Điều dưỡng', aliases: [], group: 'international', priority: 'P1', expectedRule: 'solar:5:12:start=1965', scope: 'Quốc tế; chiến dịch của Hội đồng Điều dưỡng Quốc tế', effectiveRange: 'Tổ chức từ năm 1965', sourceUrls: ['https://icn.ch/how-we-do-it/campaigns/international-nurses-day'], status: 'approved', eventIds: ['international-nurses-day'] },
+  { id: 'international-nurses-day', title: 'Ngày Quốc tế Điều dưỡng', aliases: [], group: 'international', priority: 'P1', expectedRule: 'solar:5:12:start=1965', scope: 'Quốc tế; chiến dịch của Hội đồng Điều dưỡng Quốc tế', effectiveRange: 'ICN ghi nhận khởi đầu từ 1965; có tài liệu nhắc tuyên bố năm 1974; đã có ghi nhận kỷ niệm năm 1973', sourceUrls: ['https://icn.ch/how-we-do-it/campaigns/international-nurses-day', 'https://www.nursingworld.org/globalassets/ana-enterprise/nurses-month/nnw-timeline.html', 'https://tile.loc.gov/storage-services/service/ll/llmlp/65002328_RC_May-1973/65002328_RC_May-1973.pdf'], status: 'approved', eventIds: ['international-nurses-day'] },
   { id: 'international-day-of-families', title: 'Ngày Quốc tế Gia đình', aliases: [], group: 'international', priority: 'P1', expectedRule: 'solar:5:15:start=1994', scope: 'Quốc tế; ngày quan sát của Liên Hợp Quốc', effectiveRange: 'Đại hội đồng quyết định năm 1993; kỷ niệm từ năm 1994', sourceUrls: ['https://www.un.org/en/observances/international-day-families'], status: 'approved', eventIds: ['international-day-of-families'] },
-  { id: 'world-no-tobacco-day', title: 'Ngày Thế giới không thuốc lá', aliases: [], group: 'international', priority: 'P1', expectedRule: 'solar:5:31:start=1988', scope: 'Quốc tế; chiến dịch của WHO', effectiveRange: 'Hằng năm từ năm 1988', sourceUrls: ['https://www.who.int/campaigns/world-no-tobacco-day'], status: 'approved', eventIds: ['world-no-tobacco-day'] },
+  { id: 'world-no-tobacco-day', title: 'Ngày Thế giới không thuốc lá', aliases: [], group: 'international', priority: 'P1', expectedRule: 'solar:5:31:start=1989', scope: 'Quốc tế; chiến dịch của WHO', effectiveRange: 'Ngày không hút thuốc đầu tiên được chỉ định 7/4/1988; ngày 31/5 hằng năm được WHA42.19 xác lập năm 1989', sourceUrls: ['https://www.who.int/campaigns/world-no-tobacco-day', 'https://iris.who.int/bitstream/handle/10665/172165/WHA42_R19_eng.pdf'], status: 'approved', eventIds: ['world-no-tobacco-day'] },
   { id: 'international-day-against-drug-abuse', title: 'Ngày Quốc tế phòng, chống ma túy', aliases: [], group: 'international', priority: 'P1', expectedRule: 'solar:6:26:start=1988', scope: 'Quốc tế; observance của Liên Hợp Quốc, tách với ngày vận động trong nước', effectiveRange: 'Nghị quyết năm 1987; thường niên từ 1988', sourceUrls: ['https://www.un.org/en/observances/end-drug-abuse-day'], status: 'approved', eventIds: ['international-day-against-drug-abuse'] },
   { id: 'world-food-day', title: 'Ngày Lương thực Thế giới', aliases: [], group: 'international', priority: 'P1', expectedRule: 'solar:10:16:start=1981', scope: 'Quốc tế; ngày của FAO', effectiveRange: 'Quyết định năm 1979; tổ chức lần đầu 1981', sourceUrls: ['https://www.fao.org/world-food-day/en'], status: 'approved', eventIds: ['world-food-day'] },
   { id: 'lim-festival', title: 'Hội Lim', aliases: [], group: 'traditional', priority: 'P2', expectedRule: 'lunar:1:12-13:multi_day', scope: 'Lễ hội địa phương vùng Kinh Bắc', effectiveRange: 'Được tổ chức vào 12–13 tháng Giêng; hoạt động có thể điều chỉnh', sourceUrls: ['https://svhttdl.bacninh.gov.vn/news/-/details/188850/le-on-nhan-danh-hieu-di-san-van-hoa-phi-vat-the-quoc-gia-hoi-lim-va-khai-mac-le-hoi-lim-xuan-binh-ngo-2026-93704931'], status: 'under_review', eventIds: [], reviewReason: 'Ngày và tính địa phương đã có nguồn; chưa triển khai vì đây là lễ hội hai ngày và cần quyết định rõ có hiển thị từng ngày hay một khoảng lễ hội.' },
@@ -286,6 +286,25 @@ test('new recurring family and international observances use their documented da
   for (const id of ['mothers-day', 'fathers-day', 'international-mens-day', 'april-fools-day']) {
     assert.notEqual(VERIFIED_EVENTS.find((event) => event.id === id)?.category, 'official_holiday')
   }
+})
+
+test('nurses day retains the 12 May rule and 1965 start year supported by historical references', () => {
+  // ICN: https://www.icn.ch/how-we-do-it/campaigns/international-nurses-day
+  // 1973 ICRC journal: https://tile.loc.gov/storage-services/service/ll/llmlp/65002328_RC_May-1973/65002328_RC_May-1973.pdf
+  const event = VERIFIED_EVENTS.find(({ id }) => id === 'international-nurses-day')
+  assert.ok(event)
+  assert.deepEqual(event.rule, { type: 'solar_fixed', month: 5, day: 12, startYear: 1965 })
+  assert.ok(findEventsForDate(createCivilDate(2000, 5, 12)).some(({ id }) => id === event.id))
+  assert.ok(findEventsForDate(createCivilDate(2099, 5, 12)).some(({ id }) => id === event.id))
+  assert.ok(findEventsForDate(createCivilDate(2026, 5, 11)).every(({ id }) => id !== event.id))
+})
+
+test('Mother’s Day source title is spelled hiền mẫu and preserves its source URL', () => {
+  const event = VERIFIED_EVENTS.find(({ id }) => id === 'mothers-day')
+  assert.ok(event)
+  const source = event.sources.find(({ publisher }) => publisher === 'Hội Liên hiệp Phụ nữ Việt Nam')
+  assert.equal(source?.title, 'Từ tuyên ngôn ‘Ngày hiền mẫu’ đến sự ra đời Ngày của mẹ')
+  assert.equal(source?.url, 'https://www.hoilhpn.org.vn/web/guest/tin-chi-tiet/-/chi-tiet/tu-tuyen-ngon-ngay-hien-mau-%C4%91en-su-ra-%C4%91oi-ngay-cua-me-30211-1.html')
 })
 
 test('Tết day 2 and day 3 match independent 2026 calendar references', () => {

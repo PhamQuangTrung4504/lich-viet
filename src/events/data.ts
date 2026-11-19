@@ -1119,8 +1119,8 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     id: 'international-nurses-day', title: 'Ngày Quốc tế Điều dưỡng', category: 'international',
     rule: { type: 'solar_fixed', month: 5, day: 12, startYear: 1965 },
     description: 'Ngày Quốc tế Điều dưỡng ghi nhận đóng góp của điều dưỡng trong chăm sóc người bệnh và sức khỏe cộng đồng. Ngày 12/5 được chọn trùng ngày sinh Florence Nightingale.', sortOrder: 162,
-    details: { origin: 'Hội đồng Điều dưỡng Quốc tế tổ chức ngày này từ năm 1965, vào ngày sinh Florence Nightingale.', significance: 'Dịp này làm nổi bật vai trò chuyên môn của điều dưỡng và những điều kiện cần thiết để cung cấp dịch vụ chăm sóc an toàn, chất lượng.' },
-    sources: [{ publisher: 'Hội đồng Điều dưỡng Quốc tế', title: 'International Nurses Day', url: 'https://icn.ch/how-we-do-it/campaigns/international-nurses-day' }],
+    details: { origin: 'ICN ghi nhận đã tuyên bố ngày 12/5 là Ngày Quốc tế Điều dưỡng từ năm 1965; tư liệu của Hội Chữ thập đỏ quốc tế cũng ghi ngày này được kỷ niệm năm 1973. Dòng thời gian của Hiệp hội Điều dưỡng Hoa Kỳ nhắc đến một tuyên bố của ICN vào năm 1974, nên có thể đó là mốc tái khẳng định hoặc chính thức hóa cách gọi, chứ không phải lần đầu tổ chức.', significance: 'Ngày 12/5 trùng ngày sinh Florence Nightingale. Dịp này làm nổi bật vai trò chuyên môn của điều dưỡng và những điều kiện cần thiết để cung cấp dịch vụ chăm sóc an toàn, chất lượng.' },
+    sources: [{ publisher: 'Hội đồng Điều dưỡng Quốc tế', title: 'International Nurses Day', url: 'https://icn.ch/how-we-do-it/campaigns/international-nurses-day' }, { publisher: 'Hiệp hội Điều dưỡng Hoa Kỳ', title: 'History of National Nurses Week', url: 'https://www.nursingworld.org/globalassets/ana-enterprise/nurses-month/nnw-timeline.html' }, { publisher: 'International Review of the Red Cross', title: 'International Nurses Day, May 1973', url: 'https://tile.loc.gov/storage-services/service/ll/llmlp/65002328_RC_May-1973/65002328_RC_May-1973.pdf' }],
   },
   {
     id: 'international-day-of-families', title: 'Ngày Quốc tế Gia đình', category: 'international',
@@ -1131,10 +1131,10 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
   },
   {
     id: 'world-no-tobacco-day', title: 'Ngày Thế giới không thuốc lá', category: 'international',
-    rule: { type: 'solar_fixed', month: 5, day: 31, startYear: 1988 },
+    rule: { type: 'solar_fixed', month: 5, day: 31, startYear: 1989 },
     description: 'Ngày Thế giới không thuốc lá kêu gọi giảm tác hại của thuốc lá và bảo vệ sức khỏe cộng đồng. Tổ chức Y tế Thế giới chọn ngày 31/5 hằng năm để tập trung vào một chủ đề phòng, chống thuốc lá.', sortOrder: 164,
-    details: { origin: 'Đại hội đồng Y tế Thế giới quyết định lấy ngày 31/5 làm ngày không thuốc lá thế giới vào năm 1988.', significance: 'Các chiến dịch tập trung vào tác động của thuốc lá, quyền được sống trong môi trường không khói thuốc và các biện pháp kiểm soát.' },
-    sources: [{ publisher: 'Tổ chức Y tế Thế giới', title: 'World No Tobacco Day', url: 'https://www.who.int/campaigns/world-no-tobacco-day' }],
+    details: { origin: 'Năm 1987, Đại hội đồng Y tế Thế giới chọn ngày 7/4/1988 làm ngày không hút thuốc toàn cầu đầu tiên. Nghị quyết WHA42.19, thông qua ngày 17/5/1989, sau đó ấn định 31/5 là Ngày Thế giới không thuốc lá hằng năm.', significance: 'Các chiến dịch tập trung vào tác động của thuốc lá, quyền được sống trong môi trường không khói thuốc và các biện pháp kiểm soát.' },
+    sources: [{ publisher: 'Tổ chức Y tế Thế giới', title: 'World No Tobacco Day', url: 'https://www.who.int/campaigns/world-no-tobacco-day' }, { publisher: 'Đại hội đồng Y tế Thế giới', title: 'Resolution WHA42.19: Tobacco or health', url: 'https://iris.who.int/bitstream/handle/10665/172165/WHA42_R19_eng.pdf' }],
   },
   {
     id: 'international-day-against-drug-abuse', title: 'Ngày Quốc tế phòng, chống ma túy', category: 'international',
@@ -1162,7 +1162,7 @@ export const VERIFIED_EVENTS: readonly CalendarEvent[] = [
     rule: { type: 'weekday_rule', month: 5, weekday: 0, occurrence: 2 },
     description: 'Ngày của Mẹ là dịp bày tỏ tình cảm và sự biết ơn với mẹ. Ở Việt Nam, ngày này thường theo quy ước Chủ nhật thứ hai của tháng 5 tại Hoa Kỳ; đây không phải ngày lễ truyền thống hay ngày nghỉ chính thức trong nước.', sortOrder: 168,
     details: { customs: 'Một số gia đình, cửa hàng và tổ chức ở Việt Nam hưởng ứng bằng lời chúc, bữa ăn hoặc quà tặng. Ngày tổ chức thay đổi giữa các quốc gia; ngày âm lịch Vu Lan là dịp riêng, không đồng nghĩa với Ngày của Mẹ.' },
-    sources: [{ publisher: 'Báo Điện tử Chính phủ', title: 'Hàng chục quốc gia mừng Ngày của Mẹ', url: 'https://baochinhphu.vn/hang-chuc-quoc-gia-mung-ngay-cua-me-102124783.htm' }, { publisher: 'Hội Liên hiệp Phụ nữ Việt Nam', title: 'Từ tuyên ngôn ngày hiến máu đến sự ra đời Ngày của Mẹ', url: 'https://www.hoilhpn.org.vn/web/guest/tin-chi-tiet/-/chi-tiet/tu-tuyen-ngon-ngay-hien-mau-%C4%91en-su-ra-%C4%91oi-ngay-cua-me-30211-1.html' }],
+    sources: [{ publisher: 'Báo Điện tử Chính phủ', title: 'Hàng chục quốc gia mừng Ngày của Mẹ', url: 'https://baochinhphu.vn/hang-chuc-quoc-gia-mung-ngay-cua-me-102124783.htm' }, { publisher: 'Hội Liên hiệp Phụ nữ Việt Nam', title: 'Từ tuyên ngôn ‘Ngày hiền mẫu’ đến sự ra đời Ngày của mẹ', url: 'https://www.hoilhpn.org.vn/web/guest/tin-chi-tiet/-/chi-tiet/tu-tuyen-ngon-ngay-hien-mau-%C4%91en-su-ra-%C4%91oi-ngay-cua-me-30211-1.html' }],
   },
   {
     id: 'fathers-day', title: 'Ngày của Cha', category: 'international',

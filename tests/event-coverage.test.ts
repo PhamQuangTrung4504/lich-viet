@@ -128,7 +128,7 @@ const CANDIDATES: readonly Candidate[] = [
   { id: 'april-fools-day', title: 'Cá tháng Tư', category: 'international', expectedRule: 'solar:4:1', status: 'approved' },
   { id: 'international-nurses-day', title: 'Ngày Quốc tế Điều dưỡng', category: 'international', expectedRule: 'solar:5:12:start=1965', status: 'approved' },
   { id: 'international-day-of-families', title: 'Ngày Quốc tế Gia đình', category: 'international', expectedRule: 'solar:5:15:start=1994', status: 'approved' },
-  { id: 'world-no-tobacco-day', title: 'Ngày Thế giới không thuốc lá', category: 'international', expectedRule: 'solar:5:31:start=1988', status: 'approved' },
+  { id: 'world-no-tobacco-day', title: 'Ngày Thế giới không thuốc lá', category: 'international', expectedRule: 'solar:5:31:start=1989', status: 'approved' },
   { id: 'international-day-against-drug-abuse', title: 'Ngày Quốc tế phòng, chống ma túy', category: 'international', expectedRule: 'solar:6:26:start=1988', status: 'approved' },
   { id: 'world-food-day', title: 'Ngày Lương thực Thế giới', category: 'international', expectedRule: 'solar:10:16:start=1981', status: 'approved' },
   { id: 'international-mens-day', title: 'Ngày Quốc tế Nam giới', category: 'international', expectedRule: 'solar:11:19:start=1999', status: 'approved' },
@@ -304,6 +304,26 @@ test('verified event details retain evidence and distinguish Trùng Thập from 
   assert.match(haNguyen.description, /khác ngày Trùng Thập 10\/10/)
   assert.notDeepEqual(trungThap.rule, haNguyen.rule)
   assert.ok(trungThap.sources.some(({ url }) => url === 'https://vjol.info.vn/index.php/khxhvn/article/download/108698/91296/'))
+})
+
+test('historical source corrections retain the established start years and exact source metadata', () => {
+  const eventsById = new Map(VERIFIED_EVENTS.map((event) => [event.id, event]))
+  const noTobacco = eventsById.get('world-no-tobacco-day')
+  const nurses = eventsById.get('international-nurses-day')
+  const mothersDay = eventsById.get('mothers-day')
+
+  assert.ok(noTobacco && nurses && mothersDay)
+  assert.equal(actualRule(noTobacco), 'solar:5:31:start=1989')
+  assert.match(noTobacco.details?.origin ?? '', /7\/4\/1988/)
+  assert.match(noTobacco.details?.origin ?? '', /17\/5\/1989/)
+  assert.equal(actualRule(nurses), 'solar:5:12:start=1965')
+  assert.match(nurses.details?.origin ?? '', /năm 1965/)
+  assert.match(nurses.details?.origin ?? '', /năm 1974/)
+  assert.ok(nurses.sources.some(({ url }) => url.includes('May-1973')))
+  assert.ok(nurses.sources.some(({ url }) => url.includes('nnw-timeline.html')))
+  const mothersDaySource = mothersDay.sources.find(({ publisher }) => publisher === 'Hội Liên hiệp Phụ nữ Việt Nam')
+  assert.equal(mothersDaySource?.title, 'Từ tuyên ngôn ‘Ngày hiền mẫu’ đến sự ra đời Ngày của mẹ')
+  assert.equal(mothersDaySource?.url, 'https://www.hoilhpn.org.vn/web/guest/tin-chi-tiet/-/chi-tiet/tu-tuyen-ngon-ngay-hien-mau-%C4%91en-su-ra-%C4%91oi-ngay-cua-me-30211-1.html')
 })
 
 test('requested core event popups have non-empty researched detail beyond their card description', () => {
