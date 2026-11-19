@@ -318,7 +318,7 @@ test('historical source corrections retain the established start years and exact
   assert.match(noTobacco.details?.origin ?? '', /17\/5\/1989/)
   assert.equal(actualRule(nurses), 'solar:5:12:start=1965')
   assert.match(nurses.details?.origin ?? '', /năm 1965/)
-  assert.match(nurses.details?.origin ?? '', /năm 1974/)
+  assert.doesNotMatch(nurses.details?.origin ?? '', /năm 1974/)
   assert.ok(nurses.sources.some(({ url }) => url.includes('May-1973')))
   assert.ok(nurses.sources.some(({ url }) => url.includes('nnw-timeline.html')))
   const mothersDaySource = mothersDay.sources.find(({ publisher }) => publisher === 'Hội Liên hiệp Phụ nữ Việt Nam')
