@@ -1,4 +1,5 @@
 import './style.css'
+import appIconSource from './assets/app-icon-source.png'
 import {
   CALENDAR_CORE_SOLAR_YEAR_RANGE,
   civilDateAtDeviceTime,
@@ -44,7 +45,9 @@ const root = getElement<HTMLDivElement>('#app')
 root.innerHTML = `
   <div class="app-shell">
     <header class="app-header">
-      <div class="app-header__icon" id="header-icon" aria-hidden="true"></div>
+      <div class="app-header__icon" aria-hidden="true">
+        <img class="app-header__image" src="${appIconSource}" width="42" height="42" alt="" />
+      </div>
       <div class="app-header__text">
         <p class="app-header__eyebrow">LỊCH VIỆT</p>
         <h1 id="header-title">Lịch</h1>
@@ -98,7 +101,6 @@ root.innerHTML = `
 
 const content = getElement<HTMLElement>('#app-content')
 const title = getElement<HTMLElement>('#header-title')
-const headerIcon = getElement<HTMLElement>('#header-icon')
 const calendarNav = getElement<HTMLButtonElement>('#nav-calendar')
 const eventsNav = getElement<HTMLButtonElement>('#nav-events')
 appendIcon(getElement<HTMLElement>('#nav-calendar .nav-icon'), 'calendar')
@@ -181,7 +183,6 @@ function render(rememberScroll = true, focusKeyOverride?: string): void {
       : undefined
   )
   title.textContent = state.activeTab === 'calendar' ? 'Lịch' : 'Sự kiện'
-  appendIcon(headerIcon, state.activeTab)
   calendarNav.setAttribute('aria-current', state.activeTab === 'calendar' ? 'page' : 'false')
   eventsNav.setAttribute('aria-current', state.activeTab === 'events' ? 'page' : 'false')
   content.replaceChildren(state.activeTab === 'calendar' ? renderCalendar() : renderEvents())
