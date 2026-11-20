@@ -89,7 +89,7 @@ root.innerHTML = `
     <div class="event-dialog__header">
       <button class="icon-button event-dialog__close" id="close-event-dialog" type="button" aria-label="Đóng chi tiết sự kiện">×</button>
       <p class="eyebrow">CHI TIẾT SỰ KIỆN</p>
-      <h2 id="event-dialog-title"></h2>
+      <h2 id="event-dialog-title" tabindex="-1"></h2>
       <p class="event-dialog__date" id="event-dialog-date"></p>
     </div>
     <div class="event-dialog__body" id="event-dialog-body"></div>
@@ -503,8 +503,14 @@ function openEventDialog(event: CalendarEvent, date: CivilDate, opener: HTMLButt
   }
 
   eventDialogOpener = opener
+  const touchPrimary = window.matchMedia('(hover: none) and (pointer: coarse)').matches
+  eventDialogTitle.toggleAttribute('autofocus', touchPrimary)
   eventDialog.showModal()
-  closeEventDialogButton.focus()
+  if (touchPrimary) {
+    eventDialogTitle.focus({ preventScroll: true })
+  } else {
+    closeEventDialogButton.focus({ preventScroll: true })
+  }
 }
 
 let eventDialogOpener: HTMLButtonElement | undefined

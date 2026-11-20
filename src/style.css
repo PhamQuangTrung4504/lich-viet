@@ -184,10 +184,6 @@ select:focus-visible,
   cursor: pointer;
 }
 
-.text-button:hover {
-  background: var(--sage-soft);
-}
-
 .month-card,
 .day-details,
 .event-group {
@@ -247,10 +243,6 @@ select:focus-visible,
   cursor: pointer;
   white-space: nowrap;
   transition: background-color 120ms ease, transform 120ms ease;
-}
-
-.month-title:hover {
-  background: var(--sage-soft);
 }
 
 .month-title:active {
@@ -326,10 +318,6 @@ select:focus-visible,
   border: 1px solid transparent;
   border-radius: 12px;
   cursor: pointer;
-}
-
-.day-cell:hover:not(:disabled) {
-  background: var(--surface-muted);
 }
 
 .day-cell__solar {
@@ -500,13 +488,27 @@ select:focus-visible,
   transition: background-color 120ms ease, border-color 120ms ease, transform 120ms ease;
 }
 
-.event-card:hover {
-  background: #f8fbf7;
-  border-color: #c9d9ca;
-}
-
 .event-card:active {
   transform: scale(0.995);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .text-button:hover {
+    background: var(--sage-soft);
+  }
+
+  .month-title:hover {
+    background: var(--sage-soft);
+  }
+
+  .day-cell:hover:not(:disabled):not(.day-cell--selected):not(.day-cell--today) {
+    background: var(--surface-muted);
+  }
+
+  .event-card:hover {
+    background: #f8fbf7;
+    border-color: #c9d9ca;
+  }
 }
 
 .event-card--compact {
