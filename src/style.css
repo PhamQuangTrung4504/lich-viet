@@ -65,6 +65,10 @@ select:focus-visible,
   outline-offset: 3px;
 }
 
+#event-dialog-title:focus {
+  outline: none;
+}
+
 .app-shell {
   width: min(100%, 760px);
   height: 100vh;
